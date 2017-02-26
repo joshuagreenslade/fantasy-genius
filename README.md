@@ -4,8 +4,8 @@
 FantasyGenius
 
 ### Team members
-Vethushaan Akilathasan
-Joshua Greenslade
+- Vethushaan Akilathasan
+- Joshua Greenslade
 
 ### Description of web application
 The application that we plan on developing is going to be a sports fantasy league site.
