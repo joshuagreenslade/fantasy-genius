@@ -8,6 +8,7 @@ var util = require('util');
 
 var Datastore = require('nedb');
 var users = new Datastore({filename: 'db/users.db', autoload: true});
+var leagues = new Datastore({filename: 'db/leagues.db', autoload: true});
 
 var crypto = require('crypto');
 var session = require('express-session');
@@ -35,6 +36,21 @@ app.use(function (req, res, next){
     return next();
 });
 
+var schedule = require('node-schedule');
+var rule = new schedule.RecurrenceRule();
+rule.hour = 6;
+rule.minute = 0;
+
+schedule.scheduleJob(rule, function(){
+  //code in here will be run every day at 6am
+
+
+
+
+
+});
+
+
 //object constructors
 
 var User = function(user){
@@ -44,6 +60,18 @@ var User = function(user){
     this.username = user.username;
     this.salt = salt;
     this.saltedHash = hash.digest('base64');
+    this.nhl_league = null;
+};
+
+var League = function(league){
+	var salt = crypto.randomBytes(16).toString('base64');
+    var hash = crypto.createHmac('sha512', salt);
+    hash.update(league.password);
+    this.name = league.name;
+    this.salt = salt;
+    this.saltedHash = hash.digest('base64');
+    this.sport = league.sport;
+    this.admin = league.username;
 };
 
 //verify and sanitize req.body and req.params
@@ -54,6 +82,15 @@ var checkInput = function(req, res, next){
 				req.checkBody(arg, "Must only contain numbers or letters").notEmpty().isAlphanumeric();
 				break;
 			case 'password':
+				req.checkBody(arg, "Must only contain numbers or letters").notEmpty().isAlphanumeric();
+				break;
+			case 'name':
+				req.checkBody(arg, "Must only contain numbers or letters").notEmpty().isAlphanumeric();
+				break;
+			case 'sport':
+				req.checkBody(arg, "Must only contain letters").notEmpty().isAlpha();
+				break;
+			case 'admin':
 				req.checkBody(arg, "Must only contain numbers or letters").notEmpty().isAlphanumeric();
 				break;
 		}
@@ -73,11 +110,11 @@ var checkInput = function(req, res, next){
 
 //Authentication
 
-//check that the password provided is the correct password for the given user
-var checkPassword = function(user, password){
-        var hash = crypto.createHmac('sha512', user.salt);
+//check that the password provided is the correct password for the given object
+var checkPassword = function(object, password){
+        var hash = crypto.createHmac('sha512', object.salt);
         hash.update(password);
-        return (user.saltedHash === hash.digest('base64'));
+        return (object.saltedHash === hash.digest('base64'));
 };
 
 
@@ -122,6 +159,7 @@ app.post('/api/users/', checkInput, function(req, res, next){
 
 		users.insert(new User(req.body), function(err, user){
             if (err) return res.status(500).end(err);
+            req.session.user = user;
 
             //dont return the salt or saltedHash
             delete user.salt;
@@ -131,10 +169,85 @@ app.post('/api/users/', checkInput, function(req, res, next){
 	});
 });
 
+//creates a new league for the given sport
+app.post('/api/leagues/', checkInput, function(req, res, next){
+	if(!req.session.user)
+		return res.status(403).end("Forbidden");
 
+	//check if the league exists
+	leagues.findOne({name: req.body.name}, function(err, league){
+		if(err) return res.status(500).end(err);
+		if(league) return res.status(409).end("League " + req.body.name + " already exists");
 
+		//set the user's corresponding league variable to the new league's name
+		switch(req.body.sport){
+			case 'nhl':
 
+				//check that the user is not already in a league
+				if(req.session.user.nhl_league !== null)
+					return res.status(403).end(req.session.user.username + " is already in a league for the " + req.body.sport);
 
+				req.session.user.nhl_league = req.body.name;
+				users.update({username: req.session.user.username}, {$set: {nhl_league: req.body.name}});
+				break;
+			default:
+				return res.status(400).end(req.body.sport + " is not a currently supported sport");
+				break;
+		}
+
+		//create the league
+		req.body.username = req.session.user.username;
+		leagues.insert(new League(req.body), function(err, new_league){
+            if (err) return res.status(500).end(err);
+
+            //dont return the salt or saltedHash
+            delete new_league.salt;
+            delete new_league.saltedHash;
+            return res.json(new_league);
+		});
+	});
+});
+
+//adds a new user to the specified league
+app.post('/api/leagues/:league/', checkInput, function(req, res, next){
+	if(!req.session.user)
+		return res.status(403).end("Forbidden");
+
+	//check if the league exists
+	leagues.findOne({name: req.params.league}, function(err, result){
+		if(err) return res.status(500).end(err);
+		if(!result) return res.status(409).end("League " + req.params.league + " does not exist");
+
+		//check that the user is authorized to enter the league
+		if (!checkPassword(result, req.body.password))
+        	return res.status(401).end("Unauthorized");
+
+		//set the user's corresponding league variable to the specfied league
+		switch(result.sport){
+			case 'nhl':
+
+				//check that the user is not already in a league
+				if(req.session.user.nhl_league !== null)
+					return res.status(403).end(req.session.user.username + " is already in a league for the " + result.sport);
+
+				req.session.user.nhl_league = req.params.league;
+				users.update({username: req.session.user.username}, {$set: {nhl_league: req.params.league}});
+				break;
+			default:
+				return res.status(400).end(result.sport + " is not a currently supported sport");
+				break;
+		}
+
+        //dont return the salt or saltedHash
+        delete result.salt;
+        delete result.saltedHash;
+        return res.json(result);
+	});
+});
+
+//Read
+//Update
+//Delete
 
 
 app.use(function (req, res, next){
