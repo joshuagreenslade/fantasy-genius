@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 var util = require('util');
 var request = require('request');
 
-var Datastore = require('nedb');
+var Datastore = require(/*'mongodb'*/'nedb');
 var users = new Datastore({filename: 'db/users.db', autoload: true});
 var leagues = new Datastore({filename: 'db/leagues.db', autoload: true});
 var teams = new Datastore({filename: 'db/teams.db', autoload: true});
@@ -61,64 +61,231 @@ schedule.scheduleJob(rule, function(){
 	var month = ("0" + (date.getMonth() + 1)).slice(-2);
 	var day = ("0" + date.getDate()).slice(-2);
 
+
 	//list of supported sports
 	var sports = ['nhl'];
 	sports.forEach(function(sport){
 
-		//get the sport's stats
-		var url = 'https://www.mysportsfeeds.com/api/feed/pull/' + sport + '/current/daily_player_stats.json?fordate=' + year + month + day;
-		
+		//get all the active players
+		var url = 'https://www.mysportsfeeds.com/api/feed/pull/' + sport + '/current/active_players.json'		
 		var header = {'Authorization': 'Basic dmV0aHVzaDEzOTU6Q1NDQzA5dmV0aHVzaA=='}
 		request({url: url, headers: header}, function(error, response, body){
 			if(!error){
-				var player_stats = JSON.parse(body).dailyplayerstats.playerstatsentry;
+				var active_players = JSON.parse(body).activeplayers.playerentry;
 
 				//add the stats to the stats db
-				if(player_stats){
+				if(active_players){
+					var num_players = [];
 
 					//insert each player into the db
-					player_stats.forEach(function(player){
-						//player.sport = sport;
-
-						//turn the api's format into a custom format
-						var player_stuff = {sport: sport};
+					active_players.forEach(function(player){
+						var player_stuff = {sport: sport, points: 0};
 
 						//add the player info
 						Object.keys(player.player).forEach(function(key){
 							if(key === 'ID')
 								player_stuff['playerID'] = player.player[key];
-							else
+
+							//don't keep all of the player's info
+							else if((key === 'LastName') || (key === 'FirstName') || (key === 'Position'))
 								player_stuff[key] = player.player[key];
 						});
 
 						//add the player's team info
-						Object.keys(player.team).forEach(function(key){
-							if(key === 'ID')
-								player_stuff['teamID'] = player.team[key];
-							else
-								player_stuff[key] = player.team[key];
-						});
+						if(player.team){
+							Object.keys(player.team).forEach(function(key){
+								if(key === 'ID')
+									player_stuff['teamID'] = player.team[key];
+								else
+									player_stuff[key] = player.team[key];
+							});
+						}
 
-						//add the player's stats
-						Object.keys(player.stats).forEach(function(key){
-							player_stuff[key] = player.stats[key]
-						});
+						//if the player doesn't have a team
+						else{
+							player_stuff['teamID'] = "N/A";
+							player_stuff["City"] = "N/A";
+							player_stuff["Name"] = "N/A";
+							player_stuff["Abbreviation"] = "N/A";
+						}
 
-						player_stuff.date = date;
-						stats.insert(player_stuff);
-					});
-	
-					//tell users that the nhl stats have been updated
-					wss.clients.forEach(function(client){
-						if (client.readyState === WebSocket.OPEN)
-	        				client.send(sport + " stats updated");
+						//add default player stats
+						switch(sport){
+							case 'nhl':
+								if(player_stuff['Position'] === 'G'){
+									player_stuff["Wins"] = '0'//{"@abbreviation":"W","#text":"0"};
+									player_stuff["Losses"] = '0'//{"@abbreviation":"L","#text":"0"};
+									player_stuff["GoalsAgainstAverage"] = '0'//{"@abbreviation":"GAA","#text":"0"};
+									player_stuff["SavePercentage"] = '0'//{"@abbreviation":"Sv%","#text":"0"};
+									player_stuff["Shutouts"] = '0'//{"@abbreviation":"SO","#text":"0"};
+									player_stuff['Played'] = "No";
+								}
+								else{
+									player_stuff["Goals"] = '0'//{"@abbreviation":"G","#text":"0"};
+									player_stuff["Assists"] = '0'//{"@abbreviation":"A","#text":"0"};
+									player_stuff["Points"] = '0'//{"@abbreviation":"Pts","#text":"0"};
+									player_stuff["PlusMinus"] = '0'//{"@abbreviation":"+/-","#text":"0"};
+									player_stuff['Played'] = "No"
+								}
+								break;
+						}
+
+						stats.update({playerID: player_stuff['playerID'], sport: sport}, player_stuff, {upsert: true}, function(){
+
+							num_players.push(1);
+							if(num_players.length === Object.keys(active_players).length)
+								update_stats();
+						});
 					});
 				}
 			}
 		});
+
+		//update the players' stats for the given sport
+		var update_stats = function(){
+
+			//get the sport's stats
+			var url = 'https://www.mysportsfeeds.com/api/feed/pull/' + sport + '/current/daily_player_stats.json?fordate=' + year + month + day;
+			var header = {'Authorization': 'Basic dmV0aHVzaDEzOTU6Q1NDQzA5dmV0aHVzaA=='}
+			request({url: url, headers: header}, function(error, response, body){
+				if(!error){
+					var player_stats = JSON.parse(body).dailyplayerstats.playerstatsentry;
+
+					//add the stats to the stats db
+					if(player_stats){
+						var team_points = {};
+						var num_players = [];
+
+						//calculate the points each player got for the day before
+						player_stats.forEach(function(player){
+							var player_stuff = {sport: sport, points: 0};
+							player_stuff['playerID'] = player.player['ID'];
+
+							//add the player's stats
+							Object.keys(player.stats).forEach(function(key){
+								switch(sport){
+									case 'nhl':
+										var goalie = (player.player['Position'] === 'G') && ((key === 'Wins') || (key === 'Losses') || (key === 'GoalsAgainstAverage') || (key === 'SavePercentage') || (key === 'Shutouts'))
+										var skater = (player.player['Position'] !== 'G') && ((key == 'Goals') ||(key === 'Assists') || (key === 'Points') || (key === 'PlusMinus'))
+										if(goalie || skater){
+											player_stuff.Played = 'Yes';
+											player_stuff[key] = player.stats[key]['#text']
+										}
+
+										//calculate the player's points
+										if(goalie){
+											switch(key){
+												case 'Wins':
+													player_stuff.points += player.stats[key]['#text'] * 3;
+													break;
+												case 'GoalsAgainstAverage':
+													var GAA = parseInt(player.stats[key]['#text'])
+													if((GAA >= 0) && (GAA <= 1))
+														player_stuff.points += 3;
+													else if((GAA > 1) && (GAA <= 2))
+														player_stuff.points += 2;
+													else if((GAA > 2) && (GAA <= 3))
+														player_stuff.points += 1;
+													break;
+												case 'Shutouts':
+													player_stuff.points += player.stats[key]['#text'] * 1;
+													break;
+											}
+										}
+										else if(skater){
+											switch(key){
+												case 'Goals':
+													player_stuff.points += player.stats[key]['#text'] * 3;
+													break;
+												case 'Assists':
+													player_stuff.points += player.stats[key]['#text'] * 1;
+													break;
+											}
+										}
+										break;
+								}
+							});
+
+							//look for the player playing in their position
+							var query = {};
+							if(player.player['Position'] === 'D')
+								query['$or'] = {'RD': parseInt(player_stuff['playerID']), 'LD': parseInt(player_stuff['playerID'])}
+							else
+								query[player.player['Position']] = parseInt(player_stuff['playerID']);
+
+							//find the teams that had the specified player playing and give them the corresponding points
+							teams.find(query, function(err, team){
+								if(team){
+									for(var i=0; i<team.length; i++){
+										if(team_points[team[i]._id] === undefined)
+											team_points[team[i]._id] = 0
+										team_points[team[i]._id] += player_stuff.points;
+									}
+								}
+
+								//update the player's stats
+								stats.update({playerID: player_stuff['playerID']}, {$set: player_stuff}, function(){
+
+									//update the teams points only after all the players have been iterated over
+									num_players.push(1);
+									if(num_players.length === Object.keys(player_stats).length){
+										update_teams();
+									}
+								});
+							});
+						});
+
+						//update each modified team
+						var update_teams = function(){
+							
+							//compress the stats db file
+							stats.persistence.compactDatafile();
+	
+///////////////////////////////for mongodb possibly do
+///////////////////////////////stats.repairDatabase()
+
+
+
+							if(Object.keys(team_points).length === 0)
+								tell_users();
+
+							//update each team who had their points change
+							var i = []
+							Object.keys(team_points).forEach(function(team_id){
+								teams.update({_id: team_id}, {$inc: {score: team_points[team_id]}}, function(){
+									
+									//tell the users that the stats have been updated only after all stats have been updated
+									i.push(1);
+									if(i.length === Object.keys(team_points).length){
+										tell_users();
+									}
+								});
+							});
+						}
+
+						//tell the users that the stats have been calculated
+						var tell_users = function(){
+							
+							//compress the teams file
+							teams.persistence.compactDatafile();
+
+//////////////////////////////for mongodb possibly do
+//////////////////////////////teams.repairDatabase()
+
+
+							
+							//tell users that the nhl stats have been updated
+							wss.clients.forEach(function(client){
+								if (client.readyState === WebSocket.OPEN)
+			        				client.send(sport + " stats updated");
+							});
+						}
+					}
+				}
+			});
+		}
 	});
 });
-
 
 
 //websocket that sends message to every user
@@ -165,15 +332,16 @@ var League = function(league){
 };
 
 var Team = function(user, league){
-	this.center = null;
-	this.left_wing = null;
-	this.right_wing = null;
-	this.left_defense = null;
-	this.right_defense = null;
-	this.goalie = null;
+	this.C = null;
+	this.LW = null;
+	this.RW = null;
+	this.RD = null;
+	this.LD = null
+	this.G = null;
 	this.bench = [];
 	this.owner = user.username;
 	this.league = league;
+	this.score = 0;
 };
 
 
@@ -211,6 +379,9 @@ var checkInput = function(req, res, next){
 	Object.keys(req.params).forEach(function(arg){
 		switch(arg){
 			case 'sport':
+				req.checkParams(arg, "Must only contain letters").notEmpty().isAlpha();
+				break;
+			case 'type':
 				req.checkParams(arg, "Must only contain letters").notEmpty().isAlpha();
 				break;
 			default:
@@ -266,6 +437,9 @@ app.get('/api/signout/', checkInput, function (req, res, next) {
 //creates a new user and put the user into the session
 app.post('/api/users/', checkInput, function(req, res, next){
 
+	if((req.body.username === undefined) || (req.body.password === undefined))
+		return res.status(409).end("Invalid body, requires a username and password");
+
 	//check if the user already exists
 	users.findOne({username: req.body.username}, function(err, user){
 		if(err) return res.status(500).end(err);
@@ -281,6 +455,10 @@ app.post('/api/users/', checkInput, function(req, res, next){
 
 //creates a new league for the given sport
 app.post('/api/leagues/', checkInput, function(req, res, next){
+
+	if((req.body.name === undefined) || (req.body.sport === undefined) || (req.body.password === undefined))
+		return res.status(409).end("Invalid body, requires a password, sport, name (league name)");
+
 	if(!req.session.user)
 		return res.status(401).end("Forbidden");
 
@@ -317,8 +495,12 @@ app.post('/api/leagues/', checkInput, function(req, res, next){
 	});
 });
 
-//adds a new user to the specified league
+//adds a new user to the specified league, a league cannot have more than 10 users in it
 app.post('/api/leagues/:league/', checkInput, function(req, res, next){
+
+	if(req.body.password === undefined)
+		return res.status(409).end("Invalid body, requires a password");
+
 	if(!req.session.user)
 		return res.status(401).end("Forbidden");
 
@@ -331,29 +513,84 @@ app.post('/api/leagues/:league/', checkInput, function(req, res, next){
 		if (!checkPassword(result, req.body.password))
         	return res.status(401).end("Unauthorized");
 
-		//set the user's corresponding league variable to the specfied league
-		switch(result.sport){
-			case 'nhl':
+		//check that the number of users is not over 10
+		teams.find({league: req.params.league},function(err, league_teams){
+			if(err) return res.status(500).end(err);
+			console.log(league_teams)
+			if(league_teams.length >= 10)
+				return res.status(409).end("The league " + req.params.league + " is full");
 
-				//check that the user is not already in a league
-				if(req.session.user.nhl_league !== null)
-					return res.status(403).end(req.session.user.username + " is already in a league for the " + result.sport);
+			//set the user's corresponding league variable to the specfied league
+			switch(result.sport){
+				case 'nhl':
 
-				req.session.user.nhl_league = req.params.league;
-				users.update({username: req.session.user.username}, {$set: {nhl_league: req.params.league}});
+					//check that the user is not already in a league
+					if(req.session.user.nhl_league !== null)
+						return res.status(403).end(req.session.user.username + " is already in a league for the " + result.sport);
 
-				//create a new team for the current user
-				teams.insert(new Team(req.session.user, req.params.league));
-				break;
-			default:
-				return res.status(400).end(result.sport + " is not a currently supported sport");
-				break;
-		}
-        return res.json(result);
+					req.session.user.nhl_league = req.params.league;
+					users.update({username: req.session.user.username}, {$set: {nhl_league: req.params.league}});
+
+					//create a new team for the current user
+					teams.insert(new Team(req.session.user, req.params.league));
+					break;
+				default:
+					return res.status(400).end(result.sport + " is not a currently supported sport");
+					break;
+			}
+	        return res.json(result);
+		});
 	});
 });
 
 //add the player to the user's bench
+app.post('/api/users/:user/sports/:sport/', function(req, res, next){
+	if(req.body.playerID === undefined)
+		return res.status(409).end("Invalid body, requires a playerID");
+
+	if(!req.session.user)
+		return res.status(401).end("Forbidden");
+
+	//get the give user's info
+	users.findOne({username: req.params.user}, function(err, result){
+		if(err) return res.status(500).end(err);
+		if(!result) return res.status(409).end("User " + req.params.user + " does not exist");
+		var league;
+		switch(req.params.sport){
+			case 'nhl':
+				if(result.nhl_league !== null)
+					league = result.nhl_league;
+				else
+					return res.status(400).end("User does not have a league in the " + req.params.sport);
+				break;
+			default:
+				return res.status(400).end("The " + req.params.sport + " is not supported");
+				break;
+		}
+
+		//only the user can add to their team
+		if (req.session.user.username !== req.params.user)
+			return res.status(401).end("Unauthorized");
+
+		//check that the given id is for a valid player in the sport
+		stats.findOne({playerID: req.body.playerID.toString(), sport: req.params.sport}, function(err, player){
+			if(err) return res.status(500).end(err);
+			if(!player) return res.status(404).end("Player with id " + req.body.playerID + " does not exist in the " + req.params.sport);
+
+
+
+			//check that they are not already on another users team in the same league (bench or playing)
+
+
+
+			//add the player's id to the user's bench
+			teams.update({owner: req.params.user, league: league}, {$push: {bench: player.playerID}}, function(err, team){
+				if(err) return res.status(500).end(err);
+				return res.json(team);
+			});
+		});
+	});
+});
 
 
 //Read
@@ -385,17 +622,15 @@ app.get('/api/users/:user/leagues/:league/team/', checkInput, function(req, res,
 });
 
 //get the specified sports players
-app.get('/api/sports/:sport/players/', checkInput, function(req, res, next){
+app.get('/api/sports/:sport/players/:type/', checkInput, function(req, res, next){
 
-// /api/sports/:sport/players/?limit=(integer)&sort=(increasing or decreasing)&sortField=(string)LastName&date=(mm-dd-yyyy)&firstPlayer=(playerid)
-// /api/sports/:sport/players/?limit=10&sort=increasing&sortField=LastName&date=03-05-2017&firstPlayer=4583
+	// /api/sports/:sport/players/(type)/?limit=(integer)&sort=(increasing or decreasing)&sortField=(string)LastName&firstPlayer=(playerid)
+	// /api/sports/:sport/players/skater/?limit=10&sort=increasing&sortField=LastName&firstPlayer=4583
+	//type can be G, Goalie, S, Skater (in any case)
 
-
-//	if(!req.session.user)
-//		return res.status(401).end("Forbidden");
 
 	var query = {sport: req.params.sport};
-
+	
 	//default the limit to 10
 	var limit = req.query.limit;
 	if(limit === undefined)
@@ -419,77 +654,70 @@ app.get('/api/sports/:sport/players/', checkInput, function(req, res, next){
 	sort.LastName = 1;
 	if(sort_direction === 'decreasing'){
 		sort[sortField] = -1;
-		sort.Lastname = -1;
+		sort.LastName = -1;
 	}
 
-	//get the first player sorted by date
-	stats.findOne({}).sort({date: -1}).exec(function(err, player){
+	//if a firstPlayer id was given start looking getting players after and including that
+	var search_player = {};
+	if(req.query.firstPlayer !== undefined){
+		search_player.playerID = req.query.firstPlayer;
+		if(isNaN(req.query.firstPlayer))
+			return res.status(400).json("Must only contain numbers");
+	}
 
-		//dates must in the form of month-day-year
-		var date = req.query.date;
-		var tomorrow;
+	//check the type of player given
+	switch(req.params.sport){
+		case 'nhl':
+			if((req.params.type.toLowerCase() === 'g') || (req.params.type.toLowerCase() === 'goalie')){
+				query.Position = 'G';
+				search_player.Position = 'G';
+			}
+			else if((req.params.type.toLowerCase() === 's') || (req.params.type.toLowerCase() === 'skater')){
+				query['$not'] = {Position: 'G'};
+				search_player['$not'] = {Position: 'G'};
+			}
+			else
+				return res.status(400).json("Invalid type. type must be G, Goalie, S, or Skater for the " + req.params.sport + " (Case does not matter)");
+			break;
+	}
 
-		//if no date was given in url set it to today
-		if(date !== undefined){
-			date = new Date(date);
-
-			if(isNaN(date))
-				return res.status(400).end("Must be a date in the form of month-day-year");
-			
-			tomorrow = new Date()
-			tomorrow.setDate(date.getDate() + 1);
-			tomorrow.setHours(0);
-		}
-
-		//set the date to most recient date if none was provided
-		if(player && (date === undefined)){
-			var date = player.date;
-			date.setHours(0);
-			tomorrow = new Date()
-			tomorrow.setDate(date.getDate() + 1);
-			tomorrow.setHours(0);
-		}
-
-		query.date = {$gte: date, $lte: tomorrow}
+	//get the player with the given id
+	stats.findOne(search_player).sort(sort).exec(function(err, player){
+		if(!player)
+			return res.status(400).end("Player with id " + req.query.firstPlayer + " does not exist as " + req.params.type.toLowerCase());
 
 
-		//if a firstPlayer id was given start looking getting players after and including that
-		var search_player = {};
-		if(req.query.firstPlayer !== undefined){
-			search_player.playerID = req.query.firstPlayer;
-			if(isNaN(req.query.firstPlayer))
-				return res.status(400).json("Must only contain numbers");
-		}
-
-		//get the player with the given id
-		stats.findOne(search_player).sort(sort).exec(function(err, player){
-			if(!player)
-				return res.status(400).end("Player with id " + req.query.firstPlayer + " does not exist");
-
-			//set the player t o start looking with
-			if(sort_direction === 'decreasing'){
+			//set the player to start looking with
+			query[sortField] = {$gte: player[sortField]};
+			if(sort_direction === 'decreasing')
 				query[sortField] = {$lte: player[sortField]};
-				query.LastName = {$lte: player.LastName}
-			}
-			else{
-				query[sortField] = {$gte: player[sortField]};
+
+			//make the secondary sort by lastname
+			if((req.query.firstPlayer !== undefined) && (player[sortField] !== undefined) && (sortField !== 'LastName')){
 				query.LastName = {$gte: player.LastName}
+				if(sort_direction === 'decreasing')
+					query.LastName = {$lte: player.LastName}				
 			}
 
-			//get the data from the db
-			stats.find(query).sort(sort).limit(limit).exec(function(err, result){
-				if(err) return res.status(500).end(err);
-				return res.json(result);
-			})
+
+		//get the data from the db
+		stats.find(query).sort(sort).limit(limit).exec(function(err, result){
+			if(err) return res.status(500).end(err);
+			return res.json(result);
 		});
 	});
 });
+
 
 
 //Update
 
 //update the user's password
 app.patch('/api/users/:user/', checkInput, function(req, res, next){
+
+	if((req.body.old_password === undefined) || (req.body.new_password === undefined))
+		return res.status(409).end("Invalid body, requires a new_password, old_password");
+
 	if(!req.session.user)
 		return res.status(401).end("Forbidden");
 
@@ -521,6 +749,10 @@ app.patch('/api/users/:user/', checkInput, function(req, res, next){
 
 //update the league's password
 app.patch('/api/leagues/:league/', checkInput, function(req, res, next){
+
+	if((req.body.admin_password === undefined) || (req.body.password === undefined))
+		return res.status(409).end("Invalid body, requires a password, admin_password");
+
 	if(!req.session.user)
 		return res.status(401).end("Forbidden");
 
@@ -551,6 +783,22 @@ app.patch('/api/leagues/:league/', checkInput, function(req, res, next){
 	});
 });
 	
+
+//update the user's lineup (shifting players around on the team)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //Delete
 
