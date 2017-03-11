@@ -1,0 +1,31 @@
+#page-wrap { 
+  width: 600px; 
+  margin: 15px auto; 
+  position: relative; 
+}
+
+#sidebar { 
+  width: 190px; 
+  position: fixed; 
+  margin-left: 410px; 
+}
+
+#player_button{
+	width: 105px;
+}
+
+#goalie_button{
+	width: 97px;
+}
+
+#signin_up_buttons{
+	position: relative;
+	left: 70px;
+	margin: 10px;
+	width: 100px;
+}
+
+body{
+	background-color: #000000;
+	color: #ff0000;
+}

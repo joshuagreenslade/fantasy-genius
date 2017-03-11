@@ -5,48 +5,161 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="style/main.css" rel="stylesheet" type="text/css"/>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
+<div id="main">
 <div class="container">
-  <h1>FantasyGenius</h1>
-  <p>Future Home Page of FantasyGenius</p> 
+  <div class="jumbotron">
+    <h1>FantasyGenius</h1>
+    <p>Future Home Page of FantasyGenius</p> 
+    <button type="button" class="btn btn-link pull-right" id="signup_button">SignUp</button>
+    <button type="button" class="btn btn-link pull-right" id="signin_button">SignIn</button>
+  </div>
 </div>
-<button type="button" class="btn btn-primary pull-right">SignUp</button>
-<button type="button" class="btn btn-primary pull-right">SignIn</button>
 <div class="row">
-  <div class="col-md-4">
-    <div class="thumbnail">
-      <a href="./seguin.jpg">
-        <img src="./seguin.jpg" alt="Tyler Seguin" style="width:100%">
-        <div class="caption">
-          <p>Dallas Stars Forward Tyler Seguin</p>
-        </div>
-      </a>
-    </div>
+  <div class="col-md-2">
+    
   </div>
-  <div class="col-md-4">
-    <div class="thumbnail">
-      <a href="./crosby.jpg">
-        <img src="./crosby.jpg" alt="Sidney Crosby" style="width:100%">
-        <div class="caption">
-          <p>Pittsburgh Penguins Forward Sidney Crosby</p>
+  <div class="col-md-8">
+    <div class="well">Player Stats</div>
+      <div class="btn-group-justified">
+        <button type="button" class="btn btn-primary" id="player_button">Player ID</button>
+        <button type="button" class="btn btn-primary" id="player_button">Lastname</button>
+        <button type="button" class="btn btn-primary" id="player_button">Firstname</button>
+        <button type="button" class="btn btn-primary" id="player_button">Position</button>
+        <button type="button" class="btn btn-primary" id="player_button">Team ID</button>
+        <button type="button" class="btn btn-primary" id="player_button">City</button>
+        <button type="button" class="btn btn-primary" id="player_button">Name</button>
+        <button type="button" class="btn btn-primary" id="player_button">Abbreviation</button>
+        <button type="button" class="btn btn-primary" id="player_button">Goals</button>
+        <button type="button" class="btn btn-primary" id="player_button">Assists</button>
+        <button type="button" class="btn btn-primary" id="player_button">Points</button>
+        <button type="button" class="btn btn-primary" id="player_button">+/-</button>
+        <div class="well">
+          Player Stats Here
         </div>
-      </a>
-    </div>
+      </div>
+    <div class="well">Goalie Stats</div>
+      <div class="btn-group-justified">
+        <button type="button" class="btn btn-primary" id="goalie_button">Player ID</button>
+        <button type="button" class="btn btn-primary" id="goalie_button">Lastname</button>
+        <button type="button" class="btn btn-primary" id="goalie_button">Firstname</button>
+        <button type="button" class="btn btn-primary" id="goalie_button">Position</button>
+        <button type="button" class="btn btn-primary" id="goalie_button">Team ID</button>
+        <button type="button" class="btn btn-primary" id="goalie_button">City</button>
+        <button type="button" class="btn btn-primary" id="goalie_button">Name</button>
+        <button type="button" class="btn btn-primary" id="goalie_button">Abbreviation</button>
+        <button type="button" class="btn btn-primary" id="goalie_button">Wins</button>
+        <button type="button" class="btn btn-primary" id="goalie_button">Losses</button>
+        <button type="button" class="btn btn-primary" id="goalie_button">GAA</button>
+        <button type="button" class="btn btn-primary" id="goalie_button">Save%</button>
+        <button type="button" class="btn btn-primary" id="goalie_button">Shutouts</button>
+        <div class="well">
+          Goalie Stats Here
+        </div>
+      </div>
   </div>
-  <div class="col-md-4">
-    <div class="thumbnail">
-      <a href="./ovechkin.jpg">
-        <img src="./ovechkin.jpg" alt="Alexander Ovechkin" style="width:100%">
-        <div class="caption">
-          <p>Washington Capitals Forward Alexander Ovechkin</p>
-        </div>
-      </a>
-    </div>
+  <div class="col-md-2">
+    
   </div>
 </div>
+</div>
+<div class="container" id="leaguejoin">
+  <div class="jumbotron">
+    <h1>Join League</h1>
+    <p>Join a Fantasy League</p> 
+  </div>
+  <form>
+  <div class="form-group">
+    <label for="name">Name:</label>
+    <input type="text" class="form-control" id="name">
+  </div>
+  <div class="form-group">
+    <label for="pwd">Password:</label>
+    <input type="password" class="form-control" id="pwd">
+  </div>
+  <button type="submit" class="btn btn-default" id="createleague">Submit</button>
+</div>
+
+<div class="container" id="signin">
+  <div class="jumbotron">
+    <h1>Signin</h1>
+    <p>Signin to Fantasy Genius</p> 
+  </div>
+  <div class="container" id="error"></div>
+  <form>
+  <div class="form-group">
+    <label for="username">Username:</label>
+    <input type="text" class="form-control" id="username">
+  </div>
+  <div class="form-group">
+    <label for="pwd">Password:</label>
+    <input type="password" class="form-control" id="pwd">
+  </div>
+  <div class="checkbox">
+    <label><input type="checkbox"> Remember me</label>
+  </div>
+  <button type="submit" class="btn btn-default" id="signin">Submit</button>
+</form>
+<a href="./signup.html">New User?</a>
+<p>
+    <a href="./index.html"><span class="glyphicon glyphicon-home"></span></a>
+</p>
+</div>
+
+<div class="container" id="signup">
+  <div class="jumbotron">
+    <h1>Signup</h1>
+    <p>Signup for Fantasy Genius</p> 
+  </div>
+  <form>
+  <div class="form-group">
+    <label for="username">Username:</label>
+    <input type="text" class="form-control" id="username">
+  </div>
+  <div class="form-group">
+    <label for="pwd">Password:</label>
+    <input type="password" class="form-control" id="pwd">
+  </div>
+  <div class="checkbox">
+    <label><input type="checkbox"> Remember me</label>
+  </div>
+  <button type="submit" class="btn btn-default" id="signup">Submit</button>
+</form>
+<a href="./signin.html">Already Have an Account?</a>
+<p>
+    <a href="./index.html"><span class="glyphicon glyphicon-home"></span></a>
+</p>
+</div>
+
+<div class="container" id="leaguecreate">
+  <div class="jumbotron">
+    <h1>Create League</h1>
+    <p>Create a Fantasy League</p> 
+  </div>
+  <p>Select a League:</p>
+  <button type="submit" class="btn btn-default" id="hockey">Hockey</button>
+  <button type="submit" class="btn btn-default" id="basketball">Basketball</button>
+  <button type="submit" class="btn btn-default" id="baseball">Baseball</button>
+  <button type="submit" class="btn btn-default" id="football">Football</button>
+  <form>
+  <div class="form-group">
+    <label for="name">Name:</label>
+    <input type="text" class="form-control" id="name">
+  </div>
+  <div class="form-group">
+    <label for="pwd">Password:</label>
+    <input type="password" class="form-control" id="pwd">
+  </div>
+  <button type="submit" class="btn btn-default" id="createleague">Submit</button>
+</div>
+
+<script src="./js/model.js"></script>
+<script src="./js/view.js"></script>
+<script src="./js/controller.js"></script>
 </body>
 </html>
-<!-- format buttons and header, add top bars for players and goalies with buttons to sort by attrbutes, grid below showing player data, for picture sidebars: split page into grid of 12, google how to do image sidebars-->
+<!-- my team, main, trade: create function where if server sends message that there are new stats, pull them or if someone sends a trade-->
