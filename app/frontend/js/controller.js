@@ -10,4 +10,12 @@
 	document.addEventListener('signedin', function(e){
 		view.authenticated();
 	});
+
+	document.addEventListener('signedup', function(e){
+		view.usercreated();
+	});
+
+	document.addEventListener('usercreated', function(e){
+		model.signup(e.detail);
+	});
 }(model, view));
