@@ -63,8 +63,8 @@ var view = (function() {
 	document.getElementById('signup_button').onclick = function(e) {
 		e.preventDefault();
 		var data = {};
-		data.username = document.getElementById('username').value;
-		data.password = document.getElementById('pwd').value;
+		data.username = document.getElementById('signup_username').value;
+		data.password = document.getElementById('signup_pwd').value;
 		document.dispatchEvent(new CustomEvent("usercreated", {detail: data}));
 	};
 	var view = {};
