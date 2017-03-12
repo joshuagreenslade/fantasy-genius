@@ -38,7 +38,7 @@
         <button type="button" class="btn btn-primary" id="player_button">Assists</button>
         <button type="button" class="btn btn-primary" id="player_button">Points</button>
         <button type="button" class="btn btn-primary" id="player_button">+/-</button>
-        <div class="well">
+        <div class="well" id="players">
           Player Stats Here
         </div>
       </div>
@@ -57,7 +57,7 @@
         <button type="button" class="btn btn-primary" id="goalie_button">GAA</button>
         <button type="button" class="btn btn-primary" id="goalie_button">Save%</button>
         <button type="button" class="btn btn-primary" id="goalie_button">Shutouts</button>
-        <div class="well">
+        <div class="well" id="goalies">
           Goalie Stats Here
         </div>
       </div>
@@ -167,6 +167,8 @@
       <button type="button" class="btn btn-link pull-right" id="link_to_createleague">Create League</button>
       <button type="button" class="btn btn-link pull-right" id="link_to_joinleague">Join League</button>
       <button type="button" class="btn btn-link pull-right" id="signout">SignOut</button>
+      <button type="button" class="btn btn-link pull-left" id="signout">My Team</button>
+      <button type="button" class="btn btn-link pull-left" id="add_players">Add Players</button>
   </div>
   <div class="row">
     <div class="col-md-2">
@@ -187,7 +189,7 @@
           <button type="button" class="btn btn-primary" id="player_button">Assists</button>
           <button type="button" class="btn btn-primary" id="player_button">Points</button>
           <button type="button" class="btn btn-primary" id="player_button">+/-</button>
-          <div class="well">
+          <div class="well" id="players">
             Player Stats Here
           </div>
         </div>
@@ -206,8 +208,66 @@
           <button type="button" class="btn btn-primary" id="goalie_button">GAA</button>
           <button type="button" class="btn btn-primary" id="goalie_button">Save%</button>
           <button type="button" class="btn btn-primary" id="goalie_button">Shutouts</button>
-          <div class="well">
+          <div class="well" id="goalies">
             Goalie Stats Here
+          </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+      
+    </div>
+  </div>
+</div>
+
+<div class="container" id="team_page">
+  <div class="jumbotron">
+      <h1>FantasyGenius</h1>
+      <p>My Team</p> 
+      <button type="button" class="btn btn-link pull-right" id="link_to_createleague">Create League</button>
+      <button type="button" class="btn btn-link pull-right" id="link_to_joinleague">Join League</button>
+      <button type="button" class="btn btn-link pull-right" id="signout">SignOut</button>
+      <button type="button" class="btn btn-link pull-left" id="add_players">Add Players</button>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      
+    </div>
+    <div class="col-md-8">
+      <div class="well">My Players</div>
+        <div class="btn-group-justified">
+          <button type="button" class="btn btn-primary" id="player_button">Player ID</button>
+          <button type="button" class="btn btn-primary" id="player_button">Lastname</button>
+          <button type="button" class="btn btn-primary" id="player_button">Firstname</button>
+          <button type="button" class="btn btn-primary" id="player_button">Position</button>
+          <button type="button" class="btn btn-primary" id="player_button">Team ID</button>
+          <button type="button" class="btn btn-primary" id="player_button">City</button>
+          <button type="button" class="btn btn-primary" id="player_button">Name</button>
+          <button type="button" class="btn btn-primary" id="player_button">Abbreviation</button>
+          <button type="button" class="btn btn-primary" id="player_button">Goals</button>
+          <button type="button" class="btn btn-primary" id="player_button">Assists</button>
+          <button type="button" class="btn btn-primary" id="player_button">Points</button>
+          <button type="button" class="btn btn-primary" id="player_button">+/-</button>
+          <div class="well" id="yourplayers">
+            Players Here
+          </div>
+        </div>
+      <div class="well">My Goalies</div>
+        <div class="btn-group-justified">
+          <button type="button" class="btn btn-primary" id="goalie_button">Player ID</button>
+          <button type="button" class="btn btn-primary" id="goalie_button">Lastname</button>
+          <button type="button" class="btn btn-primary" id="goalie_button">Firstname</button>
+          <button type="button" class="btn btn-primary" id="goalie_button">Position</button>
+          <button type="button" class="btn btn-primary" id="goalie_button">Team ID</button>
+          <button type="button" class="btn btn-primary" id="goalie_button">City</button>
+          <button type="button" class="btn btn-primary" id="goalie_button">Name</button>
+          <button type="button" class="btn btn-primary" id="goalie_button">Abbreviation</button>
+          <button type="button" class="btn btn-primary" id="goalie_button">Wins</button>
+          <button type="button" class="btn btn-primary" id="goalie_button">Losses</button>
+          <button type="button" class="btn btn-primary" id="goalie_button">GAA</button>
+          <button type="button" class="btn btn-primary" id="goalie_button">Save%</button>
+          <button type="button" class="btn btn-primary" id="goalie_button">Shutouts</button>
+          <div class="well" id="yourgoalie">
+            Goalies Here
           </div>
         </div>
     </div>

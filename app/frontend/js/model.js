@@ -2,6 +2,7 @@ var model = (function() {
 	"use strict";
 
 	var activeuser;
+	var activeleague;
 
 	var model = {};
 	model.signin = function(data) {
@@ -56,6 +57,9 @@ var model = (function() {
 					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
 					return;
 				}
+				else{
+					activeuser = null;
+				}
 			}
 		};
 		xhr.open(method, url, true);
@@ -74,6 +78,7 @@ var model = (function() {
 					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
 					return;
 				} else {
+					activeleague = JSON.parse(this.responseText).league;
 					document.dispatchEvent(new CustomEvent("leaguejoined"));
 				}
 			}
@@ -94,7 +99,49 @@ var model = (function() {
 					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
 					return;
 				} else {
+					activeleague = JSON.parse(this.responseText).name;
 					document.dispatchEvent(new CustomEvent("leaguecreated"));
+				}
+			}
+		};
+		xhr.open(method, url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(body);
+	};
+
+	model.displayplayers = function() {
+		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
+		var url = "/api/users/" + activeuser + "/leagues/" + activeleague + "/team/"; // the full url http:// ...
+		var body = null; // should be set to null for GET and DELETE
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === XMLHttpRequest.DONE) {
+				if (this.status >= 400) {
+					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
+					return;
+				} else {
+					document.dispatchEvent(new CustomEvent("playersdisplayed", {detail: this.responseText}));
+				}
+			}
+		};
+		xhr.open(method, url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(body);
+	};
+
+	model.getallplayers = function(data){
+		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
+		var url = "/api/sports/" + data.sport + "/players/type/" + data.type + "/"; // the full url http:// ...
+		var body = null; // should be set to null for GET and DELETE
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === XMLHttpRequest.DONE) {
+				if (this.status >= 400) {
+					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
+					return;
+				} else {
+					//CHANGE EVENT
+					document.dispatchEvent(new CustomEvent("displayallplayers", {detail: this.responseText}));
 				}
 			}
 		};

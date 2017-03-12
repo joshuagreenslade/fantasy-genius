@@ -35,7 +35,31 @@
 		view.leaguecreated(e.detail);
 	});
 
-	document.addEventListener('signedout', function(e)){
+	document.addEventListener('signedout', function(e){
 		model.signout(e.detail);
+	});
+
+	document.addEventListener('displayplayers', function(e){
+		model.displayplayers();
+	});
+
+	document.addEventListener('playersdisplayed', function(e){
+		view.displayplayers(e.detail);
+	});
+
+	document.addEventListener('getallplayers', function(e){
+		model.getallplayers(e.detail);
+	});
+
+	document.addEventListener('getallgoalies', function(e){
+		model.getallgoalies(e.detail);
+	});
+
+	document.addEventListener('displayallplayers', function(e){
+		view.displayallplayers(e.detail);
+	});
+
+	document.addEventListener('displayallgoalies', function(e){
+		view.displayallgoalies(e.detail);
 	});
 }(model, view));
