@@ -18,4 +18,24 @@
 	document.addEventListener('usercreated', function(e){
 		model.signup(e.detail);
 	});
+
+	document.addEventListener('joiningleague', function(e){
+		model.joinleague(e.detail);
+	});
+
+	document.addEventListener('creatingleague', function(e){
+		model.createleague(e.detail);
+	});
+
+	document.addEventListener('leaguejoined', function(e){
+		view.leaguejoined(e.detail);
+	});
+
+	document.addEventListener('leaguecreated', function(e){
+		view.leaguecreated(e.detail);
+	});
+
+	document.addEventListener('signedout', function(e)){
+		model.signout(e.detail);
+	});
 }(model, view));
