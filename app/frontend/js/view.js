@@ -212,6 +212,7 @@ var view = (function() {
 	view.displayplayers = function(data){
 		var goaliedisplay = document.getElementById("yourgoalie");
 		var playerdisplay = document.getElementById("yourplayers")
+		console.log(data)
 		var goalie = data.G;
 		goaliedisplay.innerHTML = "";
 		var e = document.createElement("div");
@@ -220,7 +221,7 @@ var view = (function() {
 							${goalie.City}${goalie.Name}${goalie.Abbreviation}
 							${goalie.Wins}${goalie.Losses}${goalie.GoalsAgainstAverage}
 							${goalie.SavePercentage}${goalie.Shutouts}${goalie.Played}
-							${goalie.Points}</p>`;
+							${goalie.points}</p>`;
 		goaliedisplay.prepend(e);
 	};
 

@@ -17,6 +17,7 @@ var model = (function() {
 					return;
 				} else {
 					activeuser = JSON.parse(this.responseText).username;
+					activeleague = JSON.parse(this.responseText).nhl_league;
 					document.dispatchEvent(new CustomEvent("signedin"));
 				}
 			}
@@ -120,7 +121,7 @@ var model = (function() {
 					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
 					return;
 				} else {
-					document.dispatchEvent(new CustomEvent("playersdisplayed", {detail: this.responseText}));
+					document.dispatchEvent(new CustomEvent("playersdisplayed", {detail: JSON.parse(this.responseText)}));
 				}
 			}
 		};
