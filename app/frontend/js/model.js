@@ -140,8 +140,27 @@ var model = (function() {
 					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
 					return;
 				} else {
-					//CHANGE EVENT
-					document.dispatchEvent(new CustomEvent("displayallplayers", {detail: this.responseText}));
+					document.dispatchEvent(new CustomEvent("displayallplayers", {detail: JSON.parse(this.responseText)}));
+				}
+			}
+		};
+		xhr.open(method, url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(body);
+	};
+
+	model.getallgoalies = function(data){
+		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
+		var url = "/api/sports/" + data.sport + "/players/type/" + data.type + "/"; // the full url http:// ...
+		var body = null; // should be set to null for GET and DELETE
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === XMLHttpRequest.DONE) {
+				if (this.status >= 400) {
+					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
+					return;
+				} else {
+					document.dispatchEvent(new CustomEvent("displayallgoalies", {detail: JSON.parse(this.responseText)}));
 				}
 			}
 		};

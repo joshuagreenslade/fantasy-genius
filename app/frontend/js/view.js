@@ -17,7 +17,7 @@ var view = (function() {
 		var data = {};
 		data.sport = 'nhl';
 		data.type = 's';
-		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data});
+		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data}));
 		data.type = 'g';
 		document.dispatchEvent(new CustomEvent("getallgoalies", {detail:data}));
 	}
@@ -49,7 +49,7 @@ var view = (function() {
 		var data = {};
 		data.sport = 'nhl';
 		data.type = 's';
-		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data});
+		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data}));
 		data.type = 'g';
 		document.dispatchEvent(new CustomEvent("getallgoalies", {detail:data}));
 	}
@@ -127,7 +127,7 @@ var view = (function() {
 		var data = {};
 		data.sport = 'nhl';
 		data.type = 's';
-		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data});
+		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data}));
 		data.type = 'g';
 		document.dispatchEvent(new CustomEvent("getallgoalies", {detail:data}));
 	};
@@ -165,7 +165,7 @@ var view = (function() {
 		var data = {};
 		data.sport = 'nhl';
 		data.type = 's';
-		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data});
+		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data}));
 		data.type = 'g';
 		document.dispatchEvent(new CustomEvent("getallgoalies", {detail:data}));
 	};
@@ -178,7 +178,7 @@ var view = (function() {
 		var data = {};
 		data.sport = 'nhl';
 		data.type = 's';
-		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data});
+		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data}));
 		data.type = 'g';
 		document.dispatchEvent(new CustomEvent("getallgoalies", {detail:data}));
 	};
@@ -191,7 +191,7 @@ var view = (function() {
 		var data = {};
 		data.sport = 'nhl';
 		data.type = 's';
-		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data});
+		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data}));
 		data.type = 'g';
 		document.dispatchEvent(new CustomEvent("getallgoalies", {detail:data}));
 	};
@@ -204,7 +204,7 @@ var view = (function() {
 		var data = {};
 		data.sport = 'nhl';
 		data.type = 's';
-		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data});
+		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data}));
 		data.type = 'g';
 		document.dispatchEvent(new CustomEvent("getallgoalies", {detail:data}));
 	};
@@ -234,12 +234,23 @@ var view = (function() {
 							${player.City}${player.Name}${player.Abbreviation}
 							${player.Goals}${player.Assists}${player.Points}
 							${player.PlusMinus}${player.Played}${player.points}</p>`;
-			display.prepend(e);
+			playerdisplay.prepend(e);
 		});
 	};
 
-	view.displayallgoalies = function(){
-
+	view.displayallgoalies = function(data){
+		var goaliedisplay = document.getElementById("goalies");
+		goaliedisplay.innerHTML = "";
+		data.forEach(function(goalie){
+			var e = document.createElement("div");
+			e.id = goalie.playerID;
+			e.innerHTML = `<p>${goalie.LastName}${goalie.FirstName}${goalie.Position}
+							${goalie.City}${goalie.Name}${goalie.Abbreviation}
+							${goalie.Wins}${goalie.Losses}${goalie.GoalsAgainstAverage}
+							${goalie.SavePercentage}${goalie.Shutouts}${goalie.Played}
+							${goalie.Points}</p>`;
+			goaliedisplay.prepend(e);
+		});
 	};
 	return view;
 }())
