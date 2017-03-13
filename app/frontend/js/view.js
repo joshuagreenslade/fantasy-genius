@@ -6,18 +6,14 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var authenticated = document.getElementById("authenticated");
 		var teampage = document.getElementById("team_page")
 		var leaguepage = document.getElementById("league_page");
-		var addplayerspage = document.getElementById("add_players_page");
 		leaguecreate.style.display = 'none';
 		leaguejoin.style.display = 'none';
 		signin.style.display = 'none';
 		signup.style.display = 'none';
-		authenticated.style.display = 'none';
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
-		addplayerspage.style.display = 'none';
 
 		//set visibility of buttons and text
 		document.getElementById('title').innerHTML = "Join League";
@@ -51,18 +47,14 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var authenticated = document.getElementById("authenticated");
 		var teampage = document.getElementById("team_page")
 		var leaguepage = document.getElementById("league_page");
-		var addplayerspage = document.getElementById("add_players_page");
 		leaguecreate.style.display = 'none';
 		leaguejoin.style.display = 'none';
 		signin.style.display = 'block';
 		signup.style.display = 'none';
-		authenticated.style.display = 'none';
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
-		addplayerspage.style.display = 'none';
 
 		//set visibility of buttons and text
 		document.getElementById('title').innerHTML = "Signin";
@@ -90,18 +82,14 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var authenticated = document.getElementById("authenticated");
 		var teampage = document.getElementById("team_page")
 		var leaguepage = document.getElementById("league_page");
-		var addplayerspage = document.getElementById("add_players_page");
 		leaguecreate.style.display = 'none';
 		leaguejoin.style.display = 'none';
 		signin.style.display = 'none';
 		signup.style.display = 'block';
-		authenticated.style.display = 'none';
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
-		addplayerspage.style.display = 'none';
 
 		//set visibility of buttons and text
 		document.getElementById('title').innerHTML = "Signup";
@@ -129,18 +117,14 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var authenticated = document.getElementById("authenticated");
 		var teampage = document.getElementById("team_page")
 		var leaguepage = document.getElementById("league_page");
-		var addplayerspage = document.getElementById("add_players_page");
 		leaguecreate.style.display = 'none';
 		leaguejoin.style.display = 'none';
 		signin.style.display = 'none';
 		signup.style.display = 'none';
-		authenticated.style.display = 'none';
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
-		addplayerspage.style.display = 'none';
 
 		//set visibility of buttons and text
 		document.getElementById('title').innerHTML = "Join League";
@@ -175,18 +159,14 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var authenticated = document.getElementById("authenticated");
 		var teampage = document.getElementById("team_page")
 		var leaguepage = document.getElementById("league_page");
-		var addplayerspage = document.getElementById("add_players_page");
 		leaguecreate.style.display = 'none';
 		leaguejoin.style.display = 'none';
 		signin.style.display = 'block';
 		signup.style.display = 'none';
-		authenticated.style.display = 'none';
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
-		addplayerspage.style.display = 'none';
 
 		//set visibility of buttons and text
 		document.getElementById('title').innerHTML = "Signin";
@@ -215,18 +195,14 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var authenticated = document.getElementById("authenticated");
 		var teampage = document.getElementById("team_page")
 		var leaguepage = document.getElementById("league_page");
-		var addplayerspage = document.getElementById("add_players_page");
 		leaguecreate.style.display = 'none';
 		leaguejoin.style.display = 'none';
 		signin.style.display = 'none';
 		signup.style.display = 'block';
-		authenticated.style.display = 'none';
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
-		addplayerspage.style.display = 'none';
 
 		//set visibility of buttons and text
 		document.getElementById('title').innerHTML = "Signup";
@@ -267,8 +243,6 @@ var view = (function() {
 		e.preventDefault();
 		var main = document.getElementById("main");
 		main.style.display = 'none';
-		var authenticated = document.getElementById("authenticated");
-		authenticated.style.display = 'none';
 		var leaguecreate = document.getElementById("leaguecreate");
 		leaguecreate.style.display = 'block';
 
@@ -295,8 +269,6 @@ var view = (function() {
 		e.preventDefault();
 		var main = document.getElementById("main");
 		main.style.display = 'none';
-		var authenticated = document.getElementById("authenticated");
-		authenticated.style.display = 'none';
 		var leaguejoin = document.getElementById("leaguejoin");
 		leaguejoin.style.display = 'block';
 
@@ -342,18 +314,14 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var authenticated = document.getElementById("authenticated");
 		var teampage = document.getElementById("team_page")
 		var leaguepage = document.getElementById("league_page");
-		var addplayerspage = document.getElementById("add_players_page");
 		leaguecreate.style.display = 'none';
 		leaguejoin.style.display = 'none';
 		signin.style.display = 'none';
 		signup.style.display = 'none';
-		authenticated.style.display = 'none';
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
-		addplayerspage.style.display = 'none';
 		var main = document.getElementById("main");
 		main.style.display = 'block';
 
@@ -392,18 +360,14 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var authenticated = document.getElementById("authenticated");
 		var teampage = document.getElementById("team_page")
 		var leaguepage = document.getElementById("league_page");
-		var addplayerspage = document.getElementById("add_players_page");
 		leaguecreate.style.display = 'none';
 		leaguejoin.style.display = 'none';
 		signin.style.display = 'none';
 		signup.style.display = 'none';
-		authenticated.style.display = 'none';
 		teampage.style.display = 'block';
 		leaguepage.style.display = 'none';
-		addplayerspage.style.display = 'none';
 
 		//set visibility of buttons and text
 		document.getElementById('title').innerHTML = "FantasyGenius";
@@ -434,18 +398,14 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var authenticated = document.getElementById("authenticated");
 		var teampage = document.getElementById("team_page")
 		var leaguepage = document.getElementById("league_page");
-		var addplayerspage = document.getElementById("add_players_page");
 		leaguecreate.style.display = 'none';
 		leaguejoin.style.display = 'none';
 		signin.style.display = 'none';
 		signup.style.display = 'none';
-		authenticated.style.display = 'none';
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'block';
-		addplayerspage.style.display = 'none';
 
 		//set visibility of buttons and text
 		document.getElementById('title').innerHTML = "FantasyGenius";
@@ -472,23 +432,19 @@ var view = (function() {
 
 	document.getElementById("add_players").onclick = function(e){
 		var main = document.getElementById("main");
-		main.style.display = 'none';
+		main.style.display = 'block';
 		var leaguejoin = document.getElementById("leaguejoin");
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var authenticated = document.getElementById("authenticated");
 		var teampage = document.getElementById("team_page")
 		var leaguepage = document.getElementById("league_page");
-		var addplayerspage = document.getElementById("add_players_page");
 		leaguecreate.style.display = 'none';
 		leaguejoin.style.display = 'none';
 		signin.style.display = 'none';
 		signup.style.display = 'none';
-		authenticated.style.display = 'none';
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
-		addplayerspage.style.display = 'block';
 
 		//set visibility of buttons and text
 		document.getElementById('title').innerHTML = "FantasyGenius";
@@ -524,23 +480,19 @@ var view = (function() {
 	//if there was a successful signin
 	view.authenticated = function(){
 		var main = document.getElementById("main");
-		main.style.display = 'none';
+		main.style.display = 'block';
 		var leaguejoin = document.getElementById("leaguejoin");
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var authenticated = document.getElementById("authenticated");
 		var teampage = document.getElementById("team_page")
 		var leaguepage = document.getElementById("league_page");
-		var addplayerspage = document.getElementById("add_players_page");
 		leaguecreate.style.display = 'none';
 		leaguejoin.style.display = 'none';
 		signin.style.display = 'none';
 		signup.style.display = 'none';
-		authenticated.style.display = 'block';
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
-		addplayerspage.style.display = 'none';
 
 		//set visibility of buttons and text
 		document.getElementById('title').innerHTML = "FantasyGenius";
@@ -565,7 +517,7 @@ var view = (function() {
 		data.type = 's';
 		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data}));
 		data.type = 'g';
-		document.dispatchEvent(new CustomEvent("getallgoalies", {detail:data}));
+		document.dispatchEvent(new CustomEvent("getallgoalies", {detail: data}));
 	};
 
 	view.usercreated = function(){
@@ -575,18 +527,14 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var authenticated = document.getElementById("authenticated");
 		var teampage = document.getElementById("team_page")
 		var leaguepage = document.getElementById("league_page");
-		var addplayerspage = document.getElementById("add_players_page");
 		leaguecreate.style.display = 'none';
 		leaguejoin.style.display = 'none';
 		signin.style.display = 'none';
 		signup.style.display = 'none';
-		authenticated.style.display = 'none';
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
-		addplayerspage.style.display = 'none';
 
 		//set visibility of buttons and text
 		document.getElementById('title').innerHTML = "Join League";
@@ -616,23 +564,19 @@ var view = (function() {
 
 	view.leaguejoined = function(){
 		var main = document.getElementById("main");
-		main.style.display = 'none';
+		main.style.display = 'block';
 		var leaguejoin = document.getElementById("leaguejoin");
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var authenticated = document.getElementById("authenticated");
 		var teampage = document.getElementById("team_page")
 		var leaguepage = document.getElementById("league_page");
-		var addplayerspage = document.getElementById("add_players_page");
 		leaguecreate.style.display = 'none';
 		leaguejoin.style.display = 'none';
 		signin.style.display = 'none';
 		signup.style.display = 'none';
-		authenticated.style.display = 'block';
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
-		addplayerspage.style.display = 'none';
 
 		//set visibility of buttons and text
 		document.getElementById('title').innerHTML = "FantasyGenius";
@@ -662,23 +606,19 @@ var view = (function() {
 
 	view.leaguecreated = function(){
 		var main = document.getElementById("main");
-		main.style.display = 'none';
+		main.style.display = 'block';
 		var leaguejoin = document.getElementById("leaguejoin");
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var authenticated = document.getElementById("authenticated");
 		var teampage = document.getElementById("team_page")
 		var leaguepage = document.getElementById("league_page");
-		var addplayerspage = document.getElementById("add_players_page");
 		leaguecreate.style.display = 'none';
 		leaguejoin.style.display = 'none';
 		signin.style.display = 'none';
 		signup.style.display = 'none';
-		authenticated.style.display = 'block';
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
-		addplayerspage.style.display = 'none';
 
 		//set visibility of buttons and text
 		document.getElementById('title').innerHTML = "FantasyGenius";
@@ -711,59 +651,69 @@ var view = (function() {
 		var playerdisplay = document.getElementById("yourplayers")
 		var goalie = data.G;
 		goaliedisplay.innerHTML = "";
-		var e = document.createElement("div");
-		e.id = goalie.playerID;
-		e.classname = "list-group";
-		e.innerHTML = `<a href="#" class="list_group_item">${goalie.LastName}${goalie.FirstName}${goalie.Position}
-							${goalie.City}${goalie.Name}${goalie.Abbreviation}
-							${goalie.Wins}${goalie.Losses}${goalie.GoalsAgainstAverage}
-							${goalie.SavePercentage}${goalie.Shutouts}${goalie.Played}
-							${goalie.points}</a>`;
-		goaliedisplay.prepend(e);
-		playerdisplay.innerHTML = "";
-		var players = data.forwards;
-		players.forEach(function(player){
+		if(goalie !== null){
 			var e = document.createElement("div");
+			e.id = goalie.playerID;
 			e.classname = "list-group";
-			e.id = player.playerID;
-			e.innerHTML = `<a href="#" class="list-group-item">${player.LastName}${player.FirstName}${player.Position}
-							${player.City}${player.Name}${player.Abbreviation}
-							${player.Goals}${player.Assists}${player.Points}
-							${player.PlusMinus}${player.Played}${player.points}</a>`;
-			playerdisplay.prepend(e);
+			e.innerHTML = `<a href="#" class="list_group_item">${goalie.LastName}${goalie.FirstName}${goalie.Position}
+								${goalie.City}${goalie.Name}${goalie.Abbreviation}
+								${goalie.Wins}${goalie.Losses}${goalie.GoalsAgainstAverage}
+								${goalie.SavePercentage}${goalie.Shutouts}${goalie.Played}
+								${goalie.points}</a>`;
+			goaliedisplay.prepend(e);
+		}
+		playerdisplay.innerHTML = "";
+		var players = data.forward;
+		players.forEach(function(player){
+			if(player !== null){
+				var e = document.createElement("div");
+				e.classname = "list-group";
+				e.id = player.playerID;
+				e.innerHTML = `<a href="#" class="list-group-item">${player.LastName}${player.FirstName}${player.Position}
+								${player.City}${player.Name}${player.Abbreviation}
+								${player.Goals}${player.Assists}${player.Points}
+								${player.PlusMinus}${player.Played}${player.points}</a>`;
+				playerdisplay.prepend(e);
+			}
 		});
 		players = data.defence;
 		players.forEach(function(player){
-			var e = document.createElement("div");
-			e.classname = "list-group";
-			e.id = player.playerID;
-			e.innerHTML = `<a href="#" class="list-group-item">${player.LastName}${player.FirstName}${player.Position}
-							${player.City}${player.Name}${player.Abbreviation}
-							${player.Goals}${player.Assists}${player.Points}
-							${player.PlusMinus}${player.Played}${player.points}</a>`;
-			playerdisplay.prepend(e);
+			if(player !== null){
+				var e = document.createElement("div");
+				e.classname = "list-group";
+				e.id = player.playerID;
+				e.innerHTML = `<a href="#" class="list-group-item">${player.LastName}${player.FirstName}${player.Position}
+								${player.City}${player.Name}${player.Abbreviation}
+								${player.Goals}${player.Assists}${player.Points}
+								${player.PlusMinus}${player.Played}${player.points}</a>`;
+				playerdisplay.prepend(e);
+			}
 		});
 		players = data.bench_forward;
 		players.forEach(function(player){
-			var e = document.createElement("div");
-			e.classname = "list-group";
-			e.id = player.playerID;
-			e.innerHTML = `<a href="#" class="list-group-item">${player.LastName}${player.FirstName}${player.Position}
-							${player.City}${player.Name}${player.Abbreviation}
-							${player.Goals}${player.Assists}${player.Points}
-							${player.PlusMinus}${player.Played}${player.points}</a>`;
-			playerdisplay.prepend(e);
+			if(player !== null){
+				var e = document.createElement("div");
+				e.classname = "list-group";
+				e.id = player.playerID;
+				e.innerHTML = `<a href="#" class="list-group-item">${player.LastName}${player.FirstName}${player.Position}
+								${player.City}${player.Name}${player.Abbreviation}
+								${player.Goals}${player.Assists}${player.Points}
+								${player.PlusMinus}${player.Played}${player.points}</a>`;
+				playerdisplay.prepend(e);
+			}
 		});
 		players = data.bench_defence;
 		players.forEach(function(player){
-			var e = document.createElement("div");
-			e.classname = "list-group";
-			e.id = player.playerID;
-			e.innerHTML = `<a href="#" class="list-group-item">${player.LastName}${player.FirstName}${player.Position}
-							${player.City}${player.Name}${player.Abbreviation}
-							${player.Goals}${player.Assists}${player.Points}
-							${player.PlusMinus}${player.Played}${player.points}</a>`;
-			playerdisplay.prepend(e);
+			if(player !== null){
+				var e = document.createElement("div");
+				e.classname = "list-group";
+				e.id = player.playerID;
+				e.innerHTML = `<a href="#" class="list-group-item">${player.LastName}${player.FirstName}${player.Position}
+								${player.City}${player.Name}${player.Abbreviation}
+								${player.Goals}${player.Assists}${player.Points}
+								${player.PlusMinus}${player.Played}${player.points}</a>`;
+				playerdisplay.prepend(e);
+			}
 		});
 	};
 
@@ -849,8 +799,8 @@ var view = (function() {
 		data.forEach(function(user){
 			var e = document.createElement("div");
 			e.classname = "list-group";
-			e.id = user.username;
-			e.innerHTML = `<a href="#" class="list-group-item">${user.username}</a>`;
+			e.id = user.owner;
+			e.innerHTML = `<a href="#" class="list-group-item">${user.owner}</a>`;
 			userdisplay.prepend(e);
 			e.onclick = function(e){
 				e.preventDefault();
@@ -860,18 +810,14 @@ var view = (function() {
 				var leaguecreate = document.getElementById("leaguecreate");
 				var signin = document.getElementById("signin");
 				var signup = document.getElementById("signup");
-				var authenticated = document.getElementById("authenticated");
 				var teampage = document.getElementById("team_page")
 				var leaguepage = document.getElementById("league_page");
-				var addplayerspage = document.getElementById("add_players_page");
 				leaguecreate.style.display = 'none';
 				leaguejoin.style.display = 'none';
 				signin.style.display = 'none';
 				signup.style.display = 'none';
-				authenticated.style.display = 'none';
 				teampage.style.display = 'block';
 				leaguepage.style.display = 'none';
-				addplayerspage.style.display = 'none';
 
 				//set visibility of buttons and text
 				document.getElementById('title').innerHTML = "FantasyGenius";
@@ -892,7 +838,7 @@ var view = (function() {
 				document.getElementById("to_home").style.display = "none";
 
 				var data = {};
-				data.username = user.username;
+				data.username = user.owner;
 				document.dispatchEvent(new CustomEvent("displayhisplayers", {detail:data}));
 			};
 		});

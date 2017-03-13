@@ -10,11 +10,21 @@
   margin-left: 410px; 
 }
 
-#player_button{
+/*for all the player stat buttons*/
+#player_Lastname_button, #player_Firstname_button, #player_Position_button, #player_City_button, #player_Name_button,
+#player_Abbreviation_button, #player_Goals_button, #player_Assists_button, #player_Points_button, #player_PlusMinus_button, 
+#your_player_Lastname_button, #your_player_Firstname_button, #your_player_Position_button, #your_player_City_button,
+#your_player_Name_button, #your_player_Abbreviation_button, #your_player_Goals_button, #your_player_Assists_button,
+#your_player_Points_button, #your_player_PlusMinus_button{
 	width: 105px;
 }
 
-#goalie_button{
+/*forall the goalie stat buttons*/
+#goalie_Lastname_button, #goalie_Firstname_button, #goalie_Position_button, #goalie_City_button, #goalie_Name_button,
+#goalie_Abbreviation_button, #goalie_Wins_button, #goalie_Losses_button, #goalie_GAA_button, #goalie_SavePercentage_button,
+#goalie_Shutouts_button, #your_goalie_Lastname_button, #your_goalie_Firstname_button, #your_goalie_Position_button,
+#your_goalie_City_button, #your_goalie_Name_button, #your_goalie_Abbreviation_button, #your_goalie_Wins_button,
+#your_goalie_Losses_button, #your_goalie_GAA_button, #your_goalie_SavePercentage_button, #your_goalie_Shutouts_button{
 	width: 97px;
 }
 
