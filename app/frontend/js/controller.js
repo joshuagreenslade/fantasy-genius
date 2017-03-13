@@ -62,4 +62,36 @@
 	document.addEventListener('displayallgoalies', function(e){
 		view.displayallgoalies(e.detail);
 	});
+
+	document.addEventListener('getusers', function(e){
+		model.getusers(e.detail);
+	});
+
+	document.addEventListener('displayusers', function(e){
+		view.displayusers(e.detail);
+	});
+
+	document.addEventListener('displayhisplayers', function(e){
+		model.displayhisplayers(e.detail);
+	});
+
+	document.addEventListener('getallplayerstoadd', function(e){
+		model.getallplayerstoadd(e.detail);
+	});
+
+	document.addEventListener('getallgoaliestoadd', function(e){
+		model.getallgoaliestoadd(e.detail);
+	});
+
+	document.addEventListener('displayallplayerstoadd', function(e){
+		view.displayallplayerstoadd(e.detail);
+	});
+
+	document.addEventListener('displayallgoaliestoadd', function(e){
+		view.displayallgoaliestoadd(e.detail);
+	});
+
+	document.addEventListener('addplayer', function(e){
+		model.addplayer(e.detail);
+	});
 }(model, view));

@@ -110,6 +110,24 @@ var model = (function() {
 		xhr.send(body);
 	};
 
+	model.addplayer = function(data){
+		var method = "POST"; // either POST, PUT, GET, PATCH, DELETE
+		var url = "/api/users/" + activeuser + "/sports/" + data.sport + "/"; // the full url http:// ...
+		var body = JSON.stringify(data); // should be set to null for GET and DELETE
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === XMLHttpRequest.DONE) {
+				if (this.status >= 400) {
+					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
+					return;
+				}
+			}
+		};
+		xhr.open(method, url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(body);
+	};
+	
 	model.displayplayers = function() {
 		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
 		var url = "/api/users/" + activeuser + "/leagues/" + activeleague + "/team/"; // the full url http:// ...
@@ -130,6 +148,25 @@ var model = (function() {
 		xhr.send(body);
 	};
 
+	model.displayhisplayers = function(data){
+		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
+		var url = "/api/users/" + data.username + "/leagues/" + activeleague + "/team/"; // the full url http:// ...
+		var body = null; // should be set to null for GET and DELETE
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === XMLHttpRequest.DONE) {
+				if (this.status >= 400) {
+					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
+					return;
+				} else {
+					document.dispatchEvent(new CustomEvent("playersdisplayed", {detail: JSON.parse(this.responseText)}));
+				}
+			}
+		};
+		xhr.open(method, url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(body);
+	};
 	model.getallplayers = function(data){
 		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
 		var url = "/api/sports/" + data.sport + "/players/type/" + data.type + "/"; // the full url http:// ...
@@ -162,6 +199,66 @@ var model = (function() {
 					return;
 				} else {
 					document.dispatchEvent(new CustomEvent("displayallgoalies", {detail: JSON.parse(this.responseText)}));
+				}
+			}
+		};
+		xhr.open(method, url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(body);
+	};
+
+	model.getallplayerstoadd = function(data){
+		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
+		var url = "/api/sports/" + data.sport + "/players/type/" + data.type + "/"; // the full url http:// ...
+		var body = null; // should be set to null for GET and DELETE
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === XMLHttpRequest.DONE) {
+				if (this.status >= 400) {
+					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
+					return;
+				} else {
+					document.dispatchEvent(new CustomEvent("displayallplayerstoadd", {detail: JSON.parse(this.responseText)}));
+				}
+			}
+		};
+		xhr.open(method, url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(body);
+	};
+
+	model.getallgoaliestoadd = function(data){
+		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
+		var url = "/api/sports/" + data.sport + "/players/type/" + data.type + "/"; // the full url http:// ...
+		var body = null; // should be set to null for GET and DELETE
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === XMLHttpRequest.DONE) {
+				if (this.status >= 400) {
+					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
+					return;
+				} else {
+					document.dispatchEvent(new CustomEvent("displayallgoaliestoadd", {detail: JSON.parse(this.responseText)}));
+				}
+			}
+		};
+		xhr.open(method, url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(body);
+	};
+
+	model.getusers = function(data){
+		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
+		var url = "/api/sports/" + data.sport + "/leagues/" + activeleague + "/teams/"; // the full url http:// ...
+		var body = null; // should be set to null for GET and DELETE
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === XMLHttpRequest.DONE) {
+				if (this.status >= 400) {
+					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
+					return;
+				} else {
+					document.dispatchEvent(new CustomEvent("displayusers", {detail: JSON.parse(this.responseText)}));
 				}
 			}
 		};
