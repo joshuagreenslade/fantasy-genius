@@ -18,6 +18,25 @@ var view = (function() {
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
 		addplayerspage.style.display = 'none';
+
+		//set visibility of buttons and text
+		document.getElementById('title').innerHTML = "Join League";
+		document.getElementById('subtitle').innerHTML = "Join a Fantasy League";
+		document.getElementById("error").innerHTML = "";
+		document.getElementById("signup_page").style.display = "block";
+		document.getElementById("signin_page").style.display = "block";
+		document.getElementById("signout").style.display = "none";
+		document.getElementById("link_to_createleague").style.display = "none";
+		document.getElementById("link_to_joinleague").style.display = "none";
+		document.getElementById("my_team").style.display = "none";
+		document.getElementById("my_league").style.display = "none";
+		document.getElementById("add_players").style.display = "none";
+
+		//set visibility of bottom buttons
+		document.getElementById("to_signin").style.display = "none";
+		document.getElementById("to_signup").style.display = "none";
+		document.getElementById("to_home").style.display = "none";
+
 		var data = {};
 		data.sport = 'nhl';
 		data.type = 's';
@@ -44,6 +63,24 @@ var view = (function() {
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
 		addplayerspage.style.display = 'none';
+
+		//set visibility of buttons and text
+		document.getElementById('title').innerHTML = "Signin";
+		document.getElementById('subtitle').innerHTML = "Signin to Fantasy Genius";
+		document.getElementById("error").innerHTML = "";
+		document.getElementById("signup_page").style.display = "none";
+		document.getElementById("signin_page").style.display = "none";
+		document.getElementById("signout").style.display = "none";
+		document.getElementById("link_to_createleague").style.display = "none";
+		document.getElementById("link_to_joinleague").style.display = "none";
+		document.getElementById("my_team").style.display = "none";
+		document.getElementById("my_league").style.display = "none";
+		document.getElementById("add_players").style.display = "none";
+
+		//set visibility of bottom buttons
+		document.getElementById("to_signin").style.display = "none";
+		document.getElementById("to_signup").style.display = "block";
+		document.getElementById("to_home").style.display = "block";
 	}
 
 	document.getElementById('to_signup').onclick = function(e) {
@@ -65,6 +102,24 @@ var view = (function() {
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
 		addplayerspage.style.display = 'none';
+
+		//set visibility of buttons and text
+		document.getElementById('title').innerHTML = "Signup";
+		document.getElementById('subtitle').innerHTML = "Signup for Fantasy Genius";
+		document.getElementById("error").innerHTML = "";
+		document.getElementById("signup_page").style.display = "none";
+		document.getElementById("signin_page").style.display = "none";
+		document.getElementById("signout").style.display = "none";
+		document.getElementById("link_to_createleague").style.display = "none";
+		document.getElementById("link_to_joinleague").style.display = "none";
+		document.getElementById("my_team").style.display = "none";
+		document.getElementById("my_league").style.display = "none";
+		document.getElementById("add_players").style.display = "none";
+
+		//set visibility of bottom buttons
+		document.getElementById("to_signin").style.display = "block";
+		document.getElementById("to_signup").style.display = "none";
+		document.getElementById("to_home").style.display = "block";
 	}
 
 	document.getElementById('to_home').onclick = function(e) {
@@ -86,6 +141,25 @@ var view = (function() {
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
 		addplayerspage.style.display = 'none';
+
+		//set visibility of buttons and text
+		document.getElementById('title').innerHTML = "Join League";
+		document.getElementById('subtitle').innerHTML = "Join a Fantasy League";
+		document.getElementById("error").innerHTML = "";
+		document.getElementById("signup_page").style.display = "block";
+		document.getElementById("signin_page").style.display = "block";
+		document.getElementById("signout").style.display = "none";
+		document.getElementById("link_to_createleague").style.display = "none";
+		document.getElementById("link_to_joinleague").style.display = "none";
+		document.getElementById("my_team").style.display = "none";
+		document.getElementById("my_league").style.display = "none";
+		document.getElementById("add_players").style.display = "none";
+
+		//set visibility of bottom buttons
+		document.getElementById("to_signin").style.display = "none";
+		document.getElementById("to_signup").style.display = "none";
+		document.getElementById("to_home").style.display = "none";
+
 		var data = {};
 		data.sport = 'nhl';
 		data.type = 's';
@@ -113,6 +187,25 @@ var view = (function() {
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
 		addplayerspage.style.display = 'none';
+
+		//set visibility of buttons and text
+		document.getElementById('title').innerHTML = "Signin";
+		document.getElementById('subtitle').innerHTML = "Signin to Fantasy Genius";
+		document.getElementById("error").innerHTML = "";
+		document.getElementById("signup_page").style.display = "none";
+		document.getElementById("signin_page").style.display = "none";
+		document.getElementById("signout").style.display = "none";
+		document.getElementById("link_to_createleague").style.display = "none";
+		document.getElementById("link_to_joinleague").style.display = "none";
+		document.getElementById("my_team").style.display = "none";
+		document.getElementById("my_league").style.display = "none";
+		document.getElementById("add_players").style.display = "none";
+
+		//set visibility of bottom buttons
+		document.getElementById("to_signin").style.display = "none";
+		document.getElementById("to_signup").style.display = "block";
+		document.getElementById("to_home").style.display = "block";
+
 	}
 
 	document.getElementById('signup_page').onclick = function(e) {
@@ -134,6 +227,24 @@ var view = (function() {
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
 		addplayerspage.style.display = 'none';
+
+		//set visibility of buttons and text
+		document.getElementById('title').innerHTML = "Signup";
+		document.getElementById('subtitle').innerHTML = "Signup for Fantasy Genius";
+		document.getElementById("error").innerHTML = "";
+		document.getElementById("signup_page").style.display = "none";
+		document.getElementById("signin_page").style.display = "none";
+		document.getElementById("signout").style.display = "none";
+		document.getElementById("link_to_createleague").style.display = "none";
+		document.getElementById("link_to_joinleague").style.display = "none";
+		document.getElementById("my_team").style.display = "none";
+		document.getElementById("my_league").style.display = "none";
+		document.getElementById("add_players").style.display = "none";
+
+		//set visibility of bottom buttons
+		document.getElementById("to_signin").style.display = "block";
+		document.getElementById("to_signup").style.display = "none";
+		document.getElementById("to_home").style.display = "block";
 	}
 	//for when submit is clicked on sign in page
 	document.getElementById('signin_button').onclick = function(e) {
@@ -160,6 +271,24 @@ var view = (function() {
 		authenticated.style.display = 'none';
 		var leaguecreate = document.getElementById("leaguecreate");
 		leaguecreate.style.display = 'block';
+
+		//set visibility of buttons and text
+		document.getElementById('title').innerHTML = "Create League";
+		document.getElementById('subtitle').innerHTML = "Create a Fantasy League";
+		document.getElementById("error").innerHTML = "";
+		document.getElementById("signup_page").style.display = "none";
+		document.getElementById("signin_page").style.display = "none";
+		document.getElementById("signout").style.display = "block";
+		document.getElementById("link_to_createleague").style.display = "none";
+		document.getElementById("link_to_joinleague").style.display = "none";
+		document.getElementById("my_team").style.display = "none";
+		document.getElementById("my_league").style.display = "none";
+		document.getElementById("add_players").style.display = "none";
+
+		//set visibility of bottom buttons
+		document.getElementById("to_signin").style.display = "none";
+		document.getElementById("to_signup").style.display = "none";
+		document.getElementById("to_home").style.display = "none";
 	};
 
 	document.getElementById('link_to_joinleague').onclick = function(e) {
@@ -170,6 +299,24 @@ var view = (function() {
 		authenticated.style.display = 'none';
 		var leaguejoin = document.getElementById("leaguejoin");
 		leaguejoin.style.display = 'block';
+
+		//set visibility of buttons and text
+		document.getElementById('title').innerHTML = "Join League";
+		document.getElementById('subtitle').innerHTML = "Join a Fantasy League";
+		document.getElementById("error").innerHTML = "";
+		document.getElementById("signup_page").style.display = "none";
+		document.getElementById("signin_page").style.display = "none";
+		document.getElementById("signout").style.display = "block";
+		document.getElementById("link_to_createleague").style.display = "none";
+		document.getElementById("link_to_joinleague").style.display = "none";
+		document.getElementById("my_team").style.display = "none";
+		document.getElementById("my_league").style.display = "none";
+		document.getElementById("add_players").style.display = "none";
+
+		//set visibility of bottom buttons
+		document.getElementById("to_signin").style.display = "none";
+		document.getElementById("to_signup").style.display = "none";
+		document.getElementById("to_home").style.display = "none";
 	};
 
 	document.getElementById('joinleague').onclick = function(e) {
@@ -209,6 +356,25 @@ var view = (function() {
 		addplayerspage.style.display = 'none';
 		var main = document.getElementById("main");
 		main.style.display = 'block';
+
+		//set visibility of buttons and text
+		document.getElementById('title').innerHTML = "Join League";
+		document.getElementById('subtitle').innerHTML = "Join a Fantasy League";
+		document.getElementById("error").innerHTML = "";
+		document.getElementById("signup_page").style.display = "block";
+		document.getElementById("signin_page").style.display = "block";
+		document.getElementById("signout").style.display = "none";
+		document.getElementById("link_to_createleague").style.display = "none";
+		document.getElementById("link_to_joinleague").style.display = "none";
+		document.getElementById("my_team").style.display = "none";
+		document.getElementById("my_league").style.display = "none";
+		document.getElementById("add_players").style.display = "none";
+
+		//set visibility of bottom buttons
+		document.getElementById("to_signin").style.display = "none";
+		document.getElementById("to_signup").style.display = "none";
+		document.getElementById("to_home").style.display = "none";
+
 		document.dispatchEvent(new CustomEvent("signedout"));
 		var data = {};
 		data.sport = 'nhl';
@@ -238,6 +404,25 @@ var view = (function() {
 		teampage.style.display = 'block';
 		leaguepage.style.display = 'none';
 		addplayerspage.style.display = 'none';
+
+		//set visibility of buttons and text
+		document.getElementById('title').innerHTML = "FantasyGenius";
+		document.getElementById('subtitle').innerHTML = "My Team";
+		document.getElementById("error").innerHTML = "";
+		document.getElementById("signup_page").style.display = "none";
+		document.getElementById("signin_page").style.display = "none";
+		document.getElementById("signout").style.display = "block";
+		document.getElementById("link_to_createleague").style.display = "none";
+		document.getElementById("link_to_joinleague").style.display = "none";
+		document.getElementById("my_team").style.display = "none";
+		document.getElementById("my_league").style.display = "block";
+		document.getElementById("add_players").style.display = "block";
+
+		//set visibility of bottom buttons
+		document.getElementById("to_signin").style.display = "none";
+		document.getElementById("to_signup").style.display = "none";
+		document.getElementById("to_home").style.display = "none";
+
 		document.dispatchEvent(new CustomEvent("displayplayers"));
 	};
 
@@ -261,6 +446,25 @@ var view = (function() {
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'block';
 		addplayerspage.style.display = 'none';
+
+		//set visibility of buttons and text
+		document.getElementById('title').innerHTML = "FantasyGenius";
+		document.getElementById('subtitle').innerHTML = "My League";
+		document.getElementById("error").innerHTML = "";
+		document.getElementById("signup_page").style.display = "none";
+		document.getElementById("signin_page").style.display = "none";
+		document.getElementById("signout").style.display = "block";
+		document.getElementById("link_to_createleague").style.display = "none";
+		document.getElementById("link_to_joinleague").style.display = "none";
+		document.getElementById("my_team").style.display = "block";
+		document.getElementById("my_league").style.display = "none";
+		document.getElementById("add_players").style.display = "block";
+
+		//set visibility of bottom buttons
+		document.getElementById("to_signin").style.display = "none";
+		document.getElementById("to_signup").style.display = "none";
+		document.getElementById("to_home").style.display = "none";
+
 		var data = {};
 		data.sport = 'nhl';
 		document.dispatchEvent(new CustomEvent("getusers", {detail:data}));
@@ -285,6 +489,25 @@ var view = (function() {
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
 		addplayerspage.style.display = 'block';
+
+		//set visibility of buttons and text
+		document.getElementById('title').innerHTML = "FantasyGenius";
+		document.getElementById('subtitle').innerHTML = "Add Players to Your Team(click to add)";
+		document.getElementById("error").innerHTML = "";
+		document.getElementById("signup_page").style.display = "none";
+		document.getElementById("signin_page").style.display = "none";
+		document.getElementById("signout").style.display = "block";
+		document.getElementById("link_to_createleague").style.display = "block";
+		document.getElementById("link_to_joinleague").style.display = "block";
+		document.getElementById("my_team").style.display = "block";
+		document.getElementById("my_league").style.display = "block";
+		document.getElementById("add_players").style.display = "none";
+
+		//set visibility of bottom buttons
+		document.getElementById("to_signin").style.display = "none";
+		document.getElementById("to_signup").style.display = "none";
+		document.getElementById("to_home").style.display = "none";
+
 		var data = {};
 		data.sport = 'nhl';
 		data.type = 's';
@@ -318,6 +541,25 @@ var view = (function() {
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
 		addplayerspage.style.display = 'none';
+
+		//set visibility of buttons and text
+		document.getElementById('title').innerHTML = "FantasyGenius";
+		document.getElementById('subtitle').innerHTML = "Home Page of Fantasy Genius";
+		document.getElementById("error").innerHTML = "";
+		document.getElementById("signup_page").style.display = "none";
+		document.getElementById("signin_page").style.display = "none";
+		document.getElementById("signout").style.display = "block";
+		document.getElementById("link_to_createleague").style.display = "block";
+		document.getElementById("link_to_joinleague").style.display = "block";
+		document.getElementById("my_team").style.display = "block";
+		document.getElementById("my_league").style.display = "block";
+		document.getElementById("add_players").style.display = "block";
+
+		//set visibility of bottom buttons
+		document.getElementById("to_signin").style.display = "none";
+		document.getElementById("to_signup").style.display = "none";
+		document.getElementById("to_home").style.display = "none";
+
 		var data = {};
 		data.sport = 'nhl';
 		data.type = 's';
@@ -345,6 +587,25 @@ var view = (function() {
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
 		addplayerspage.style.display = 'none';
+
+		//set visibility of buttons and text
+		document.getElementById('title').innerHTML = "Join League";
+		document.getElementById('subtitle').innerHTML = "Join a Fantasy League";
+		document.getElementById("error").innerHTML = "";
+		document.getElementById("signup_page").style.display = "block";
+		document.getElementById("signin_page").style.display = "block";
+		document.getElementById("signout").style.display = "none";
+		document.getElementById("link_to_createleague").style.display = "none";
+		document.getElementById("link_to_joinleague").style.display = "none";
+		document.getElementById("my_team").style.display = "none";
+		document.getElementById("my_league").style.display = "none";
+		document.getElementById("add_players").style.display = "none";
+
+		//set visibility of bottom buttons
+		document.getElementById("to_signin").style.display = "none";
+		document.getElementById("to_signup").style.display = "none";
+		document.getElementById("to_home").style.display = "none";
+
 		var data = {};
 		data.sport = 'nhl';
 		data.type = 's';
@@ -372,6 +633,25 @@ var view = (function() {
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
 		addplayerspage.style.display = 'none';
+
+		//set visibility of buttons and text
+		document.getElementById('title').innerHTML = "FantasyGenius";
+		document.getElementById('subtitle').innerHTML = "Home Page of Fantasy Genius";
+		document.getElementById("error").innerHTML = "";
+		document.getElementById("signup_page").style.display = "none";
+		document.getElementById("signin_page").style.display = "none";
+		document.getElementById("signout").style.display = "block";
+		document.getElementById("link_to_createleague").style.display = "block";
+		document.getElementById("link_to_joinleague").style.display = "block";
+		document.getElementById("my_team").style.display = "block";
+		document.getElementById("my_league").style.display = "block";
+		document.getElementById("add_players").style.display = "block";
+
+		//set visibility of bottom buttons
+		document.getElementById("to_signin").style.display = "none";
+		document.getElementById("to_signup").style.display = "none";
+		document.getElementById("to_home").style.display = "none";
+
 		var data = {};
 		data.sport = 'nhl';
 		data.type = 's';
@@ -399,6 +679,25 @@ var view = (function() {
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
 		addplayerspage.style.display = 'none';
+
+		//set visibility of buttons and text
+		document.getElementById('title').innerHTML = "FantasyGenius";
+		document.getElementById('subtitle').innerHTML = "Home Page of Fantasy Genius";
+		document.getElementById("error").innerHTML = "";
+		document.getElementById("signup_page").style.display = "none";
+		document.getElementById("signin_page").style.display = "none";
+		document.getElementById("signout").style.display = "block";
+		document.getElementById("link_to_createleague").style.display = "block";
+		document.getElementById("link_to_joinleague").style.display = "block";
+		document.getElementById("my_team").style.display = "block";
+		document.getElementById("my_league").style.display = "block";
+		document.getElementById("add_players").style.display = "block";
+
+		//set visibility of bottom buttons
+		document.getElementById("to_signin").style.display = "none";
+		document.getElementById("to_signup").style.display = "none";
+		document.getElementById("to_home").style.display = "none";
+
 		var data = {};
 		data.sport = 'nhl';
 		data.type = 's';
@@ -573,6 +872,25 @@ var view = (function() {
 				teampage.style.display = 'block';
 				leaguepage.style.display = 'none';
 				addplayerspage.style.display = 'none';
+
+				//set visibility of buttons and text
+				document.getElementById('title').innerHTML = "FantasyGenius";
+				document.getElementById('subtitle').innerHTML = "My Team";
+				document.getElementById("error").innerHTML = "";
+				document.getElementById("signup_page").style.display = "none";
+				document.getElementById("signin_page").style.display = "none";
+				document.getElementById("signout").style.display = "block";
+				document.getElementById("link_to_createleague").style.display = "none";
+				document.getElementById("link_to_joinleague").style.display = "none";
+				document.getElementById("my_team").style.display = "none";
+				document.getElementById("my_league").style.display = "block";
+				document.getElementById("add_players").style.display = "block";
+
+				//set visibility of bottom buttons
+				document.getElementById("to_signin").style.display = "none";
+				document.getElementById("to_signup").style.display = "none";
+				document.getElementById("to_home").style.display = "none";
+
 				var data = {};
 				data.username = user.username;
 				document.dispatchEvent(new CustomEvent("displayhisplayers", {detail:data}));

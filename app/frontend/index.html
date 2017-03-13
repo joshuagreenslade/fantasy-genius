@@ -10,15 +10,26 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div id="main">
+
+
+<!-- header stuff -->
 <div class="container">
   <div class="jumbotron">
-    <h1>FantasyGenius</h1>
-    <p>Future Home Page of FantasyGenius</p> 
+    <h1 id="title">FantasyGenius</h1>
+    <p id="subtitle">Future Home Page of FantasyGenius</p> 
     <button type="button" class="btn btn-link pull-right" id="signup_page">SignUp</button>
     <button type="button" class="btn btn-link pull-right" id="signin_page">SignIn</button>
+    <button type="button" class="btn btn-link pull-right" id="signout">SignOut</button>
+    <button type="button" class="btn btn-link pull-right" id="link_to_createleague">Create League</button>
+    <button type="button" class="btn btn-link pull-right" id="link_to_joinleague">Join League</button>
+    <button type="button" class="btn btn-link pull-left" id="my_team">My Team</button>
+    <button type="button" class="btn btn-link pull-left" id="my_league">My League</button>
+    <button type="button" class="btn btn-link pull-left" id="add_players">Add Players</button>
   </div>
+  <div class="container" id="error"></div>
 </div>
+
+<div id="main">
 <div class="row">
   <div class="col-md-2">
     
@@ -64,12 +75,8 @@
 </div>
 </div>
 
+
 <div class="container" id="leaguejoin">
-  <div class="jumbotron">
-    <h1>Join League</h1>
-    <p>Join a Fantasy League</p>
-    <button type="button" class="btn btn-link pull-right" id="signout">SignOut</button>
-  </div>
   <form>
   <div class="form-group">
     <label for="name">Name:</label>
@@ -83,11 +90,6 @@
 </div>
 
 <div class="container" id="signin">
-  <div class="jumbotron">
-    <h1>Signin</h1>
-    <p>Signin to Fantasy Genius</p> 
-  </div>
-  <div class="container" id="error"></div>
   <form>
   <div class="form-group">
     <label for="username">Username:</label>
@@ -102,17 +104,9 @@
   </div>
   <button type="submit" class="btn btn-default" id="signin_button">Submit</button>
 </form>
-<a href="./index.html" id="to_signup">New User?</a>
-<p>
-    <a href="./index.html" id="to_home"><span class="glyphicon glyphicon-home"></span></a>
-</p>
 </div>
 
 <div class="container" id="signup">
-  <div class="jumbotron">
-    <h1>Signup</h1>
-    <p>Signup for Fantasy Genius</p> 
-  </div>
   <form>
   <div class="form-group">
     <label for="username">Username:</label>
@@ -127,18 +121,9 @@
   </div>
   <button type="submit" class="btn btn-default" id="signup_button">Submit</button>
 </form>
-<a href="./index.html" id="to_signin">Already Have an Account?</a>
-<p>
-    <a href="./index.html" id="to_home"><span class="glyphicon glyphicon-home"></span></a>
-</p>
 </div>
 
 <div class="container" id="leaguecreate">
-  <div class="jumbotron">
-    <h1>Create League</h1>
-    <p>Create a Fantasy League</p>
-    <button type="button" class="btn btn-link pull-right" id="signout">SignOut</button>
-  </div>
   <p>Select a League:</p>
   <button type="submit" class="btn btn-default" id="hockey">Hockey</button>
   <button type="submit" class="btn btn-default" id="basketball">Basketball</button>
@@ -157,16 +142,6 @@
 </div>
 
 <div class="container" id="authenticated">
-  <div class="jumbotron">
-      <h1>FantasyGenius</h1>
-      <p>Home Page of FantasyGenius</p> 
-      <button type="button" class="btn btn-link pull-right" id="link_to_createleague">Create League</button>
-      <button type="button" class="btn btn-link pull-right" id="link_to_joinleague">Join League</button>
-      <button type="button" class="btn btn-link pull-right" id="signout">SignOut</button>
-      <button type="button" class="btn btn-link pull-left" id="my_team">My Team</button>
-      <button type="button" class="btn btn-link pull-left" id="my_league">My League</button>
-      <button type="button" class="btn btn-link pull-left" id="add_players">Add Players</button>
-  </div>
   <div class="row">
     <div class="col-md-2">
       
@@ -213,13 +188,6 @@
 </div>
 
 <div class="container" id="team_page">
-  <div class="jumbotron">
-      <h1>FantasyGenius</h1>
-      <p>My Team</p> 
-      <button type="button" class="btn btn-link pull-right" id="signout">SignOut</button>
-      <button type="button" class="btn btn-link pull-left" id="add_players">Add Players</button>
-      <button type="button" class="btn btn-link pull-left" id="my_league">My League</button>
-  </div>
   <div class="row">
     <div class="col-md-2">
       
@@ -266,13 +234,6 @@
 </div>
 
 <div class="container" id="league_page">
-  <div class="jumbotron">
-      <h1>FantasyGenius</h1>
-      <p>My League</p> 
-      <button type="button" class="btn btn-link pull-right" id="signout">SignOut</button>
-      <button type="button" class="btn btn-link pull-left" id="add_players">Add Players</button>
-      <button type="button" class="btn btn-link pull-left" id="my_team">My Team</button>
-  </div>
   <div class="row">
     <div class="col-md-2">
       
@@ -290,15 +251,6 @@
 </div>
 
 <div class="container" id="add_players_page">
-  <div class="jumbotron">
-      <h1>FantasyGenius</h1>
-      <p>Add Players to Your Team(click to add)</p> 
-      <button type="button" class="btn btn-link pull-right" id="link_to_createleague">Create League</button>
-      <button type="button" class="btn btn-link pull-right" id="link_to_joinleague">Join League</button>
-      <button type="button" class="btn btn-link pull-right" id="signout">SignOut</button>
-      <button type="button" class="btn btn-link pull-left" id="my_team">My Team</button>
-      <button type="button" class="btn btn-link pull-left" id="my_league">My League</button>
-  </div>
   <div class="row">
     <div class="col-md-2">
       
@@ -343,6 +295,15 @@
     </div>
   </div>
 </div>
+
+<!--a href="./index.html" id="to_signin">Already Have an Account?</a>
+<a href="./index.html" id="to_signup">New User?</a-->
+<a id="to_signin">Already Have an Account?</a>
+<a id="to_signup">New User?</a>
+<p>
+    <a id="to_home"><span class="glyphicon glyphicon-home"></span></a>
+</p>
+
 <script src="./js/model.js"></script>
 <script src="./js/view.js"></script>
 <script src="./js/controller.js"></script>
