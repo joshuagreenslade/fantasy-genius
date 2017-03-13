@@ -38,7 +38,14 @@ mongo.MongoClient.connect('mongodb://localhost:27017/db', function(err, db){
 	var wss = new WebSocket.Server({ server });
 
 	var validator = require('express-validator');
-	app.use(validator());
+	app.use(validator({
+		customValidators: {
+			isIntArray: function(array){
+				//check that it is an array, has only positive integers
+				return Array.isArray(array) && array.reduce(function(acc, val){return acc && !isNaN(val) && (Number.isInteger(JSON.parse(val))) && (JSON.parse(val) >= 0)}, true);
+			}
+		}
+	}));
 
 	app.use(express.static('frontend'));
 
@@ -84,6 +91,7 @@ console.log("start")
 
 						//insert each player into the db
 						var promises = [];
+						var points = {}
 						active_players.forEach(function(player){
 
 							//create a promise for each player that resolves when their stats update
@@ -141,16 +149,19 @@ console.log("start")
 											player_stuff['Played'] = "No";
 										}
 										break;
-								}
-								stats.update({playerID: player_stuff['playerID'], sport: sport}, {$set: player_stuff, $inc: {points: 0}}, {upsert: true}, function(){
-									resolve();
-								});
+								}								
+
+								//set initial stats and player info
+								points[player_stuff.playerID] = 0;
+								active_players[active_players.indexOf(player)] = player_stuff;
+								resolve();
+
 							}));
 						});
 
-						//olny update stats when all players have been initialized
+						//only update stats when all players have been initialized
 						Promise.all(promises).then(function(){
-						
+
 							//get the sport's stats
 							var url = 'https://www.mysportsfeeds.com/api/feed/pull/' + sport + '/current/daily_player_stats.json?fordate=' + year + month + day;
 							var header = {'Authorization': 'Basic dmV0aHVzaDEzOTU6Q1NDQzA5dmV0aHVzaA=='}
@@ -166,84 +177,96 @@ console.log("start")
 										var promises = [];
 										player_stats.forEach(function(player){
 
-											//create a promise for each player that resolves when their stats update
-											promises.push(new Promise(function(resolve, reject){
-												var player_stuff = {sport: sport};
-												var points = 0;
-												player_stuff['playerID'] = player.player['ID'];
+											//only update player stats who have updated stats
+											active_players.forEach(function(next_player){
+												if(next_player.playerID === player.player.ID){
+												
+													//create a promise for each player that resolves when their stats update
+													promises.push(new Promise(function(resolve, reject){
 
-												//add the player's stats
-												Object.keys(player.stats).forEach(function(key){
-													switch(sport){
-														case 'nhl':
-															var goalie = (player.player['Position'] === 'G') && ((key === 'Wins') || (key === 'Losses') || (key === 'GoalsAgainstAverage') || (key === 'SavePercentage') || (key === 'Shutouts'))
-															var skater = (player.player['Position'] !== 'G') && ((key == 'Goals') ||(key === 'Assists') || (key === 'Points') || (key === 'PlusMinus'))
-															if(goalie || skater){
-																player_stuff.Played = 'Yes';
-																player_stuff[key] = player.stats[key]['#text']
+														//add the player's stats
+														Object.keys(player.stats).forEach(function(key){
+															switch(sport){
+																case 'nhl':
+																	var goalie = (next_player['Position'] === 'G') && ((key === 'Wins') || (key === 'Losses') || (key === 'GoalsAgainstAverage') || (key === 'SavePercentage') || (key === 'Shutouts'))
+																	var skater = (next_player['Position'] !== 'G') && ((key == 'Goals') ||(key === 'Assists') || (key === 'Points') || (key === 'PlusMinus'))
+																	if(goalie || skater){
+																		next_player.Played = 'Yes';
+																		next_player[key] = player.stats[key]['#text']
+																	}
+
+																	//calculate the player's points
+																	if(goalie){
+																		switch(key){
+																			case 'Wins':
+																				points[next_player.playerID] += player.stats[key]['#text'] * 3;
+																				break;
+																			case 'GoalsAgainstAverage':
+																				var GAA = parseFloat(player.stats[key]['#text'])
+																				if((GAA >= 0) && (GAA <= 1))
+																					points[next_player.playerID] += 3;
+																				else if((GAA > 1) && (GAA <= 2))
+																					points[next_player.playerID] += 2;
+																				else if((GAA > 2) && (GAA <= 3))
+																					points[next_player.playerID] += 1;
+																				break;
+																			case 'Shutouts':
+																				points[next_player.playerID] += player.stats[key]['#text'] * 1;
+																				break;
+																		}
+																	}
+																	else if(skater){
+																		switch(key){
+																			case 'Goals':
+																				points[next_player.playerID] += player.stats[key]['#text'] * 3;
+																				break;
+																			case 'Assists':
+																				points[next_player.playerID] += player.stats[key]['#text'] * 1;
+																				break;
+																		}
+																	}
+																	break;
 															}
+														});
 
-															//calculate the player's points
-															if(goalie){
-																switch(key){
-																	case 'Wins':
-																		points += player.stats[key]['#text'] * 3;
-																		break;
-																	case 'GoalsAgainstAverage':
-																		var GAA = parseFloat(player.stats[key]['#text'])
-																		if((GAA >= 0) && (GAA <= 1))
-																			points += 3;
-																		else if((GAA > 1) && (GAA <= 2))
-																			points += 2;
-																		else if((GAA > 2) && (GAA <= 3))
-																			points += 1;
-																		break;
-																	case 'Shutouts':
-																		points += player.stats[key]['#text'] * 1;
-																		break;
-																}
-															}
-															else if(skater){
-																switch(key){
-																	case 'Goals':
-																		points += player.stats[key]['#text'] * 3;
-																		break;
-																	case 'Assists':
-																		points += player.stats[key]['#text'] * 1;
-																		break;
-																}
-															}
-															break;
-													}
-												});
-
-												//find teams who have player in their active_players array and give them the corresponding points
-												teams.find({active_players: {$elemMatch: {$gte: player_stuff.playerID, $lte: player_stuff.playerID}}}).toArray(function(err, team){
-													team.forEach(function(next_team){
-														if(team_points[next_team.owner] === undefined)
-															team_points[next_team.owner] = 0
-														team_points[next_team.owner] += points;
-													});
-
-													//update the player's stats
-													stats.update({playerID: player_stuff['playerID']}, {$set: player_stuff, $inc: {points: points}}, function(){
-														resolve();
-													});
-												});
-											}));
+														//find teams who have next_player in their active_players array and give them the corresponding points
+														teams.find({active_players: {$elemMatch: {$gte: next_player.playerID, $lte: next_player.playerID}}}).toArray(function(err, team){
+															team.forEach(function(next_team){
+																if(team_points[next_team.owner] === undefined)
+																	team_points[next_team.owner] = 0
+																team_points[next_team.owner] += points;
+															});
+															resolve();
+														});
+													}));
+												}
+											})
 										});
 
-										//only update the teams when all players have been updated
+										//only run when all player stats have been updated
 										Promise.all(promises).then(function(){
+											var promises = [];
+
+											//update all players in case their info changed
+											active_players.forEach(function(next_player){
+
+												//make sure that all stats are updated before telling users
+												promises.push(new Promise(function(resolve, reject){
+													
+													//update the player's stats and info
+													stats.update({playerID: next_player['playerID']}, {$set: next_player, $inc: {points: points[next_player.playerID]}}, {upsert: true}, resolve());
+												}));
+											});
+
+
 											var active = {}
 											var team_owners = Object.keys(team_points)
 
 											//update each team who had their points changed
 											teams.find({$or: [{modified: true}, {owner: {$in: team_owners}, sport: sport}]}, {league: 0}).toArray(function(err, modified_teams){
-												var promises = [];
 												modified_teams.forEach(function(team){
 
-													//create a promise for each team that will resolve whenthe team is updated
+													//make sure that all teams are updated before telling users
 													promises.push(new Promise(function(resolve, reject){
 														var update = {};
 
@@ -259,15 +282,13 @@ console.log("start")
 														if(active[team.owner] !== undefined)
 															update['$set'] = {active_players: active[team.owner], modified: false}
 
-														teams.update({owner: team.owner, sport: sport}, update, function(){
-															resolve();
-														});
+														teams.update({owner: team.owner, sport: sport}, update, resolve());
 													}));
 												});
 
-												//only tell the users when all the teams who got points or were modified were updated
+												//only tell the users when all the stats and all the teams who got points or were modified were updated
 												Promise.all(promises).then(function(){
-																							
+
 													//tell users that the specific sport stats have been updated
 													wss.clients.forEach(function(client){
 														if (client.readyState === WebSocket.OPEN)
@@ -339,6 +360,14 @@ wss.on('connection', function connection(ws) {
 		this.score = 0;
 	};
 
+	var Trade = function(sender, reciever, sender_players, reciever_players, league){
+		this.sender = sender;
+		this.reciever = reciever;
+		this.sender_players = sender_players;
+		this.reciever_players = reciever_players;
+		this.league = league;
+	};
+
 
 	//verify and sanitize req.body and req.params
 	var checkInput = function(req, res, next){
@@ -373,6 +402,27 @@ wss.on('connection', function connection(ws) {
 					break;
 				case 'activated_player':
 					req.checkBody(arg, "Must only contain numbers").notEmpty().isInt();
+					break;
+				case 'sender':
+					req.checkBody(arg, "Must only contain numbers and letters").notEmpty().isAlphanumeric();
+					break;
+				case 'reciever':
+					req.checkBody(arg, "Must only contain numbers and letters").notEmpty().isAlphanumeric();
+					break;
+				case 'sender_players':
+					req.checkBody(arg, "Must be an array of integers").isIntArray();
+					break;
+				case 'reciever_players':
+					req.checkBody(arg, "Must be an array of integers").isIntArray();
+					break;
+				case 'trade':
+					req.checkBody(arg, "Must only contain numbers and letters").notEmpty().isAlphanumeric();
+					break;
+				case 'original_sender_players':
+					req.checkBody(arg, "Must be an array of integers").isIntArray();
+					break;
+				case 'original_reciever_players':
+					req.checkBody(arg, "Must be an array of integers").isIntArray();
 					break;
 			}
 		});
@@ -574,7 +624,7 @@ wss.on('connection', function connection(ws) {
 	});
 
 	//add the player to the user's team
-	app.post('/api/users/:user/sports/:sport/', function(req, res, next){
+	app.post('/api/users/:user/sports/:sport/', checkInput, function(req, res, next){
 		if(req.body.playerID === undefined)
 			return res.status(400).end("Invalid body, requires a playerID");
 
@@ -683,6 +733,204 @@ wss.on('connection', function connection(ws) {
 		});
 	});
 
+	//simulates sending players from reciever to sender
+	var test_trade = function(sender, reciever, sender_players, reciever_players){
+		
+		//create a copy of sender and reciever
+		var sender = Object.assign({}, sender)
+		var reciever = Object.assign({}, reciever)
+
+		//remove the sender_players from sender's team
+		sender_players.forEach(function(player){
+			if(sender.G === player)
+				sender.G = null;
+			else if(sender.forward.indexOf(player) !== -1)
+				sender.forward[sender.forward.indexOf(player)] = null;
+			else if(sender.defence.indexOf(player) !== -1)
+				sender.defence[sender.defence.indexOf(player)] = null;
+			else if(sender.bench_forward.indexOf(player) !== -1)
+				sender.bench_forward[sender.bench_forward.indexOf(player)] = null;
+			else if(sender.bench_defence.indexOf(player) !== -1)
+				sender.bench_defence[sender.bench_defence.indexOf(player)] = null;
+		});
+
+		var error = null;
+
+		//try to add the players in reciever_players to sender's team
+		reciever_players.forEach(function(player){
+
+			//goalie
+			if(reciever.G === player){
+				if(sender.G === null)
+					sender.G = player;
+				else
+					error = sender.owner + " does not have enough space to complete the trade";
+			}
+
+			//forward
+			else if((reciever.forward.indexOf(player) !== -1) || (reciever.bench_forward.indexOf(player) !== -1)){
+				var forward_index = sender.forward.indexOf(null);
+				var bench_forward_index = sender.bench_forward.indexOf(null);
+				if(forward_index !== -1)
+					sender.forward[forward_index] = player;
+				else if(bench_forward_index !== -1)
+					sender.bench_forward[bench_forward_index] = player;
+				else
+					error = sender.owner + " does not have enough space to complete the trade";
+			}
+
+			//defence
+			else if((reciever.defence.indexOf(player) !== -1) || (reciever.bench_defence.indexOf(player) !== -1)){
+				var defence_index = sender.defence.indexOf(null);
+				var bench_defence_index = sender.bench_defence.indexOf(null);
+				if(defence_index !== -1)
+					sender.defence[defence_index] = player;
+				else if(bench_defence_index !== -1)
+					sender.bench_defence[bench_defence_index] = player;
+				else
+					error = sender.owner + " does not have enough space to complete the trade";
+			}					
+		});
+		return [error, sender];
+	};
+
+	//create a new trade between two players in the given league
+	app.post('/api/leagues/:league/trades/', checkInput, function(req, res, next){
+		if((req.body.sender === undefined) || (req.body.reciever === undefined) || (req.body.sender_players === undefined) || (req.body.reciever_players === undefined))
+			return res.status(400).end("Invalid body, requires a sender, reciever, sender_players, reciever_players");
+
+		if(!req.session.user || (req.session.user.username !== req.body.sender))
+			return res.status(403).end("Forbidden");
+
+		//convert the player ids to strings
+		var sender_players = req.body.sender_players.map(function(player){return player.toString()});
+		var reciever_players = req.body.reciever_players.map(function(player){return player.toString()});
+
+		//get the two player's teams
+		teams.find({league: req.params.league, $or: [{owner: req.body.sender}, {owner: req.body.reciever}]}).toArray(function(err, user_teams){
+			if(err) return res.status(500).end(err);
+			if(user_teams.length !== 2) return res.status(404).end("Either " + req.body.sender + " and " + req.body.reciever + " are not in the same league, or one of them do not exist or " + req.params.league + " is not a league");
+
+			//make sure that both teams have the players
+			var accepted = true;
+			var sender = user_teams[1];
+			var reciever = user_teams[0];
+			if(user_teams[0].owner === req.body.sender){
+				sender = user_teams[0];
+				reciever = user_teams[1];
+			}
+
+			//check that sender has the players
+			accepted = sender_players.reduce(function(acc, val){
+				return acc && ((sender.G === val) || (sender.forward.includes(val)) || (sender.defence.includes(val)) || (sender.bench_forward.includes(val)) || (sender.bench_defence.includes(val)))
+			}, accepted);
+
+			//check that reciever has the players
+			accepted = reciever_players.reduce(function(acc, val){
+				return acc && ((reciever.G === val) || (reciever.forward.includes(val)) || (reciever.defence.includes(val)) || (reciever.bench_forward.includes(val)) || (reciever.bench_defence.includes(val)))
+			}, accepted);
+			
+			if(!accepted)
+				return res.status(403).end(sender.owner + " does not have players " + JSON.stringify(sender_players) + " and/or " + reciever.owner + " does not have players " + JSON.stringify(reciever_players));
+
+			//simulate the test for the sender
+			var response = test_trade(sender, reciever, sender_players, reciever_players);
+			if(response[0])
+				return res.status(403).end(response[0]);
+
+			trades.insert(new Trade(sender.owner, reciever.owner, sender_players, reciever_players, req.params.league), function(err, trade){
+				if(err) return res.status(500).end(err);
+	            trade = trade.ops[0];
+
+	            //tell users a new trade was added
+				wss.clients.forEach(function(client){
+					if (client.readyState === WebSocket.OPEN)
+        				client.send(sender.owner  + " requested a trade with " + reciever.owner);
+				});
+
+	            return res.json(trade);
+			});
+
+		});
+	});
+
+	//accept a trade
+	app.post('/api/leagues/:league/trades/:trade/', checkInput, function(req, res, next){
+		if(!req.session.user)
+			return res.status(403).end("Forbidden");
+
+		//check that the trade exists and that the user is the reciever
+		var _id = mongo.ObjectID.createFromHexString(req.params.trade);
+		trades.findOne({_id: _id, reciever: req.session.user.username}, function(err, trade){
+			if(err) return res.status(500).end(err);
+			if(!trade) return res.status(404).end("There is no trade with id " + req.params.trade + " that " + req.session.user.username + " has recieved");
+
+			//check that the trade is still acceptable for both sides
+			teams.find({$or: [{owner: trade.sender}, {owner: trade.reciever}], league: req.params.league}).toArray(function(err, trade_teams){
+				if(err) return res.status(500).end(err);
+
+				var sender = trade_teams[1];
+				var reciever = trade_teams[0];
+				if(trade.sender === trade_teams[0].owner){
+					sender = trade_teams[0];
+					reciever = trade_teams[1];
+				}
+
+				var accepted = true;
+
+				//check that sender has the players
+				accepted = trade.sender_players.reduce(function(acc, val){
+					return acc && ((sender.G === val) || (sender.forward.includes(val)) || (sender.defence.includes(val)) || (sender.bench_forward.includes(val)) || (sender.bench_defence.includes(val)))
+				}, accepted);
+
+				//check that reciever has the players
+				accepted = trade.reciever_players.reduce(function(acc, val){
+					return acc && ((reciever.G === val) || (reciever.forward.includes(val)) || (reciever.defence.includes(val)) || (reciever.bench_forward.includes(val)) || (reciever.bench_defence.includes(val)))
+				}, accepted);
+
+				if(!accepted)
+					return res.status(403).end(sender.owner + " no longer has players " + JSON.stringify(trade.sender_players) + " and/or " + reciever.owner + " no longer has the players " + JSON.stringify(trade.reciever_players));
+
+
+				//simulate the trade for sender and reciever
+				var sender_trade = test_trade(sender, reciever, trade.sender_players, trade.reciever_players);
+				var reciever_trade = test_trade(reciever, sender, trade.reciever_players, trade.sender_players);
+
+				//catch errors
+				if(sender_trade[0]) return res.status(403).end(sender_trade[0]);
+				if(reciever_trade[0]) return res.status(403).end(reciever_trade[0]);
+
+				sender_trade[1].modified = true;
+				reciever_trade[1].modified = true;
+
+				//commit the trade
+				var promises = [];
+				promises.push(new Promise(function(resolve, reject){
+					teams.update({owner: sender.owner, league: req.params.league}, sender_trade[1], resolve());
+				}));
+				promises.push(new Promise(function(resolve, reject){
+					teams.update({owner: reciever.owner, league: req.params.league}, reciever_trade[1], resolve());
+				}));
+
+				//wait until the trades have been saved
+				Promise.all(promises).then(function(){
+
+					//if the traded players are part of another trade involving the sender or reciever delete those trades
+					trades.remove({$or: [{sender: sender.owner, sender_players: {$elemMatch: {$in: trade.sender_players}}}, {reciever: sender.owner, reciever_players: {$elemMatch: {$in: trade.sender_players}}}, {sender: reciever.owner, sender_players: {$elemMatch: {$in: trade.reciever_players}}}, {reciever: reciever.owner, reciever_players: {$elemMatch: {$in: trade.reciever_players}}}]}, function(){
+
+						//tell users a new trade was added
+						wss.clients.forEach(function(client){
+							if (client.readyState === WebSocket.OPEN)
+		        				client.send(reciever.owner  + " accepted a trade with " + sender.owner);
+						});
+						return res.json([sender_trade[1], reciever_trade[1]]);
+
+					});
+				});
+			});
+		});
+	});
+
 
 	//Read
 
@@ -737,7 +985,6 @@ wss.on('connection', function connection(ws) {
 				if(index !== -1)
 					team.active_players[index] = player;
 			});
-			//return res.json(team);
 			resolve(team);
 		});
 	}
@@ -772,7 +1019,7 @@ wss.on('connection', function connection(ws) {
 	});
 
 	//get all the users in the specified league
-	app.get('/api/sports/:sport/leagues/:league/teams/', function(req, res, next){
+	app.get('/api/sports/:sport/leagues/:league/teams/', checkInput, function(req, res, next){
 		if(!req.session.user) return res.status(403).end("Forbidden");
 		
 		teams.find({league: req.params.league, sport: req.params.sport}).toArray(function(err, league_teams){
@@ -811,8 +1058,10 @@ wss.on('connection', function connection(ws) {
 		var limit = req.query.limit;
 		if(limit === undefined)
 			limit = 10;
-		else if(Number.isInteger(limit))
+		else if(isNaN(limit) || !Number.isInteger(JSON.parse(limit)))
 			return res.status(400).json("Invalid arguments. Limit must be an integer and " + limit + " is not");
+		else
+			limit = JSON.parse(limit);
 
 		//get the field to sort by
 		var sortField = req.query.sortField;
@@ -882,6 +1131,98 @@ wss.on('connection', function connection(ws) {
 				return res.json(result);
 			});
 		});
+	});
+
+	//puts the player's stats inplace of their ids in the trade
+	var get_trade_players = function(resolve, reject, trade){
+		var query = trade.sender_players.concat(trade.reciever_players);
+
+		//get all the players that are in the trade
+		stats.find({playerID: {$in: query}}).toArray(function(err, players){
+			
+			//put each player in the place of the corresponding id in trade
+			players.forEach(function(player){
+
+				var sender_players_index = trade.sender_players.indexOf(player.playerID);
+				var reciever_players_index = trade.reciever_players.indexOf(player.playerID);
+				if(sender_players_index !== -1)
+					trade.sender_players[sender_players_index] = player;
+				else
+					trade.reciever_players[reciever_players_index] = player;
+			});
+			resolve(trade);
+		});
+	};
+
+	//get the trades involving the user
+	app.get('/api/leagues/:league/users/:user/trades/', checkInput, function(req, res, next){
+		if(!req.session.user || (req.session.user.username !== req.params.user))
+			return res.status(403).end("Forbidden");
+
+
+
+//need to figure out pagination (how to get trades after a certain one)
+//look at what is being done for getting players (by player id)
+
+
+
+		//default the limit to 10
+		var limit = req.query.limit;
+		if(limit === undefined)
+			limit = 10;
+		else if(isNaN(limit) || !Number.isInteger(JSON.parse(limit)))
+			return res.status(400).json("Invalid arguments. Limit must be an integer and " + limit + " is not");
+		else
+			limit = JSON.parse(limit);
+
+
+		var query = {league: req.params.league}
+		if(req.query.which === 'sent')
+			query['sender'] = req.params.user;
+		else if(req.query.which === 'recieved')
+			query['reciever'] = req.params.user;
+		else if((req.query.which === undefined) || (req.query.which === "both"))
+			query['$or'] = [{sender: req.params.user}, {reciever: req.params.user}];
+		else
+			return res.status(400).end("Invalid arguments. which must be sent, recieved, or both")
+
+		trades.find(query).limit(limit).toArray(function(err, user_trades){
+			if(err) return res.status(500).end(err);
+
+			var promises = [];
+			user_trades.forEach(function(trade){
+
+				//wait for the response from get_trade_players
+				promises.push(new Promise(function(resolve, reject){
+					get_trade_players(resolve, reject, trade);
+				}));
+			});
+
+			//wait until all trades in the leagues have their players stats in them
+			Promise.all(promises).then(function(trades){
+				return res.json(trades);
+			});
+		});
+	});
+
+	//get the specified trade involving the user
+	app.get('/api/leagues/:league/users/:user/trades/:trade', checkInput, function(req, res, next){
+		if(!req.session.user || (req.session.user.username !== req.params.user))
+			return res.status(403).end("Forbidden");
+
+		var _id = mongo.ObjectID.createFromHexString(req.params.trade);
+		trades.findOne({league: req.params.league, $or: [{sender: req.params.user}, {reciever: req.params.user}], _id: _id}, function(err, trade){
+			if(err) return res.status(500).end(err);
+			if(!trade) return res.status(404).end(req.params.user + " is not involved in a trade in the league " + req.params.league + " with id " + req.params.trade);
+
+			//wait for the response from get_trade_players
+			var promise = new Promise(function(resolve, reject){
+				get_trade_players(resolve, reject, trade);
+			});
+			promise.then(function(trade){
+				return res.json(trade);
+			});
+		})
 	});
 
 
@@ -1009,13 +1350,80 @@ wss.on('connection', function connection(ws) {
 		});
 	});
 
+	//counter a trade
+	app.patch('/api/leagues/:league/trades/:trade/', checkInput, function(req, res, next){
+		if((req.body.original_sender_players === undefined) || (req.body.original_reciever_players === undefined))
+			return res.status(400).end("Invalid body, requires sender_players and reciever_players");
+
+		if(!req.session.user)
+			return res.status(403).end("Forbidden");
+
+		//find the trade with the given id that the current user recieved in the given league
+		var _id = mongo.ObjectID.createFromHexString(req.params.trade);
+		trades.findOne({league: req.params.league, reciever: req.session.user.username, _id: _id}, function(err, trade){
+			if(err) return res.status(500).end(err);
+			if(!trade) return res.status(404).end(req.session.user.username + " has not recieved a trade in the league " + req.params.league + " with the id " + req.params.trade);
+
+			//convert the player ids to strings
+			var new_reciever_players = req.body.original_sender_players.map(function(player){return player.toString()});
+			var new_sender_players = req.body.original_reciever_players.map(function(player){return player.toString()});
+
+			//get the two player's teams
+			teams.find({league: req.params.league, $or: [{owner: trade.reciever}, {owner: trade.sender}]}).toArray(function(err, user_teams){
+				if(err) return res.status(500).end(err);
+
+				//make sure that both teams have the players
+				//old reciever is the new sender
+				var accepted = true;
+				var sender = user_teams[1];
+				var reciever = user_teams[0];
+				if(user_teams[0].owner === trade.reciever){
+					sender = user_teams[0];
+					reciever = user_teams[1];
+				}
+
+				//check that sender has the players
+				accepted = new_sender_players.reduce(function(acc, val){
+					return acc && ((sender.G === val) || (sender.forward.includes(val)) || (sender.defence.includes(val)) || (sender.bench_forward.includes(val)) || (sender.bench_defence.includes(val)))
+				}, accepted);
+
+				//check that reciever has the players
+				accepted = new_reciever_players.reduce(function(acc, val){
+					return acc && ((reciever.G === val) || (reciever.forward.includes(val)) || (reciever.defence.includes(val)) || (reciever.bench_forward.includes(val)) || (reciever.bench_defence.includes(val)))
+				}, accepted);
+				
+				if(!accepted)
+					return res.status(403).end(sender.owner + " does not have players " + JSON.stringify(new_sender_players) + " and/or " + reciever.owner + " does not have players " + JSON.stringify(new_reciever_players));
+
+				//simulate the trade for sender
+				var response = test_trade(sender, reciever, new_sender_players, new_reciever_players);
+				if(response[0])
+					return res.status(403).end(response[0]);
+
+				trades.insert(new Trade(sender.owner, reciever.owner, new_sender_players, new_reciever_players, req.params.league), function(err, trade){
+					if(err) return res.status(500).end(err);
+		            trade = trade.ops[0];
+
+		            //tell users a new trade was added
+					wss.clients.forEach(function(client){
+						if (client.readyState === WebSocket.OPEN)
+	        				client.send(sender.owner  + " countered a trade with " + reciever.owner);
+					});
+
+		            return res.json(trade);
+				});
+
+			});
+		});
+	});
+
 
 	//Delete
 
 	//removes the given player from the given user's team in the given sport
 	app.delete('/api/users/:user/sports/:sport/players/:player/', checkInput, function(req, res, next){
 
-		//only the tema's owner can modify the team
+		//only the team's owner can modify the team
 		if(!req.session.user)
 			return res.status(403).end("Forbidden");
 		if(req.session.user.username !== req.params.user)
@@ -1067,13 +1475,42 @@ wss.on('connection', function connection(ws) {
 		
 			teams.update({owner: req.params.user, sport: req.params.sport}, {$set: team}, function(){
 
-				//tell users the the users team was updated
+				//if the removed player is part of another trade involving the user delete the trade
+				trades.remove({league: team.league, $and: [{$or: [{sender: req.params.user}, {reciever: req.params.user}]}, {$or: [{sender_players: {$elemMatch: {$gte: req.params.player, $lte: req.params.player}}}, {reciever_players: {$elemMatch: {$gte: req.params.player, $lte: req.params.player}}}]}]}, function(){
+
+					//tell users that the users team was updated
+					wss.clients.forEach(function(client){
+						if (client.readyState === WebSocket.OPEN)
+		    				client.send(req.params.user + "'s team updated");
+		    		});
+
+					return res.json(req.params.player);
+				});
+			});
+		});
+	});
+
+	//remove a trade from the db of trades
+	app.delete('/api/leagues/:league/trades/:trade/', checkInput, function(req, res, next){
+		if(!req.session.user)
+			return res.status(403).end("Forbidden");
+
+		//make sure that the user is either the sender or reciever of the trade
+		var _id = mongo.ObjectID.createFromHexString(req.params.trade);
+		trades.findOne({$or: [{sender: req.session.user.username}, {reciever: req.session.user.username}], _id: _id}, function(err, trade){
+			if(err) return res.status(500).end(err);
+			if(!trade) return res.status(404).end("there is no trade with id " + req.params.trade + " that " + req.session.user.username + " sent or recieved");
+
+			//remove the trade
+			trades.remove({_id: _id}, function(){
+
+				//tell users that the trade was deleted
 				wss.clients.forEach(function(client){
 					if (client.readyState === WebSocket.OPEN)
-	    				client.send(req.params.user + "'s team updated");
+	    				client.send("trade between " + trade.sender + " and " + trade.reciever + "was deleted");
 	    		});
 
-				return res.json(req.params.player);
+	    		return res.json(_id);
 			});
 		});
 	});
