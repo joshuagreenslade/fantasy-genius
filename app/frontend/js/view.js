@@ -16,8 +16,8 @@ var view = (function() {
 		leaguepage.style.display = 'none';
 
 		//set visibility of buttons and text
-		document.getElementById('title').innerHTML = "Join League";
-		document.getElementById('subtitle').innerHTML = "Join a Fantasy League";
+		document.getElementById('title').innerHTML = "FantasyGenius";
+		document.getElementById('subtitle').innerHTML = "Home Page of FantasyGenius";
 		document.getElementById("error").innerHTML = "";
 		document.getElementById("signup_page").style.display = "block";
 		document.getElementById("signin_page").style.display = "block";
@@ -127,8 +127,8 @@ var view = (function() {
 		leaguepage.style.display = 'none';
 
 		//set visibility of buttons and text
-		document.getElementById('title').innerHTML = "Join League";
-		document.getElementById('subtitle').innerHTML = "Join a Fantasy League";
+		document.getElementById('title').innerHTML = "FantasyGenius";
+		document.getElementById('subtitle').innerHTML = "Home of FantasyGenius";
 		document.getElementById("error").innerHTML = "";
 		document.getElementById("signup_page").style.display = "block";
 		document.getElementById("signin_page").style.display = "block";
@@ -326,8 +326,8 @@ var view = (function() {
 		main.style.display = 'block';
 
 		//set visibility of buttons and text
-		document.getElementById('title').innerHTML = "Join League";
-		document.getElementById('subtitle').innerHTML = "Join a Fantasy League";
+		document.getElementById('title').innerHTML = "FantasyGenius";
+		document.getElementById('subtitle').innerHTML = "Home of FantasyGenius";
 		document.getElementById("error").innerHTML = "";
 		document.getElementById("signup_page").style.display = "block";
 		document.getElementById("signin_page").style.display = "block";
@@ -537,8 +537,8 @@ var view = (function() {
 		leaguepage.style.display = 'none';
 
 		//set visibility of buttons and text
-		document.getElementById('title').innerHTML = "Join League";
-		document.getElementById('subtitle').innerHTML = "Join a Fantasy League";
+		document.getElementById('title').innerHTML = "FantasyGenius";
+		document.getElementById('subtitle').innerHTML = "Home of FantasyGenius";
 		document.getElementById("error").innerHTML = "";
 		document.getElementById("signup_page").style.display = "block";
 		document.getElementById("signin_page").style.display = "block";
@@ -645,73 +645,68 @@ var view = (function() {
 		data.type = 'g';
 		document.dispatchEvent(new CustomEvent("getallgoalies", {detail:data}));
 	};
-
+	//displaying users after joining fails, trying to display team after joining displays admins team
 	view.displayplayers = function(data){
-		var goaliedisplay = document.getElementById("yourgoalie");
-		var playerdisplay = document.getElementById("yourplayers")
+		var goaliedisplay = document.getElementById("your_goalies");
+		var playerdisplay = document.getElementById("your_players");
 		var goalie = data.G;
 		goaliedisplay.innerHTML = "";
 		if(goalie !== null){
-			var e = document.createElement("div");
+			var e = document.createElement("tr");
 			e.id = goalie.playerID;
-			e.classname = "list-group";
-			e.innerHTML = `<a href="#" class="list_group_item">${goalie.LastName}${goalie.FirstName}${goalie.Position}
-								${goalie.City}${goalie.Name}${goalie.Abbreviation}
-								${goalie.Wins}${goalie.Losses}${goalie.GoalsAgainstAverage}
-								${goalie.SavePercentage}${goalie.Shutouts}${goalie.Played}
-								${goalie.points}</a>`;
+			e.innerHTML = `<td>${goalie.LastName}</td><td>${goalie.FirstName}</td><td>${goalie.Position}</td>
+								<td>${goalie.City}</td><td>${goalie.Name}</td><td>${goalie.Abbreviation}</td>
+								<td>${goalie.Wins}</td><td>${goalie.Losses}</td><td>${goalie.GoalsAgainstAverage}</td>
+								<td>${goalie.SavePercentage}</td><td>${goalie.Shutouts}</td><td>${goalie.Played}</td>
+								<td>${goalie.points}</td>`;
 			goaliedisplay.prepend(e);
 		}
 		playerdisplay.innerHTML = "";
 		var players = data.forward;
 		players.forEach(function(player){
 			if(player !== null){
-				var e = document.createElement("div");
-				e.classname = "list-group";
+				var e = document.createElement("tr");
 				e.id = player.playerID;
-				e.innerHTML = `<a href="#" class="list-group-item">${player.LastName}${player.FirstName}${player.Position}
-								${player.City}${player.Name}${player.Abbreviation}
-								${player.Goals}${player.Assists}${player.Points}
-								${player.PlusMinus}${player.Played}${player.points}</a>`;
+				e.innerHTML = `<td>${player.LastName}</td><td>${player.FirstName}</td><td>${player.Position}</td>
+								<td>${player.City}</td><td>${player.Name}</td><td>${player.Abbreviation}</td>
+								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
+								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				playerdisplay.prepend(e);
 			}
 		});
 		players = data.defence;
 		players.forEach(function(player){
 			if(player !== null){
-				var e = document.createElement("div");
-				e.classname = "list-group";
+				var e = document.createElement("tr");
 				e.id = player.playerID;
-				e.innerHTML = `<a href="#" class="list-group-item">${player.LastName}${player.FirstName}${player.Position}
-								${player.City}${player.Name}${player.Abbreviation}
-								${player.Goals}${player.Assists}${player.Points}
-								${player.PlusMinus}${player.Played}${player.points}</a>`;
+				e.innerHTML = `<td>${player.LastName}</td><td>${player.FirstName}</td><td>${player.Position}</td>
+								<td>${player.City}</td><td>${player.Name}</td><td>${player.Abbreviation}</td>
+								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
+								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				playerdisplay.prepend(e);
 			}
 		});
 		players = data.bench_forward;
 		players.forEach(function(player){
 			if(player !== null){
-				var e = document.createElement("div");
-				e.classname = "list-group";
+				var e = document.createElement("tr");
 				e.id = player.playerID;
-				e.innerHTML = `<a href="#" class="list-group-item">${player.LastName}${player.FirstName}${player.Position}
-								${player.City}${player.Name}${player.Abbreviation}
-								${player.Goals}${player.Assists}${player.Points}
-								${player.PlusMinus}${player.Played}${player.points}</a>`;
+				e.innerHTML = `<td>${player.LastName}</td><td>${player.FirstName}</td><td>${player.Position}</td>
+								<td>${player.City}</td><td>${player.Name}</td><td>${player.Abbreviation}</td>
+								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
+								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				playerdisplay.prepend(e);
 			}
 		});
 		players = data.bench_defence;
 		players.forEach(function(player){
 			if(player !== null){
-				var e = document.createElement("div");
-				e.classname = "list-group";
+				var e = document.createElement("tr");
 				e.id = player.playerID;
-				e.innerHTML = `<a href="#" class="list-group-item">${player.LastName}${player.FirstName}${player.Position}
-								${player.City}${player.Name}${player.Abbreviation}
-								${player.Goals}${player.Assists}${player.Points}
-								${player.PlusMinus}${player.Played}${player.points}</a>`;
+				e.innerHTML = `<td>${player.LastName}</td><td>${player.FirstName}</td><td>${player.Position}</td>
+								<td>${player.City}</td><td>${player.Name}</td><td>${player.Abbreviation}</td>
+								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
+								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				playerdisplay.prepend(e);
 			}
 		});
@@ -721,13 +716,12 @@ var view = (function() {
 		var playerdisplay = document.getElementById("players");
 		playerdisplay.innerHTML = "";
 		data.forEach(function(player){
-			var e = document.createElement("div");
-			e.classname = "list-group";
+			var e = document.createElement("tr");
 			e.id = player.playerID;
-			e.innerHTML = `<a href="#" class="list-group-item">${player.LastName}${player.FirstName}${player.Position}
-							${player.City}${player.Name}${player.Abbreviation}
-							${player.Goals}${player.Assists}${player.Points}
-							${player.PlusMinus}${player.Played}${player.points}</a>`;
+			e.innerHTML = `<td>${player.LastName}</td><td>${player.FirstName}</td><td>${player.Position}</td>
+								<td>${player.City}</td><td>${player.Name}</td><td>${player.Abbreviation}</td>
+								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
+								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 			playerdisplay.prepend(e);
 		});
 	};
@@ -736,14 +730,13 @@ var view = (function() {
 		var goaliedisplay = document.getElementById("goalies");
 		goaliedisplay.innerHTML = "";
 		data.forEach(function(goalie){
-			var e = document.createElement("div");
-			e.classname = "list-group";
+			var e = document.createElement("tr");
 			e.id = goalie.playerID;
-			e.innerHTML = `<a href="#" class="list-group-item">${goalie.LastName}${goalie.FirstName}${goalie.Position}
-							${goalie.City}${goalie.Name}${goalie.Abbreviation}
-							${goalie.Wins}${goalie.Losses}${goalie.GoalsAgainstAverage}
-							${goalie.SavePercentage}${goalie.Shutouts}${goalie.Played}
-							${goalie.Points}</a>`;
+			e.innerHTML = `<td>${goalie.LastName}</td><td>${goalie.FirstName}</td><td>${goalie.Position}</td>
+								<td>${goalie.City}</td><td>${goalie.Name}</td><td>${goalie.Abbreviation}</td>
+								<td>${goalie.Wins}</td><td>${goalie.Losses}</td><td>${goalie.GoalsAgainstAverage}</td>
+								<td>${goalie.SavePercentage}</td><td>${goalie.Shutouts}</td><td>${goalie.Played}</td>
+								<td>${goalie.points}</td>`;
 			goaliedisplay.prepend(e);
 		});
 	};
@@ -752,13 +745,12 @@ var view = (function() {
 		var playerdisplay = document.getElementById("players");
 		playerdisplay.innerHTML = "";
 		data.forEach(function(player){
-			var e = document.createElement("div");
-			e.classname = "list-group";
+			var e = document.createElement("tr");
 			e.id = player.playerID;
-			e.innerHTML = `<a href="#" class="list-group-item">${player.LastName}${player.FirstName}${player.Position}
-							${player.City}${player.Name}${player.Abbreviation}
-							${player.Goals}${player.Assists}${player.Points}
-							${player.PlusMinus}${player.Played}${player.points}</a>`;
+			e.innerHTML = `<td>${player.LastName}</td><td>${player.FirstName}</td><td>${player.Position}</td>
+								<td>${player.City}</td><td>${player.Name}</td><td>${player.Abbreviation}</td>
+								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
+								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 			playerdisplay.prepend(e);
 			e.onclick = function(e){
 				e.preventDefault();
@@ -774,14 +766,13 @@ var view = (function() {
 		var goaliedisplay = document.getElementById("goalies");
 		goaliedisplay.innerHTML = "";
 		data.forEach(function(goalie){
-			var e = document.createElement("div");
-			e.classname = "list-group";
+			var e = document.createElement("tr");
 			e.id = goalie.playerID;
-			e.innerHTML = `<a href="#" class="list-group-item">${goalie.LastName}${goalie.FirstName}${goalie.Position}
-							${goalie.City}${goalie.Name}${goalie.Abbreviation}
-							${goalie.Wins}${goalie.Losses}${goalie.GoalsAgainstAverage}
-							${goalie.SavePercentage}${goalie.Shutouts}${goalie.Played}
-							${goalie.Points}</a>`;
+			e.innerHTML = `<td>${goalie.LastName}</td><td>${goalie.FirstName}</td><td>${goalie.Position}</td>
+								<td>${goalie.City}</td><td>${goalie.Name}</td><td>${goalie.Abbreviation}</td>
+								<td>${goalie.Wins}</td><td>${goalie.Losses}</td><td>${goalie.GoalsAgainstAverage}</td>
+								<td>${goalie.SavePercentage}</td><td>${goalie.Shutouts}</td><td>${goalie.Played}</td>
+								<td>${goalie.points}</td>`;
 			goaliedisplay.prepend(e);
 			e.onclick = function(e){
 				e.preventDefault();
@@ -821,7 +812,7 @@ var view = (function() {
 
 				//set visibility of buttons and text
 				document.getElementById('title').innerHTML = "FantasyGenius";
-				document.getElementById('subtitle').innerHTML = "My Team";
+				document.getElementById('subtitle').innerHTML = "My League";
 				document.getElementById("error").innerHTML = "";
 				document.getElementById("signup_page").style.display = "none";
 				document.getElementById("signin_page").style.display = "none";
