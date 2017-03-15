@@ -245,7 +245,7 @@ console.log("start")
 														});
 													}));
 												}
-											})
+											});
 										});
 
 										//only run when all player stats have been updated
@@ -539,6 +539,7 @@ wss.on('connection', function connection(ws) {
 			if(league) return res.status(409).end("League " + league.name + " already exists");
 
 			var team;
+			var league;
 
 			//set the user's corresponding league variable to the new league's name
 			switch(req.body.sport){
@@ -548,8 +549,7 @@ wss.on('connection', function connection(ws) {
 					if(req.session.user.nhl_league !== null)
 						return res.status(403).end(req.session.user.username + " is already in a league for the " + req.body.sport);
 
-					req.session.user.nhl_league = req.body.name;
-					users.update({username: req.session.user.username}, {$set: {nhl_league: req.body.name}});
+					league = {nhl_league: req.body.name};
 
 					//create a new team for the current user
 					team = new NHL_Team(req.session.user, req.body.name);
@@ -559,24 +559,48 @@ wss.on('connection', function connection(ws) {
 					break;
 			}
 
-			//create the league
-			req.body.username = req.session.user.username;
-			leagues.insert(new League(req.body), function(err, new_league){
-	            if (err) return res.status(500).end(err);
-	            new_league = new_league.ops[0];
+			//alow the 3 independent db calls to be run in 'parallel'
+			var promises = [];
+			promises.push(new Promise(function(resolve, reject){
 
+				//create the league
+				req.body.username = req.session.user.username;
+				leagues.insert(new League(req.body), function(err, new_league){
+		            if (err) return res.status(500).end(err);
+		            new_league = new_league.ops[0];
+		            resolve(new_league);
+				});
+			}));
+
+			promises.push(new Promise(function(resolve, reject){
+
+				//update the user's league
+				users.update({username: req.session.user.username}, {$set: league}, function(err){
+					if (err) return res.status(500).end(err);
+					req.session.user[req.body.sport + '_league'] = req.body.name;
+					resolve();
+				});
+			}));
+			
+			promises.push(new Promise(function(resolve, reject){
+
+				//create a new team for the user
 	            teams.insert(team, function(err){
 	            	if (err) return res.status(500).end(err);
-
-		            //tell users a new league was created
-					wss.clients.forEach(function(client){
-						if (client.readyState === WebSocket.OPEN)
-		    				client.send("new league created");
-					});
-
-		            return res.json(new_league);
+	            	resolve();
 	            });
-			});
+	        }));
+
+			Promise.all(promises).then(function(response){
+
+	            //tell users a new league was created
+				wss.clients.forEach(function(client){
+					if (client.readyState === WebSocket.OPEN)
+	    				client.send("new league created");
+				});
+
+	            return res.json(response[0]);
+	        });
 		});
 	});
 
@@ -614,8 +638,10 @@ wss.on('connection', function connection(ws) {
 						if(req.session.user.nhl_league !== null)
 							return res.status(409).end(req.session.user.username + " is already in a league for the " + result.sport);
 
+						league = {nhl_league: req.body.name};
+
 						req.session.user.nhl_league = req.params.league;
-						users.update({username: req.session.user.username}, {$set: {nhl_league: req.params.league}});
+						//users.update({username: req.session.user.username}, {$set: {nhl_league: req.params.league}});
 
 						//create a new team for the current user
 						team = new NHL_Team(req.session.user, req.params.league);
@@ -625,7 +651,26 @@ wss.on('connection', function connection(ws) {
 						break;
 				}
 
-				teams.insert(team, function(err){
+				//alow the 2 independent db calls to be run in 'parallel'
+				var promises = [];
+				promises.push(new Promise(function(resolve, reject){
+
+					//update the user's league
+					users.update({username: req.session.user.username}, {$set: league}, function(err){
+						if(err) return res.status(500).end(err);
+						resolve();
+					});
+				}));
+				promises.push(new Promise(function(resolve, reject){
+
+					//create a team for the user
+					teams.insert(team, function(err){
+						if(err) return res.status(500).end(err);
+						resolve();
+				    });
+				}));
+
+				Promise.all(promises).then(function(){
 
 		            //tell users a new user was added to the league
 					wss.clients.forEach(function(client){
