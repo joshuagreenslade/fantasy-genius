@@ -79,7 +79,7 @@ var model = (function() {
 					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
 					return;
 				} else {
-					activeleague = JSON.parse(this.responseText).league;
+					activeleague = JSON.parse(this.responseText).name;
 					document.dispatchEvent(new CustomEvent("leaguejoined"));
 				}
 			}

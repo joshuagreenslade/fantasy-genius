@@ -659,7 +659,7 @@ var view = (function() {
 								<td>${goalie.Wins}</td><td>${goalie.Losses}</td><td>${goalie.GoalsAgainstAverage}</td>
 								<td>${goalie.SavePercentage}</td><td>${goalie.Shutouts}</td><td>${goalie.Played}</td>
 								<td>${goalie.points}</td>`;
-			goaliedisplay.prepend(e);
+			goaliedisplay.append(e);
 		}
 		playerdisplay.innerHTML = "";
 		var players = data.forward;
@@ -671,7 +671,7 @@ var view = (function() {
 								<td>${player.City}</td><td>${player.Name}</td><td>${player.Abbreviation}</td>
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
-				playerdisplay.prepend(e);
+				playerdisplay.append(e);
 			}
 		});
 		players = data.defence;
@@ -683,7 +683,7 @@ var view = (function() {
 								<td>${player.City}</td><td>${player.Name}</td><td>${player.Abbreviation}</td>
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
-				playerdisplay.prepend(e);
+				playerdisplay.append(e);
 			}
 		});
 		players = data.bench_forward;
@@ -695,7 +695,7 @@ var view = (function() {
 								<td>${player.City}</td><td>${player.Name}</td><td>${player.Abbreviation}</td>
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
-				playerdisplay.prepend(e);
+				playerdisplay.append(e);
 			}
 		});
 		players = data.bench_defence;
@@ -707,7 +707,7 @@ var view = (function() {
 								<td>${player.City}</td><td>${player.Name}</td><td>${player.Abbreviation}</td>
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
-				playerdisplay.prepend(e);
+				playerdisplay.append(e);
 			}
 		});
 	};
@@ -722,7 +722,7 @@ var view = (function() {
 								<td>${player.City}</td><td>${player.Name}</td><td>${player.Abbreviation}</td>
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
-			playerdisplay.prepend(e);
+			playerdisplay.append(e);
 		});
 	};
 
@@ -737,7 +737,7 @@ var view = (function() {
 								<td>${goalie.Wins}</td><td>${goalie.Losses}</td><td>${goalie.GoalsAgainstAverage}</td>
 								<td>${goalie.SavePercentage}</td><td>${goalie.Shutouts}</td><td>${goalie.Played}</td>
 								<td>${goalie.points}</td>`;
-			goaliedisplay.prepend(e);
+			goaliedisplay.append(e);
 		});
 	};
 
@@ -751,7 +751,7 @@ var view = (function() {
 								<td>${player.City}</td><td>${player.Name}</td><td>${player.Abbreviation}</td>
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
-			playerdisplay.prepend(e);
+			playerdisplay.append(e);
 			e.onclick = function(e){
 				e.preventDefault();
 				var data = {};
@@ -773,7 +773,7 @@ var view = (function() {
 								<td>${goalie.Wins}</td><td>${goalie.Losses}</td><td>${goalie.GoalsAgainstAverage}</td>
 								<td>${goalie.SavePercentage}</td><td>${goalie.Shutouts}</td><td>${goalie.Played}</td>
 								<td>${goalie.points}</td>`;
-			goaliedisplay.prepend(e);
+			goaliedisplay.append(e);
 			e.onclick = function(e){
 				e.preventDefault();
 				var data = {};
@@ -792,7 +792,7 @@ var view = (function() {
 			e.classname = "list-group";
 			e.id = user.owner;
 			e.innerHTML = `<a href="#" class="list-group-item">${user.owner}</a>`;
-			userdisplay.prepend(e);
+			userdisplay.append(e);
 			e.onclick = function(e){
 				e.preventDefault();
 				var main = document.getElementById("main");
