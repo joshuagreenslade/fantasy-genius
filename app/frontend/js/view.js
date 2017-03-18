@@ -729,13 +729,13 @@ var view = (function() {
 	};
 
 	view.displayusers = function(data){
-		var userdisplay = document.getElementById("leagueusers");
+		var userdisplay = document.getElementById("users");
 		userdisplay.innerHTML = "";
 		data.forEach(function(user){
-			var e = document.createElement("div");
+			var e = document.createElement("tr");
 			e.classname = "list-group";
 			e.id = user.owner;
-			e.innerHTML = `<a href="#" class="list-group-item">${user.owner}</a>`;
+			e.innerHTML = `<td>${user.owner}</td><td>${user.score}</td>`;
 			userdisplay.append(e);
 			e.onclick = function(e){
 				e.preventDefault();
