@@ -638,9 +638,9 @@ wss.on('connection', function connection(ws) {
 						if(req.session.user.nhl_league !== null)
 							return res.status(409).end(req.session.user.username + " is already in a league for the " + result.sport);
 
-						league = {nhl_league: req.body.name};
+						league = {nhl_league: req.params.league};
 
-						req.session.user.nhl_league = req.params.league;
+						
 						//users.update({username: req.session.user.username}, {$set: {nhl_league: req.params.league}});
 
 						//create a new team for the current user
@@ -658,6 +658,7 @@ wss.on('connection', function connection(ws) {
 					//update the user's league
 					users.update({username: req.session.user.username}, {$set: league}, function(err){
 						if(err) return res.status(500).end(err);
+						req.session.user[req.body.sport + '_league'] = req.params.league;
 						resolve();
 					});
 				}));
@@ -1011,13 +1012,26 @@ wss.on('connection', function connection(ws) {
 
 	//Read
 
+	//get the current user
+	app.get('/api/users/currentUser/', checkInput, function(req, res, next){
+		if(!req.session.user)
+			return res.json(null);
+
+		//get the user
+		users.findOne({username: req.session.user.username}, {salt: 0, saltedHash: 0}, function(err, user){
+			if(err) return res.status(500).end(err);
+			if(!user) return res.status(404).end("User " + req.params.user + " does not exist");
+			return res.json(user);
+		});
+	});
+
 	//get the specified user
 	app.get('/api/users/:user/', checkInput, function(req, res, next){
 		if(!req.session.user)
 			return res.status(403).end("Forbidden");
 
 		//get the user
-		users.findOne({username: req.session.user.username}, {salt: 0, saltedHash: 0}, function(err, user){
+		users.findOne({username: req.params.user}, {salt: 0, saltedHash: 0}, function(err, user){
 			if(err) return res.status(500).end(err);
 			if(!user) return res.status(404).end("User " + req.params.user + " does not exist");
 			return res.json(user);

@@ -1,4 +1,16 @@
 (function(model, view){
+	document.addEventListener('pageloaded', function(e){
+		model.pageloaded();
+	});
+
+	document.addEventListener('loadmain', function(e){
+		view.loadmain();
+	});
+	
+	document.addEventListener('loadteam', function(e){
+		view.loadteam();
+	});
+
 	document.addEventListener('credentialsSent', function(e){
 		model.signin(e.detail);
 	});
@@ -8,11 +20,7 @@
 	});
 
 	document.addEventListener('signedin', function(e){
-		view.authenticated();
-	});
-
-	document.addEventListener('signedup', function(e){
-		view.usercreated();
+		view.authenticated(e.detail);
 	});
 
 	document.addEventListener('usercreated', function(e){

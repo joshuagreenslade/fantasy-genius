@@ -5,6 +5,29 @@ var model = (function() {
 	var activeleague;
 
 	var model = {};
+	model.pageloaded = function(){
+		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
+		var url = "/api/users/currentUser/"; // the full url http:// ...
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === XMLHttpRequest.DONE) {
+    			if(JSON.parse(this.responseText) === null){
+    				activeuser = null;
+					activeleague = null;
+					document.dispatchEvent(new CustomEvent("loadmain"));
+    			}
+    			else{
+        			activeuser = JSON.parse(this.responseText).username;
+					activeleague = JSON.parse(this.responseText).nhl_league;
+					var data = {activeuser: activeuser, activeleague: activeleague};
+	            	document.dispatchEvent(new CustomEvent("signedin", {detail: data}));
+	            }
+        	}
+    	};
+		xhr.open(method, url, true);
+		xhr.send(null);
+	};
+
 	model.signin = function(data) {
 		var method = "POST"; // either POST, PUT, GET, PATCH, DELETE
 		var url = "/api/signin/"; // the full url http:// ...
@@ -18,7 +41,8 @@ var model = (function() {
 				} else {
 					activeuser = JSON.parse(this.responseText).username;
 					activeleague = JSON.parse(this.responseText).nhl_league;
-					document.dispatchEvent(new CustomEvent("signedin"));
+					var data = {activeuser: activeuser, activeleague: activeleague};
+					document.dispatchEvent(new CustomEvent("signedin", {detail: data}));
 				}
 			}
 		};
@@ -38,7 +62,10 @@ var model = (function() {
 					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
 					return;
 				} else {
-					document.dispatchEvent(new CustomEvent("signedup"));
+					activeuser = JSON.parse(this.responseText).username;
+					activeleague = JSON.parse(this.responseText).nhl_league;
+					var data = {activeuser: activeuser, activeleague: activeleague};
+					document.dispatchEvent(new CustomEvent("signedin", {detail: data}));
 				}
 			}
 		};
@@ -60,6 +87,7 @@ var model = (function() {
 				}
 				else{
 					activeuser = null;
+					activeleague = null;
 				}
 			}
 		};
@@ -120,6 +148,9 @@ var model = (function() {
 				if (this.status >= 400) {
 					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
 					return;
+				}
+				else{
+					document.dispatchEvent(new CustomEvent("loadteam"));
 				}
 			}
 		};
