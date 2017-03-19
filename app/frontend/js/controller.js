@@ -43,8 +43,12 @@
 		view.leaguecreated(e.detail);
 	});
 
-	document.addEventListener('signedout', function(e){
+	document.addEventListener('signout', function(e){
 		model.signout(e.detail);
+	});
+
+	document.addEventListener('signedout', function(e){
+		view.signedout(e.detail);
 	});
 
 	document.addEventListener('displayplayers', function(e){

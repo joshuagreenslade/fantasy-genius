@@ -3,6 +3,7 @@ var model = (function() {
 
 	var activeuser;
 	var activeleague;
+	var activesport
 
 	var model = {};
 	model.pageloaded = function(){
@@ -19,7 +20,11 @@ var model = (function() {
     			else{
         			activeuser = JSON.parse(this.responseText).username;
 					activeleague = JSON.parse(this.responseText).nhl_league;
-					var data = {activeuser: activeuser, activeleague: activeleague};
+					activesport = 'nhl';
+					if(activeleague === null){
+						//try another sport
+					}
+					var data = {activeuser: activeuser, activeleague: activeleague, activesport: activesport};
 	            	document.dispatchEvent(new CustomEvent("signedin", {detail: data}));
 	            }
         	}
@@ -41,7 +46,11 @@ var model = (function() {
 				} else {
 					activeuser = JSON.parse(this.responseText).username;
 					activeleague = JSON.parse(this.responseText).nhl_league;
-					var data = {activeuser: activeuser, activeleague: activeleague};
+					activesport = 'nhl';
+					if(activeleague === null){
+						//try another sport
+					}
+					var data = {activeuser: activeuser, activeleague: activeleague, activesport: activesport};
 					document.dispatchEvent(new CustomEvent("signedin", {detail: data}));
 				}
 			}
@@ -64,7 +73,11 @@ var model = (function() {
 				} else {
 					activeuser = JSON.parse(this.responseText).username;
 					activeleague = JSON.parse(this.responseText).nhl_league;
-					var data = {activeuser: activeuser, activeleague: activeleague};
+					activesport = 'nhl';
+					if(activeleague === null){
+						//try another sport
+					}
+					var data = {activeuser: activeuser, activeleague: activeleague, activesport: activesport};
 					document.dispatchEvent(new CustomEvent("signedin", {detail: data}));
 				}
 			}
@@ -88,6 +101,7 @@ var model = (function() {
 				else{
 					activeuser = null;
 					activeleague = null;
+					document.dispatchEvent(new CustomEvent("signedout", {detail: activesport}));
 				}
 			}
 		};
@@ -289,7 +303,9 @@ var model = (function() {
 					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
 					return;
 				} else {
-					document.dispatchEvent(new CustomEvent("displayusers", {detail: JSON.parse(this.responseText)}));
+					var teams = JSON.parse(this.responseText)
+					teams[teams.length] = {sport: activesport, league: activeleague};
+					document.dispatchEvent(new CustomEvent("displayusers", {detail: teams}));
 				}
 			}
 		};

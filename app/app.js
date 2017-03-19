@@ -287,7 +287,15 @@ console.log("start")
 														if(active[team.owner] !== undefined)
 															update['$set'] = {active_players: active[team.owner], modified: false}
 
-														teams.update({owner: team.owner, sport: sport}, update, resolve());
+														teams.update({owner: team.owner, sport: sport}, update, function(){
+															
+															//tell users that the specific user's team has been updated
+															wss.clients.forEach(function(client){
+																if (client.readyState === WebSocket.OPEN)
+											        				client.send(team.owner + "'s team updated");
+															});
+															resolve()
+														});
 													}));
 												});
 
@@ -512,13 +520,6 @@ wss.on('connection', function connection(ws) {
 	            if (err) return res.status(500).end(err);
 	            user = user.ops[0];
 	            req.session.user = user;
-
-	            //tell users a new one was added
-				wss.clients.forEach(function(client){
-					if (client.readyState === WebSocket.OPEN)
-        				client.send("new user added");
-				});
-
 	            return res.json(user);
 			});
 		});
@@ -592,13 +593,6 @@ wss.on('connection', function connection(ws) {
 	        }));
 
 			Promise.all(promises).then(function(response){
-
-	            //tell users a new league was created
-				wss.clients.forEach(function(client){
-					if (client.readyState === WebSocket.OPEN)
-	    				client.send("new league created");
-				});
-
 	            return res.json(response[0]);
 	        });
 		});
@@ -798,7 +792,7 @@ wss.on('connection', function connection(ws) {
 		            //tell users a new player was added the user's team
 					wss.clients.forEach(function(client){
 						if (client.readyState === WebSocket.OPEN)
-		    				client.send("new player added to " + req.params.user + "'s team");
+		    				client.send(req.params.user + "'s team updated");
 					});
 
 					return res.json(team);
@@ -1086,7 +1080,7 @@ wss.on('connection', function connection(ws) {
 		if(!req.session.user) return res.status(403).end("Forbidden");
 
 		//get the given user's team in the given league
-		teams.findOne({owner: req.params.user, league: req.params.league}, {owner: 0, league: 0, score: 0, _id: 0, sport: 0}, function(err, team){
+		teams.findOne({owner: req.params.user, league: req.params.league}, {league: 0, score: 0, _id: 0}, function(err, team){
 			if(err) return res.status(500).end(err);
 			if(!team) return res.status(404).end("User " + req.params.user + " is not in league " + req.params.league);
 

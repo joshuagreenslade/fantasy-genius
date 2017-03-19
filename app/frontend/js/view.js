@@ -1,10 +1,21 @@
 var view = (function() {
 	"use strict";
 
+	var socket;
+	var socketparam = null;
+	
 	window.onload = function() {
+		socket = new WebSocket("wss://" + window.location.host)
 		document.dispatchEvent(new CustomEvent("pageloaded"));
 	}
+	window.onunload = function(){
+		socket.close();
+	}
 	document.getElementById('to_signin').onclick = function(e) {
+
+		//reset the socket listener
+		socket.onmessage = function(event){};
+
 		var main = document.getElementById("main");
 		main.style.display = 'none';
 		var leaguejoin = document.getElementById("leaguejoin");
@@ -40,6 +51,10 @@ var view = (function() {
 	}
 
 	document.getElementById('to_signup').onclick = function(e) {
+
+		//reset the socket listener
+		socket.onmessage = function(event){};
+
 		var main = document.getElementById("main");
 		main.style.display = 'none';
 		var leaguejoin = document.getElementById("leaguejoin");
@@ -75,10 +90,18 @@ var view = (function() {
 	}
 
 	document.getElementById('to_home').onclick = function(e) {
+
+		//reset the socket listener
+		socket.onmessage = function(event){};
+
 		document.dispatchEvent(new CustomEvent("pageloaded"));
 	}
 	//for signin button on main page
 	document.getElementById('signin_page').onclick = function(e) {
+
+		//reset the socket listener
+		socket.onmessage = function(event){};
+
 		var main = document.getElementById("main");
 		main.style.display = 'none';
 		var leaguejoin = document.getElementById("leaguejoin");
@@ -111,10 +134,13 @@ var view = (function() {
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "block";
 		document.getElementById("to_home").style.display = "block";
-
-	}
+	};
 
 	document.getElementById('signup_page').onclick = function(e) {
+
+		//reset the socket listener
+		socket.onmessage = function(event){};
+
 		var main = document.getElementById("main");
 		main.style.display = 'none';
 		var leaguejoin = document.getElementById("leaguejoin");
@@ -167,6 +193,10 @@ var view = (function() {
 
 	document.getElementById('link_to_createleague').onclick = function(e) {
 		e.preventDefault();
+
+		//reset the socket listener
+		socket.onmessage = function(event){};
+
 		var main = document.getElementById("main");
 		main.style.display = 'none';
 		var leaguecreate = document.getElementById("leaguecreate");
@@ -193,6 +223,10 @@ var view = (function() {
 
 	document.getElementById('link_to_joinleague').onclick = function(e) {
 		e.preventDefault();
+
+		//reset the socket listener
+		socket.onmessage = function(event){};
+
 		var main = document.getElementById("main");
 		main.style.display = 'none';
 		var leaguejoin = document.getElementById("leaguejoin");
@@ -236,6 +270,10 @@ var view = (function() {
 
 	document.getElementById('signout').onclick = function(e){
 		e.preventDefault();
+
+		//reset the socket listener
+		socket.onmessage = function(event){};
+
 		var leaguejoin = document.getElementById("leaguejoin");
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
@@ -253,7 +291,7 @@ var view = (function() {
 
 		//set visibility of buttons and text
 		document.getElementById('title').innerHTML = "FantasyGenius";
-		document.getElementById('subtitle').innerHTML = "Home of FantasyGenius";
+		document.getElementById('subtitle').innerHTML = "Home Page of FantasyGenius";
 		document.getElementById("error").innerHTML = "";
 		document.getElementById("signup_page").style.display = "block";
 		document.getElementById("signin_page").style.display = "block";
@@ -269,7 +307,7 @@ var view = (function() {
 		document.getElementById("to_signup").style.display = "none";
 		document.getElementById("to_home").style.display = "none";
 
-		document.dispatchEvent(new CustomEvent("signedout"));
+		document.dispatchEvent(new CustomEvent("signout"));
 		var data = {};
 		data.sport = 'nhl';
 		data.type = 's';
@@ -280,6 +318,10 @@ var view = (function() {
 
 	document.getElementById('my_team').onclick = function(e){
 		e.preventDefault();
+
+		//reset the socket listener
+		socket.onmessage = function(event){};
+
 		loadteam();
 	};
 
@@ -322,6 +364,10 @@ var view = (function() {
 
 	document.getElementById('my_league').onclick = function(e){
 		e.preventDefault();
+
+		//reset the socket listener
+		socket.onmessage = function(event){};
+
 		var main = document.getElementById("main");
 		main.style.display = 'none';
 		var leaguejoin = document.getElementById("leaguejoin");
@@ -361,6 +407,10 @@ var view = (function() {
 	};
 
 	document.getElementById("add_players").onclick = function(e){
+
+		//reset the socket listener
+		socket.onmessage = function(event){};
+
 		var main = document.getElementById("main");
 		main.style.display = 'block';
 		var leaguejoin = document.getElementById("leaguejoin");
@@ -409,6 +459,12 @@ var view = (function() {
 	};
 
 	view.loadmain = function(){
+
+		//reset the socket listener
+		socket.onmessage = function(event){};
+
+		var main = document.getElementById("main");
+		main.style.display = 'block';
 		var leaguejoin = document.getElementById("leaguejoin");
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
@@ -446,14 +502,28 @@ var view = (function() {
 		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data}));
 		data.type = 'g';
 		document.dispatchEvent(new CustomEvent("getallgoalies", {detail:data}));
+
+		socketparam = data.sport;
+		socket.onmessage = function(event){
+			if(event.data === (socketparam + " stats updated"))
+				document.dispatchEvent(new CustomEvent("pageloaded"));
+		};
 	};
 
 	view.loadteam = function(){
+
+		//reset the socket listener
+		socket.onmessage = function(event){};
+
 		loadteam();
 	};
 
 	//if there was a successful signin
 	view.authenticated = function(data){
+
+		//reset the socket listener
+		socket.onmessage = function(event){};
+
 		var main = document.getElementById("main");
 		main.style.display = 'block';
 		var leaguejoin = document.getElementById("leaguejoin");
@@ -492,7 +562,6 @@ var view = (function() {
 			document.getElementById("add_players").style.display = "block";
 		}
 
-
 		//set visibility of bottom buttons
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
@@ -504,9 +573,27 @@ var view = (function() {
 		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data}));
 		data.type = 'g';
 		document.dispatchEvent(new CustomEvent("getallgoalies", {detail: data}));
+
+		socketparam = data.sport;
+		socket.onmessage = function(event){
+			if(event.data === (socketparam + " stats updated"))
+				document.dispatchEvent(new CustomEvent("pageloaded"));
+		};
+	};
+
+	view.signedout = function(sport){
+		socketparam = sport;
+		socket.onmessage = function(event){
+			if(event.data === (socketparam + " stats updated"))
+				document.dispatchEvent(new CustomEvent("pageloaded"));
+		};
 	};
 
 	view.leaguejoined = function(){
+
+		//reset the socket listener
+		socket.onmessage = function(event){};
+
 		var main = document.getElementById("main");
 		main.style.display = 'block';
 		var leaguejoin = document.getElementById("leaguejoin");
@@ -546,9 +633,19 @@ var view = (function() {
 		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data}));
 		data.type = 'g';
 		document.dispatchEvent(new CustomEvent("getallgoalies", {detail:data}));
+
+		socketparam = data.sport;
+		socket.onmessage = function(event){
+			if(event.data === (socketparam + " stats updated"))
+				document.dispatchEvent(new CustomEvent("pageloaded"));
+		};
 	};
 
 	view.leaguecreated = function(){
+
+		//reset the socket listener
+		socket.onmessage = function(event){};
+
 		var main = document.getElementById("main");
 		main.style.display = 'block';
 		var leaguejoin = document.getElementById("leaguejoin");
@@ -588,9 +685,23 @@ var view = (function() {
 		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data}));
 		data.type = 'g';
 		document.dispatchEvent(new CustomEvent("getallgoalies", {detail:data}));
+
+		socketparam = data.sport;
+		socket.onmessage = function(event){
+			if(event.data === (socketparam + " stats updated"))
+				document.dispatchEvent(new CustomEvent("pageloaded"));
+		};
 	};
 	//displaying users after joining fails, trying to display team after joining displays admins team
 	view.displayplayers = function(data){
+		socketparam = data;
+		socket.onmessage = function(event){
+			if(event.data === (socketparam.owner + "'s team updated")){
+					var data = {username: socketparam.owner};
+					document.dispatchEvent(new CustomEvent("displayhisplayers", {detail: data}));
+			}
+		};
+		
 		var goaliedisplay = document.getElementById("your_goalies");
 		var playerdisplay = document.getElementById("your_players");
 		var goalie = data.G;
@@ -657,6 +768,11 @@ var view = (function() {
 	};
 
 	view.displayallplayers = function(data){
+		socket.onmessage = function(event){
+			if(event.data === "nhl stats updated")
+				document.dispatchEvent(new CustomEvent("pageloaded"));
+		};
+
 		var playerdisplay = document.getElementById("players");
 		playerdisplay.innerHTML = "";
 		data.forEach(function(player){
@@ -671,6 +787,11 @@ var view = (function() {
 	};
 
 	view.displayallgoalies = function(data){
+		socket.onmessage = function(event){
+			if(event.data === "nhl stats updated")
+				document.dispatchEvent(new CustomEvent("pageloaded"));
+		};
+
 		var goaliedisplay = document.getElementById("goalies");
 		goaliedisplay.innerHTML = "";
 		data.forEach(function(goalie){
@@ -686,6 +807,16 @@ var view = (function() {
 	};
 
 	view.displayallplayerstoadd = function(data){
+		socket.onmessage = function(event){
+				if(event.data === ("nhl stats updated")){
+					var data = {sport: 'nhl', type: 'g'};
+					document.dispatchEvent(new CustomEvent("getallgoaliestoadd", {detail: data}));
+					data.type = 's';
+					document.dispatchEvent(new CustomEvent("getallplayerstoadd", {detail: data}));
+				}
+			};
+		
+
 		var playerdisplay = document.getElementById("players");
 		playerdisplay.innerHTML = "";
 		data.forEach(function(player){
@@ -707,6 +838,15 @@ var view = (function() {
 	};
 
 	view.displayallgoaliestoadd = function(data){
+		socket.onmessage = function(event){
+			if(event.data === ("nhl stats updated")){
+				var data = {sport: 'nhl', type: 'g'};
+				document.dispatchEvent(new CustomEvent("getallgoaliestoadd", {detail: data}));
+				data.type = 's';
+				document.dispatchEvent(new CustomEvent("getallplayerstoadd", {detail: data}));
+			}
+		};
+
 		var goaliedisplay = document.getElementById("goalies");
 		goaliedisplay.innerHTML = "";
 		data.forEach(function(goalie){
@@ -729,6 +869,11 @@ var view = (function() {
 	};
 
 	view.displayusers = function(data){
+
+		//reset the socket listener
+		socket.onmessage = function(event){};
+
+		var active = data.pop();
 		var userdisplay = document.getElementById("leagueusers");
 		userdisplay.innerHTML = "";
 		data.forEach(function(user){
@@ -775,8 +920,15 @@ var view = (function() {
 				var data = {};
 				data.username = user.owner;
 				document.dispatchEvent(new CustomEvent("displayhisplayers", {detail:data}));
-			};
+			};			
 		});
+
+		socketparam = active;
+		socket.onmessage = function(event){
+			if((event.data === (socketparam.sport + " stats updated")) || (event.data === ("new user added to " + socketparam.league))){
+				document.dispatchEvent(new CustomEvent("getusers", {detail: socketparam}));
+			}
+		};
 	};
 
 	//remove players, add home buttons for pages
