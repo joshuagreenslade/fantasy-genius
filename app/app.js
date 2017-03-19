@@ -239,7 +239,7 @@ console.log("start")
 															team.forEach(function(next_team){
 																if(team_points[next_team.owner] === undefined)
 																	team_points[next_team.owner] = 0
-																team_points[next_team.owner] += points;
+																team_points[next_team.owner] += points[next_player.playerID];
 															});
 															resolve();
 														});
