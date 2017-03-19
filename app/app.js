@@ -101,7 +101,7 @@ console.log("start")
 
 							//create a promise for each player that resolves when their stats update
 							promises.push(new Promise(function(resolve, reject){
-								var player_stuff = {sport: sport}
+								var player_stuff = {sport: sport, points: 0}
 
 								//add the player info
 								Object.keys(player.player).forEach(function(key){
@@ -157,7 +157,6 @@ console.log("start")
 								}								
 
 								//set initial stats and player info
-								points[player_stuff.playerID] = 0;
 								active_players[active_players.indexOf(player)] = player_stuff;
 								resolve();
 
@@ -209,24 +208,24 @@ console.log("start")
 																			case 'GoalsAgainstAverage':
 																				var GAA = parseFloat(player.stats[key]['#text'])
 																				if((GAA >= 0) && (GAA <= 1))
-																					points[next_player.playerID] += 3;
+																					next_player.points += 3;
 																				else if((GAA > 1) && (GAA <= 2))
-																					points[next_player.playerID] += 2;
+																					next_player.points += 2;
 																				else if((GAA > 2) && (GAA <= 3))
-																					points[next_player.playerID] += 1;
+																					next_player.points += 1;
 																				break;
 																			case 'Shutouts':
-																				points[next_player.playerID] += player.stats[key]['#text'] * 1;
+																				next_player.points += player.stats[key]['#text'] * 1;
 																				break;
 																		}
 																	}
 																	else if(skater){
 																		switch(key){
 																			case 'Goals':
-																				points[next_player.playerID] += player.stats[key]['#text'] * 3;
+																				next_player.points += player.stats[key]['#text'] * 3;
 																				break;
 																			case 'Assists':
-																				points[next_player.playerID] += player.stats[key]['#text'] * 1;
+																				next_player.points += player.stats[key]['#text'] * 1;
 																				break;
 																		}
 																	}
@@ -239,7 +238,7 @@ console.log("start")
 															team.forEach(function(next_team){
 																if(team_points[next_team.owner] === undefined)
 																	team_points[next_team.owner] = 0
-																team_points[next_team.owner] += points[next_player.playerID];
+																team_points[next_team.owner] += next_player.points;
 															});
 															resolve();
 														});
@@ -257,9 +256,9 @@ console.log("start")
 
 												//make sure that all stats are updated before telling users
 												promises.push(new Promise(function(resolve, reject){
-													
+
 													//update the player's stats and info
-													stats.update({playerID: next_player['playerID']}, {$set: next_player, $inc: {points: points[next_player.playerID]}}, {upsert: true}, resolve());
+													stats.update({playerID: next_player['playerID']}, {$set: next_player/*, $set: {points: points[next_player.playerID]}*/}, {upsert: true}, resolve());
 												}));
 											});
 
@@ -268,12 +267,12 @@ console.log("start")
 											var team_owners = Object.keys(team_points)
 
 											//update each team who had their points changed
-											teams.find({$or: [{modified: true}, {owner: {$in: team_owners}, sport: sport}]}, {league: 0}).toArray(function(err, modified_teams){
+											teams.find({$or: [{modified: true}, {owner: {$in: team_owners}, sport: sport}, {score: {$gt: 0}}]}, {league: 0}).toArray(function(err, modified_teams){
 												modified_teams.forEach(function(team){
 
 													//make sure that all teams are updated before telling users
 													promises.push(new Promise(function(resolve, reject){
-														var update = {};
+														var update = {score: 0};
 
 														//recalculate the teams backup list
 														if(team.modified === true)
@@ -281,13 +280,15 @@ console.log("start")
 
 														//increment the team's points
 														if(team_owners.includes(team.owner))
-															update['$inc'] = {score: team_points[team.owner]}
+															update.score = team_points[team.owner]
 
 														//reset the team's active list
-														if(active[team.owner] !== undefined)
-															update['$set'] = {active_players: active[team.owner], modified: false}
+														if(active[team.owner] !== undefined){
+															update.active_players = active[team.owner];
+															update.modified = false;
+														}
 
-														teams.update({owner: team.owner, sport: sport}, update, function(){
+														teams.update({owner: team.owner, sport: sport}, {$set: update}, function(){
 															
 															//tell users that the specific user's team has been updated
 															wss.clients.forEach(function(client){
