@@ -181,6 +181,8 @@ var view = (function() {
 		data.username = document.getElementById('username').value;
 		data.password = document.getElementById('pwd').value;
 		document.dispatchEvent(new CustomEvent("credentialsSent", {detail: data}));
+		document.getElementById('username').value = "";
+		document.getElementById('pwd').value = "";
 	};
 
 	document.getElementById('signup_button').onclick = function(e) {
@@ -189,6 +191,8 @@ var view = (function() {
 		data.username = document.getElementById('signup_username').value;
 		data.password = document.getElementById('signup_pwd').value;
 		document.dispatchEvent(new CustomEvent("usercreated", {detail: data}));
+		document.getElementById('signup_username').value = "";
+		document.getElementById('signup_pwd').value = "";
 	};
 
 	document.getElementById('link_to_createleague').onclick = function(e) {
@@ -257,6 +261,8 @@ var view = (function() {
 		data.league = document.getElementById('join_name').value;
 		data.password = document.getElementById('join_pwd').value;
 		document.dispatchEvent(new CustomEvent("joiningleague", {detail: data}));
+		document.getElementById('join_name').value = "";
+		document.getElementById('join_pwd').value = "";
 	};
 
 	document.getElementById('createleague').onclick = function(e) {
@@ -266,6 +272,8 @@ var view = (function() {
 		data.password = document.getElementById('league_pwd').value;
 		data.sport = 'nhl';
 		document.dispatchEvent(new CustomEvent("creatingleague", {detail: data}));
+		document,getElementById('league_name').value = "";
+		document.getElementById('league_pwd').value = "";
 	};
 
 	document.getElementById('signout').onclick = function(e){
