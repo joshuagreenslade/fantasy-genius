@@ -452,6 +452,102 @@ var view = (function() {
 		document.dispatchEvent(new CustomEvent("getallgoaliestoadd", {detail:data}));
 	};
 
+	document.getElementById('next_player').onclick = function(e){
+		e.preventDefault();
+
+		var data = {};
+		data.sport = 'nhl';
+		data.type = 's';
+		var players = document.getElementById('players').children
+		data.id = players[players.length-1].id
+		data.sort = 'increasing';
+		document.dispatchEvent(new CustomEvent("getallplayersat", {detail: data}));
+	};
+
+	document.getElementById('prev_player').onclick = function(e){
+		e.preventDefault();
+
+		var data = {};
+		data.sport = 'nhl';
+		data.type = 's';
+		var players = document.getElementById('players').children
+		data.id = players[0].id
+		data.sort = 'decreasing';
+		document.dispatchEvent(new CustomEvent("getallplayersat", {detail: data}));
+	};
+
+	document.getElementById('next_goalie').onclick = function(e){
+		e.preventDefault();
+
+		var data = {};
+		data.sport = 'nhl';
+		data.type = 'g';
+		var players = document.getElementById('goalies').children
+		data.id = players[players.length-1].id
+		data.sort = 'increasing';
+		document.dispatchEvent(new CustomEvent("getallgoaliesat", {detail: data}));
+	};
+
+	document.getElementById('prev_goalie').onclick = function(e){
+		e.preventDefault();
+
+		var data = {};
+		data.sport = 'nhl';
+		data.type = 'g';
+		var players = document.getElementById('goalies').children
+		data.id = players[0].id
+		data.sort = 'decreasing';
+		document.dispatchEvent(new CustomEvent("getallgoaliesat", {detail: data}));
+	};
+
+	document.getElementById('next_player_add').onclick = function(e){
+		e.preventDefault();
+
+		var data = {};
+		data.sport = 'nhl';
+		data.type = 's';
+		var players = document.getElementById('players').children
+		data.id = players[players.length-1].id
+		data.sort = 'increasing';
+		document.dispatchEvent(new CustomEvent("getallplayerstoaddat", {detail: data}));
+	};
+
+	document.getElementById('prev_player_add').onclick = function(e){
+		e.preventDefault();
+
+		var data = {};
+		data.sport = 'nhl';
+		data.type = 's';
+		var players = document.getElementById('players').children
+		data.id = players[0].id
+		data.sort = 'decreasing';
+		document.dispatchEvent(new CustomEvent("getallplayerstoaddat", {detail: data}));
+	};
+
+	document.getElementById('next_goalie_add').onclick = function(e){
+		e.preventDefault();
+
+		var data = {};
+		data.sport = 'nhl';
+		data.type = 'g';
+		var players = document.getElementById('goalies').children
+		data.id = players[players.length-1].id
+		data.sort = 'increasing';
+		document.dispatchEvent(new CustomEvent("getallgoaliestoaddat", {detail: data}));
+	};
+
+	document.getElementById('prev_goalie_add').onclick = function(e){
+		e.preventDefault();
+
+		var data = {};
+		data.sport = 'nhl';
+		data.type = 'g';
+		var players = document.getElementById('goalies').children
+		data.id = players[0].id
+		data.sort = 'decreasing';
+		document.dispatchEvent(new CustomEvent("getallgoaliestoaddat", {detail: data}));
+	};
+
 	var view = {};
 	//if error is raised
 	view.error = function(data){
@@ -704,6 +800,7 @@ var view = (function() {
 		
 		var goaliedisplay = document.getElementById("your_goalies");
 		var playerdisplay = document.getElementById("your_players");
+		var benchplayerdisplay = document.getElementById("your_bench_players");
 		var goalie = data.G;
 		goaliedisplay.innerHTML = "";
 		if(goalie !== null){
@@ -741,6 +838,7 @@ var view = (function() {
 				playerdisplay.append(e);
 			}
 		});
+		benchplayerdisplay.innerHTML = "";
 		players = data.bench_forward;
 		players.forEach(function(player){
 			if(player !== null){
@@ -750,7 +848,7 @@ var view = (function() {
 								<td>${player.City}</td><td>${player.Name}</td><td>${player.Abbreviation}</td>
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
-				playerdisplay.append(e);
+				benchplayerdisplay.append(e);
 			}
 		});
 		players = data.bench_defence;
@@ -762,7 +860,7 @@ var view = (function() {
 								<td>${player.City}</td><td>${player.Name}</td><td>${player.Abbreviation}</td>
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
-				playerdisplay.append(e);
+				benchplayerdisplay.append(e);
 			}
 		});
 	};
@@ -772,6 +870,19 @@ var view = (function() {
 			if(event.data === "nhl stats updated")
 				document.dispatchEvent(new CustomEvent("pageloaded"));
 		};
+
+		//show the correct next/prev buttons
+		document.getElementById('next_player').style.display = 'inline';
+		document.getElementById('next_player').style.visibility = 'hidden';
+		document.getElementById('next_player_add').style.display = 'none';
+		if(data.next)
+			document.getElementById('next_player').style.visibility = 'visible';
+		
+		document.getElementById('prev_player').style.display = 'inline';
+		document.getElementById('prev_player').style.visibility = 'hidden';
+		document.getElementById('prev_player_add').style.display = 'none';
+		if(data.prev)
+			document.getElementById('prev_player').style.visibility = 'visible';
 
 		var playerdisplay = document.getElementById("players");
 		playerdisplay.innerHTML = "";
@@ -791,6 +902,19 @@ var view = (function() {
 			if(event.data === "nhl stats updated")
 				document.dispatchEvent(new CustomEvent("pageloaded"));
 		};
+
+		//show the correct next/prev buttons
+		document.getElementById('next_goalie').style.display = 'inline';
+		document.getElementById('next_goalie').style.visibility = 'hidden';
+		document.getElementById('next_goalie_add').style.display = 'none';
+		if(data.next)
+			document.getElementById('next_goalie').style.visibility = 'visible';
+		
+		document.getElementById('prev_goalie').style.display = 'inline';
+		document.getElementById('prev_goalie').style.visibility = 'hidden';
+		document.getElementById('prev_goalie_add').style.display = 'none';
+		if(data.prev)
+			document.getElementById('prev_goalie').style.visibility = 'visible';
 
 		var goaliedisplay = document.getElementById("goalies");
 		goaliedisplay.innerHTML = "";
@@ -816,6 +940,18 @@ var view = (function() {
 				}
 			};
 		
+		//show the correct next/prev buttons
+		document.getElementById('next_player_add').style.display = 'inline';
+		document.getElementById('next_player_add').style.visibility = 'hidden';
+		document.getElementById('next_player').style.display = 'none';
+		if(data.next)
+			document.getElementById('next_player_add').style.visibility = 'visible';
+		
+		document.getElementById('prev_player_add').style.display = 'inline';
+		document.getElementById('prev_player_add').style.visibility = 'hidden';
+		document.getElementById('prev_player').style.display = 'none';
+		if(data.prev)
+			document.getElementById('prev_player_add').style.visibility = 'visible';
 
 		var playerdisplay = document.getElementById("players");
 		playerdisplay.innerHTML = "";
@@ -846,6 +982,20 @@ var view = (function() {
 				document.dispatchEvent(new CustomEvent("getallplayerstoadd", {detail: data}));
 			}
 		};
+
+		//show the correct next/prev buttons
+		document.getElementById('next_goalie_add').style.display = 'inline';
+		document.getElementById('next_goalie_add').style.visibility = 'hidden';
+		document.getElementById('next_goalie').style.display = 'none';
+		if(data.next)
+			document.getElementById('next_goalie_add').style.visibility = 'visible';
+		
+		document.getElementById('prev_goalie_add').style.display = 'inline';
+		document.getElementById('prev_goalie_add').style.visibility = 'hidden';
+		document.getElementById('prev_goalie').style.display = 'none';
+		if(data.prev)
+			document.getElementById('prev_goalie_add').style.visibility = 'visible';
+
 
 		var goaliedisplay = document.getElementById("goalies");
 		goaliedisplay.innerHTML = "";

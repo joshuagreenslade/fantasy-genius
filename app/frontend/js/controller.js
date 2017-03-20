@@ -71,6 +71,22 @@
 		view.displayallplayers(e.detail);
 	});
 
+	document.addEventListener('getallplayersat', function(e){
+		model.getallplayersat(e.detail);
+	});
+
+	document.addEventListener('getallgoaliesat', function(e){
+		model.getallgoaliesat(e.detail);
+	});
+
+	document.addEventListener('getallplayerstoaddat', function(e){
+		model.getallplayerstoaddat(e.detail);
+	});
+
+	document.addEventListener('getallgoaliestoaddat', function(e){
+		model.getallgoaliestoaddat(e.detail);
+	});
+
 	document.addEventListener('displayallgoalies', function(e){
 		view.displayallgoalies(e.detail);
 	});

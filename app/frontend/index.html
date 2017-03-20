@@ -30,13 +30,14 @@
 </div>
 
 <div id="main">
-<div class="row">
+<div >
   <div class="col-md-2">
     
   </div>
   <div class="col-md-8">
     <div class="well">Player Stats</div>
-    <table class="table table-bordered table-hover table-responsive">
+    <div class=" table-responsive">
+    <table class="table table-bordered table-hover">
       <thead>
         <tr>
           <th id="player_Lastname_button">Lastname</th>
@@ -56,8 +57,16 @@
       <tbody id="players">
       </tbody>
     </table>
+    </div>
+    <div id="player_buttons">
+      <button type="button" class="btn btn-link" id="prev_player">Previous</button>
+      <button type="button" class="btn btn-link" id="next_player">Next</button>
+      <button type="button" class="btn btn-link" id="prev_player_add">Previous</button>
+      <button type="button" class="btn btn-link" id="next_player_add">Next</button>
+    </div>
     <div class="well">Goalie Stats</div>
-    <table class="table table-bordered table-hover table-responsive">
+    <div class=" table-responsive">
+    <table class="table table-bordered table-hover">
       <thead>
         <tr>
           <th id="goalie_Lastname_button">Lastname</th>
@@ -77,7 +86,14 @@
       </thead>
       <tbody id="goalies">
       </tbody>
-    </table> 
+    </table>
+    </div>
+    <div id="goalie_buttons">
+      <button type="button" class="btn btn-link" id="prev_goalie">Previous</button>
+      <button type="button" class="btn btn-link" id="next_goalie">Next</button>
+      <button type="button" class="btn btn-link" id="prev_goalie_add">Previous</button>
+      <button type="button" class="btn btn-link" id="next_goalie_add">Next</button>
+    </div>
   </div>
   <div class="col-md-2">
     
@@ -155,12 +171,13 @@
 
 
 <div class="container" id="team_page">
-  <div class="row">
+  <div >
     <div class="col-md-2">
       
     </div>
     <div class="col-md-8">
       <div class="well">My Players</div>
+      <div class=" table-responsive">
         <table class="table table-bordered table-hover table-responsive">
           <thead>
             <tr>
@@ -181,7 +198,32 @@
           <tbody id="your_players">
           </tbody>
         </table>
+        </div>
+        <div class="well">My Bench</div>
+      <div class=" table-responsive">
+        <table class="table table-bordered table-hover table-responsive">
+          <thead>
+            <tr>
+              <th id="your_bench_Lastname_button">Lastname</th>
+              <th id="your_bench_Firstname_button">Firstname</th>
+              <th id="your_bench_Position_button">Postion</th>
+              <th id="your_bench_City_button">City</th>
+              <th id="your_bench_Name_button">Name</th>
+              <th id="your_bench_Abbreviation_button">Abbreviation</th>
+              <th id="your_bench_Goals_button">Goals</th>
+              <th id="your_bench_Assists_button">Assists</th>
+              <th id="your_bench_Points_button">Points</th>
+              <th id="your_bench_PlusMinus_button">+/-</th>
+              <th id="your_bench_Played_button">Played?</th>
+              <th id="your_bench_points_button">Fantasy Points</th>
+            </tr>
+          </thead>
+          <tbody id="your_bench_players">
+          </tbody>
+        </table>
+        </div>
       <div class="well">My Goalies</div>
+      <div class=" table-responsive">
         <table class="table table-bordered table-hover table-responsive">
           <thead>
             <tr>
@@ -202,7 +244,8 @@
           </thead>
           <tbody id="your_goalies">
           </tbody>
-        </table> 
+        </table>
+        </div>
     </div>
     <div class="col-md-2">
       
@@ -211,7 +254,7 @@
 </div>
 
 <div class="container" id="league_page">
-  <div class="row">
+  <div >
     <div class="col-md-2">
       
     </div>
@@ -234,12 +277,11 @@
   </div>
 </div>
 
-
-<a id="to_signin">Already Have an Account?</a>
-<a id="to_signup">New User?</a>
-<p>
-    <a id="to_home"><span class="glyphicon glyphicon-home"></span></a>
-</p>
+<div class="col-md-8">
+  <a id="to_signin">Already Have an Account?</a>
+  <a id="to_signup">New User?</a>
+  <a id="to_home"><span class="glyphicon glyphicon-home"></span></a>
+</div>
 
 <script src="./js/model.js"></script>
 <script src="./js/view.js"></script>

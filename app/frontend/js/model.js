@@ -212,10 +212,10 @@ var model = (function() {
 		xhr.setRequestHeader('Content-Type', 'application/json');
 		xhr.send(body);
 	};
-	model.getallplayers = function(data){
+
+	var getallplayers = function(event, data){
 		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
-		var url = "/api/sports/" + data.sport + "/players/type/" + data.type + "/"; // the full url http:// ...
-		var body = null; // should be set to null for GET and DELETE
+		var url = "/api/sports/" + data.sport + "/players/type/" + data.type + "/?limit=11"; // the full url http:// ...
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function() {
 			if (this.readyState === XMLHttpRequest.DONE) {
@@ -223,73 +223,83 @@ var model = (function() {
 					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
 					return;
 				} else {
-					document.dispatchEvent(new CustomEvent("displayallplayers", {detail: JSON.parse(this.responseText)}));
+					var players = JSON.parse(this.responseText);
+					players.next = false;
+					players.prev = false;
+					if(players.length === 11){
+						players.pop();
+						players.next = true;
+					}
+					document.dispatchEvent(new CustomEvent(event, {detail: players}));
 				}
 			}
 		};
 		xhr.open(method, url, true);
-		xhr.setRequestHeader('Content-Type', 'application/json');
-		xhr.send(body);
+		xhr.send(null);
+	};
+
+	var getallplayersat = function(event, data){
+		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE	
+		var url = "/api/sports/" + data.sport + "/players/type/" + data.type + "/?limit=12&firstPlayer=" + data.id + "&sort=" + data.sort;
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === XMLHttpRequest.DONE) {
+				if (this.status >= 400) {
+					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
+					return;
+				} else {
+					var players = JSON.parse(this.responseText);
+					players.next = false;
+					players.prev = true;
+					players.splice(0,1);
+					if(players.length === 11){
+						players.pop();
+						players.next = true;
+					}
+					if(data.sort === 'decreasing'){
+						players.reverse();
+						var temp = players.next;
+						players.next = players.prev;
+						players.prev = temp;
+					}
+					document.dispatchEvent(new CustomEvent(event, {detail: players}));
+				}
+			}
+		};
+		xhr.open(method, url, true);
+		xhr.send(null);
+	};
+
+	model.getallplayers = function(data){
+		getallplayers("displayallplayers", data);
+	};
+
+	model.getallplayersat = function(data){
+		getallplayersat("displayallplayers", data);
 	};
 
 	model.getallgoalies = function(data){
-		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
-		var url = "/api/sports/" + data.sport + "/players/type/" + data.type + "/"; // the full url http:// ...
-		var body = null; // should be set to null for GET and DELETE
-		var xhr = new XMLHttpRequest();
-		xhr.onreadystatechange = function() {
-			if (this.readyState === XMLHttpRequest.DONE) {
-				if (this.status >= 400) {
-					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
-					return;
-				} else {
-					document.dispatchEvent(new CustomEvent("displayallgoalies", {detail: JSON.parse(this.responseText)}));
-				}
-			}
-		};
-		xhr.open(method, url, true);
-		xhr.setRequestHeader('Content-Type', 'application/json');
-		xhr.send(body);
+		getallplayers("displayallgoalies", data);
+	};
+
+	model.getallgoaliesat = function(data){
+		getallplayersat("displayallgoalies", data);
 	};
 
 	model.getallplayerstoadd = function(data){
-		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
-		var url = "/api/sports/" + data.sport + "/players/type/" + data.type + "/"; // the full url http:// ...
-		var body = null; // should be set to null for GET and DELETE
-		var xhr = new XMLHttpRequest();
-		xhr.onreadystatechange = function() {
-			if (this.readyState === XMLHttpRequest.DONE) {
-				if (this.status >= 400) {
-					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
-					return;
-				} else {
-					document.dispatchEvent(new CustomEvent("displayallplayerstoadd", {detail: JSON.parse(this.responseText)}));
-				}
-			}
-		};
-		xhr.open(method, url, true);
-		xhr.setRequestHeader('Content-Type', 'application/json');
-		xhr.send(body);
+		getallplayers("displayallplayerstoadd", data);
 	};
 
 	model.getallgoaliestoadd = function(data){
-		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
-		var url = "/api/sports/" + data.sport + "/players/type/" + data.type + "/"; // the full url http:// ...
-		var body = null; // should be set to null for GET and DELETE
-		var xhr = new XMLHttpRequest();
-		xhr.onreadystatechange = function() {
-			if (this.readyState === XMLHttpRequest.DONE) {
-				if (this.status >= 400) {
-					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
-					return;
-				} else {
-					document.dispatchEvent(new CustomEvent("displayallgoaliestoadd", {detail: JSON.parse(this.responseText)}));
-				}
-			}
-		};
-		xhr.open(method, url, true);
-		xhr.setRequestHeader('Content-Type', 'application/json');
-		xhr.send(body);
+		getallplayers("displayallgoaliestoadd", data);
+	};
+
+	model.getallplayerstoaddat = function(data){
+		getallplayersat("displayallplayerstoadd", data);
+	};
+
+	model.getallgoaliestoaddat = function(data){
+		getallplayersat("displayallgoaliestoadd", data);
 	};
 
 	model.getusers = function(data){

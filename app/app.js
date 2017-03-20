@@ -258,7 +258,8 @@ console.log("start")
 												promises.push(new Promise(function(resolve, reject){
 
 													//update the player's stats and info
-													stats.update({playerID: next_player['playerID']}, {$set: next_player/*, $set: {points: points[next_player.playerID]}*/}, {upsert: true}, resolve());
+													next_player.id = next_player.LastName + " " + next_player.FirstName + " " + next_player.playerID;
+													stats.update({playerID: next_player['playerID']}, {$set: next_player}, {upsert: true}, resolve());
 												}));
 											});
 
@@ -1151,8 +1152,10 @@ wss.on('connection', function connection(ws) {
 
 		//get the field to sort by
 		var sortField = req.query.sortField;
-		if(sortField === undefined)
-			sortField = "LastName";
+		if(sortField === undefined){
+			//sortField = "LastName";
+			sortField = "id";
+		}
 
 		//get the sort direction
 		var sort_direction = req.query.sort;
@@ -1162,10 +1165,10 @@ wss.on('connection', function connection(ws) {
 		//set the sort
 		sort = {};
 		sort[sortField] = 1;
-		sort.LastName = 1;
+		sort.id = 1
 		if(sort_direction === 'decreasing'){
 			sort[sortField] = -1;
-			sort.LastName = -1;
+			sort.id = -1
 		}
 
 		//if a firstPlayer id was given start looking getting players after and including that
@@ -1204,12 +1207,12 @@ wss.on('connection', function connection(ws) {
 				query[sortField] = {$lte: player[sortField]};
 
 			//make the secondary sort by lastname
-			if((req.query.firstPlayer !== undefined) && (player[sortField] !== undefined) && (sortField !== 'LastName')){
-				query.LastName = {$gte: player.LastName}
-				if(sort_direction === 'decreasing')
-					query.LastName = {$lte: player.LastName}				
+			if((req.query.firstPlayer !== undefined) && (player[sortField] !== undefined) && (sortField !== 'id'/*'LastName'*/)){
+				query.id = {$gte: player.id}
+				if(sort_direction === 'decreasing'){
+					query.id = {$lte: player.id}
+				}
 			}
-
 
 			//get the data from the db
 			stats.find(query).sort(sort).limit(parseInt(limit)).toArray(function(err, result){
