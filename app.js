@@ -27,7 +27,7 @@ var config = {
 app.set('port', (process.env.PORT || 3000));
 var server = https.createServer(config, app);
 var WebSocket = require('ws');
-var wss = new WebSocket.Server({ server });
+var wss = new WebSocket.Server({ /*server*/app });
 
 var validator = require('express-validator');
 app.use(validator({
