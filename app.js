@@ -34,7 +34,9 @@ app.use(validator({
 	customValidators: {
 		isIntArray: function(array){
 			//check that it is an array, has only positive integers
-			return Array.isArray(array) && array.reduce(function(acc, val){return acc && !isNaN(val) && (Number.isInteger(JSON.parse(val))) && (JSON.parse(val) >= 0)}, true);
+			return Array.isArray(array) && array.reduce(function(acc, val){
+				return acc && !isNaN(val) && (Number.isInteger(JSON.parse(val))) && (JSON.parse(val) >= 0)
+			}, true);
 		}
 	}
 }));
@@ -68,7 +70,107 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 
 	//updates the stats database and updates the teams' stats
 	var get_updates = function(sports){
+
+/////////////////////
 console.log("start")
+/////////////////////
+
+		
+		//update each supported sport's stats
+		sports.forEach(function(sport){
+			get_active_players(sport);
+		});
+	};
+
+	//initialize all of the active players in the given sport
+	var get_active_players = function(sport){
+
+		//get all the active players
+		var url = 'https://www.mysportsfeeds.com/api/feed/pull/' + sport + '/current/active_players.json'		
+		var header = {'Authorization': 'Basic dmV0aHVzaDEzOTU6Q1NDQzA5dmV0aHVzaA=='}
+		request({url: url, headers: header}, function(error, response, body){
+			if(body !== ''){
+				var active_players = JSON.parse(body).activeplayers.playerentry;
+				if(active_players){
+					var promises = [];
+
+					//initialize each active player
+					active_players.forEach(function(player){
+
+						//create a promise for each player that resolves when their stats update
+						promises.push(new Promise(function(resolve, reject){
+							var player_stuff = {sport: sport, points: 0}
+
+							//add the player info
+							Object.keys(player.player).forEach(function(key){
+								if(key === 'ID')
+									player_stuff['playerID'] = player.player[key];
+
+								//don't keep all of the player's info
+								else if((key === 'LastName') || (key === 'FirstName') || (key === 'Position')){
+									var forwards = ['C', 'RW', 'LW'];
+									if((key === 'Position') && (forwards.includes(player.player[key])))
+										player.player[key] = 'F';
+									player_stuff[key] = player.player[key];
+								}
+							});
+
+							//add the player's team info
+							if(player.team){
+								Object.keys(player.team).forEach(function(key){
+									if(key === 'ID')
+										player_stuff['teamID'] = player.team[key];
+									else
+										player_stuff[key] = player.team[key];
+								});
+							}
+
+							//if the player doesn't have a team
+							else{
+								player_stuff['teamID'] = "N/A";
+								player_stuff["City"] = "N/A";
+								player_stuff["Name"] = "N/A";
+								player_stuff["Abbreviation"] = "N/A";
+							}
+
+							//add default player stats
+							switch(sport){
+								case 'nhl':
+									if(player_stuff['Position'] === 'G'){
+										player_stuff["Wins"] = '0';
+										player_stuff["Losses"] = '0';
+										player_stuff["GoalsAgainstAverage"] = '0';
+										player_stuff["SavePercentage"] = '0';
+										player_stuff["Shutouts"] = '0';
+										player_stuff['Played'] = "No";
+									}
+									else{
+										player_stuff["Goals"] = '0';
+										player_stuff["Assists"] = '0';
+										player_stuff["Points"] = '0';
+										player_stuff["PlusMinus"] = '0';
+										player_stuff['Played'] = "No";
+									}
+									break;
+							}								
+
+							//set initial stats and player info
+							active_players[active_players.indexOf(player)] = player_stuff;
+							resolve();
+						}));
+					});
+
+					//only update stats when all players have been initialized
+					Promise.all(promises).then(function(){
+						update_stats(active_players, sport);
+					});
+				}
+			}
+		});
+	};
+
+	//update all the active players' stats
+	var update_stats = function(active_players, sport){
 		var date = new Date();
 
 		//get yesterdays date
@@ -79,244 +181,181 @@ console.log("start")
 		//make sure month and day are 2 digits
 		var month = ("0" + (date.getMonth() + 1)).slice(-2);
 		var day = ("0" + date.getDate()).slice(-2);
-		
-		sports.forEach(function(sport){
 
-			//get all the active players
-			var url = 'https://www.mysportsfeeds.com/api/feed/pull/' + sport + '/current/active_players.json'		
-			var header = {'Authorization': 'Basic dmV0aHVzaDEzOTU6Q1NDQzA5dmV0aHVzaA=='}
-			request({url: url, headers: header}, function(error, response, body){
-				if(body !== ''){
-					var active_players = JSON.parse(body).activeplayers.playerentry;
+		//get the sport's stats
+		var url = 'https://www.mysportsfeeds.com/api/feed/pull/' + sport + '/current/daily_player_stats.json?fordate=' + year + month + day;
+		var header = {'Authorization': 'Basic dmV0aHVzaDEzOTU6Q1NDQzA5dmV0aHVzaA=='}
+		request({url: url, headers: header}, function(error, response, body){
+			if(body !== ''){
+				var player_stats = JSON.parse(body).dailyplayerstats.playerstatsentry;
 
-					//add the stats to the stats db
-					if(active_players){
+				//add the stats to the stats db
+				if(player_stats){
+					var team_points = {};
 
-						//insert each player into the db
-						var promises = [];
-						var points = {}
-						active_players.forEach(function(player){
+					//calculate the points each player got for the day before
+					var promises = [];
+					player_stats.forEach(function(player){
 
-							//create a promise for each player that resolves when their stats update
-							promises.push(new Promise(function(resolve, reject){
-								var player_stuff = {sport: sport, points: 0}
+						//only update player stats who have updated stats
+						active_players.forEach(function(next_player){
+							if(next_player.playerID === player.player.ID){
+							
+								//create a promise for each player that resolves when their stats update
+								promises.push(new Promise(function(resolve, reject){
 
-								//add the player info
-								Object.keys(player.player).forEach(function(key){
-									if(key === 'ID')
-										player_stuff['playerID'] = player.player[key];
+									//calculate the next_players' points from player.stats in the given sport
+									next_player = calculate_points(player.stats, next_player, sport);
 
-									//don't keep all of the player's info
-									else if((key === 'LastName') || (key === 'FirstName') || (key === 'Position')){
-										var forwards = ['C', 'RW', 'LW'];
-										if((key === 'Position') && (forwards.includes(player.player[key])))
-											player.player[key] = 'F';
-										player_stuff[key] = player.player[key];
-									}
-								});
-
-								//add the player's team info
-								if(player.team){
-									Object.keys(player.team).forEach(function(key){
-										if(key === 'ID')
-											player_stuff['teamID'] = player.team[key];
-										else
-											player_stuff[key] = player.team[key];
+									//find teams who have next_player in their active_players array and give them the corresponding points
+									teams.find({active_players: {$elemMatch: {$eq: next_player.playerID}}}).toArray(function(err, team){
+										team.forEach(function(next_team){
+											if(team_points[next_team.owner] === undefined)
+												team_points[next_team.owner] = 0
+											team_points[next_team.owner] += next_player.points;
+										});
+										
+										//update the player's stats and info
+										next_player.id = next_player.LastName + " " + next_player.FirstName + " " + next_player.playerID;
+										stats.update({playerID: next_player['playerID']}, {$set: next_player}, {upsert: true}, resolve());
 									});
-								}
-
-								//if the player doesn't have a team
-								else{
-									player_stuff['teamID'] = "N/A";
-									player_stuff["City"] = "N/A";
-									player_stuff["Name"] = "N/A";
-									player_stuff["Abbreviation"] = "N/A";
-								}
-
-								//add default player stats
-								switch(sport){
-									case 'nhl':
-										if(player_stuff['Position'] === 'G'){
-											player_stuff["Wins"] = '0';
-											player_stuff["Losses"] = '0';
-											player_stuff["GoalsAgainstAverage"] = '0';
-											player_stuff["SavePercentage"] = '0';
-											player_stuff["Shutouts"] = '0';
-											player_stuff['Played'] = "No";
-										}
-										else{
-											player_stuff["Goals"] = '0';
-											player_stuff["Assists"] = '0';
-											player_stuff["Points"] = '0';
-											player_stuff["PlusMinus"] = '0';
-											player_stuff['Played'] = "No";
-										}
-										break;
-								}								
-
-								//set initial stats and player info
-								active_players[active_players.indexOf(player)] = player_stuff;
-								resolve();
-
-							}));
+								}));
+							}
 						});
+					});
 
-						//only update stats when all players have been initialized
-						Promise.all(promises).then(function(){
-
-							//get the sport's stats
-							var url = 'https://www.mysportsfeeds.com/api/feed/pull/' + sport + '/current/daily_player_stats.json?fordate=' + year + month + day;
-							var header = {'Authorization': 'Basic dmV0aHVzaDEzOTU6Q1NDQzA5dmV0aHVzaA=='}
-							request({url: url, headers: header}, function(error, response, body){
-								if(!error){
-									var player_stats = JSON.parse(body).dailyplayerstats.playerstatsentry;
-
-									//add the stats to the stats db
-									if(player_stats){
-										var team_points = {};
-
-										//calculate the points each player got for the day before
-										var promises = [];
-										player_stats.forEach(function(player){
-
-											//only update player stats who have updated stats
-											active_players.forEach(function(next_player){
-												if(next_player.playerID === player.player.ID){
-												
-													//create a promise for each player that resolves when their stats update
-													promises.push(new Promise(function(resolve, reject){
-
-														//add the player's stats
-														Object.keys(player.stats).forEach(function(key){
-															switch(sport){
-																case 'nhl':
-																	var goalie = (next_player['Position'] === 'G') && ((key === 'Wins') || (key === 'Losses') || (key === 'GoalsAgainstAverage') || (key === 'SavePercentage') || (key === 'Shutouts'))
-																	var skater = (next_player['Position'] !== 'G') && ((key == 'Goals') ||(key === 'Assists') || (key === 'Points') || (key === 'PlusMinus'))
-																	if(goalie || skater){
-																		next_player.Played = 'Yes';
-																		next_player[key] = player.stats[key]['#text']
-																	}
-
-																	//calculate the player's points
-																	if(goalie){
-																		switch(key){
-																			case 'Wins':
-																				points[next_player.playerID] += player.stats[key]['#text'] * 3;
-																				break;
-																			case 'GoalsAgainstAverage':
-																				var GAA = parseFloat(player.stats[key]['#text'])
-																				if((GAA >= 0) && (GAA <= 1))
-																					next_player.points += 3;
-																				else if((GAA > 1) && (GAA <= 2))
-																					next_player.points += 2;
-																				else if((GAA > 2) && (GAA <= 3))
-																					next_player.points += 1;
-																				break;
-																			case 'Shutouts':
-																				next_player.points += player.stats[key]['#text'] * 1;
-																				break;
-																		}
-																	}
-																	else if(skater){
-																		switch(key){
-																			case 'Goals':
-																				next_player.points += player.stats[key]['#text'] * 3;
-																				break;
-																			case 'Assists':
-																				next_player.points += player.stats[key]['#text'] * 1;
-																				break;
-																		}
-																	}
-																	break;
-															}
-														});
-
-														//find teams who have next_player in their active_players array and give them the corresponding points
-														teams.find({active_players: {$elemMatch: {$eq: next_player.playerID}}}).toArray(function(err, team){
-															team.forEach(function(next_team){
-																if(team_points[next_team.owner] === undefined)
-																	team_points[next_team.owner] = 0
-																team_points[next_team.owner] += next_player.points;
-															});
-															resolve();
-														});
-													}));
-												}
-											});
-										});
-
-										//only run when all player stats have been updated
-										Promise.all(promises).then(function(){
-											var promises = [];
-
-											//update all players in case their info changed
-											active_players.forEach(function(next_player){
-
-												//make sure that all stats are updated before telling users
-												promises.push(new Promise(function(resolve, reject){
-
-													//update the player's stats and info
-													next_player.id = next_player.LastName + " " + next_player.FirstName + " " + next_player.playerID;
-													stats.update({playerID: next_player['playerID']}, {$set: next_player}, {upsert: true}, resolve());
-												}));
-											});
-
-
-											var active = {}
-											var team_owners = Object.keys(team_points)
-
-											//update each team who had their points changed
-											teams.find({$or: [{modified: true}, {owner: {$in: team_owners}, sport: sport}, {score: {$gt: 0}}]}, {league: 0}).toArray(function(err, modified_teams){
-												modified_teams.forEach(function(team){
-
-													//make sure that all teams are updated before telling users
-													promises.push(new Promise(function(resolve, reject){
-														var update = {score: 0};
-
-														//recalculate the teams backup list
-														if(team.modified === true)
-															active[team.owner] = [].concat(team.G).concat(team.forward).concat(team.defence)
-
-														//increment the team's points
-														if(team_owners.includes(team.owner))
-															update.score = team_points[team.owner]
-
-														//reset the team's active list
-														if(active[team.owner] !== undefined){
-															update.active_players = active[team.owner];
-															update.modified = false;
-														}
-
-														teams.update({owner: team.owner, sport: sport}, {$set: update}, function(){
-															
-															//tell users that the specific user's team has been updated
-															wss.clients.forEach(function(client){
-																if (client.readyState === WebSocket.OPEN)
-											        				client.send(team.owner + "'s team updated");
-															});
-															resolve()
-														});
-													}));
-												});
-
-												//only tell the users when all the stats and all the teams who got points or were modified were updated
-												Promise.all(promises).then(function(){
-
-													//tell users that the specific sport stats have been updated
-													wss.clients.forEach(function(client){
-														if (client.readyState === WebSocket.OPEN)
-									        				client.send(sport + " stats updated");
-													});
-console.log("done")
-												});
-											});
-										});
-									}
-								}
-							});
-						});
-					}
+					//only update teams when all player stats have been updated
+					Promise.all(promises).then(function(){
+						update_teams(team_points, sport);
+					});
 				}
+			}
+		});
+	};
+
+	//calculates the player's points
+	var calculate_points = function(stats, player, sport){
+		Object.keys(stats).forEach(function(key){
+			switch(sport){
+				case 'nhl':
+					var goalie = (player['Position'] === 'G') && ((key === 'Wins') || (key === 'Losses') || (key === 'GoalsAgainstAverage') || (key === 'SavePercentage') || (key === 'Shutouts'));
+					var skater = (player['Position'] !== 'G') && ((key == 'Goals') ||(key === 'Assists') || (key === 'Points') || (key === 'PlusMinus'));
+					if(goalie || skater){
+						player.Played = 'Yes';
+						player[key] = stats[key]['#text']
+					}
+
+					//calculate the player's points
+					if(goalie){
+						switch(key){
+							case 'Wins':
+								player.points += stats[key]['#text'] * 3;
+								break;
+							case 'GoalsAgainstAverage':
+								var GAA = parseFloat(stats[key]['#text'])
+								if((GAA >= 0) && (GAA <= 1))
+									player.points += 3;
+								else if((GAA > 1) && (GAA <= 2))
+									player.points += 2;
+								else if((GAA > 2) && (GAA <= 3))
+									player.points += 1;
+								break;
+							case 'Shutouts':
+								player.points += stats[key]['#text'] * 1;
+								break;
+						}
+					}
+					else if(skater){
+						switch(key){
+							case 'Goals':
+								player.points += stats[key]['#text'] * 3;
+								break;
+							case 'Assists':
+								player.points += stats[key]['#text'] * 1;
+								break;
+						}
+					}
+					break;
+			}
+		});
+		return player;
+	};
+
+	//update all of the teams' who were either modified or had a player who got points
+	var update_teams = function(team_points, sport){
+		var active = {}
+		var team_owners = Object.keys(team_points)
+
+		//update each team who had their points changed
+		teams.find({$or: [{modified: true}, {owner: {$in: team_owners}, sport: sport}, {score: {$gt: 0}}]}, {league: 0}).toArray(function(err, modified_teams){
+			var promises = [];
+			modified_teams.forEach(function(team){
+
+				//make sure that all teams are updated before telling users
+				promises.push(new Promise(function(resolve, reject){
+					var update = {score: 0};
+
+					//recalculate the teams backup list
+					if(team.modified === true)
+						active[team.owner] = [].concat(team.G).concat(team.forward).concat(team.defence)
+
+					//increment the team's points
+					if(team_owners.includes(team.owner))
+						update.score = team_points[team.owner]
+
+					//reset the team's active list
+					if(active[team.owner] !== undefined){
+						update.active_players = active[team.owner];
+						update.modified = false;
+					}
+
+					teams.update({owner: team.owner, sport: sport}, {$set: update}, function(){
+						
+						//tell users that the specific user's team has been updated
+						wss.clients.forEach(function(client){
+							if (client.readyState === WebSocket.OPEN)
+		        				client.send(team.owner + "'s team updated");
+						});
+						resolve()
+					});
+				}));
+			});
+
+			//only tell the users that the stats are updated when all the stats and all the teams who got points or were modified were updated
+			Promise.all(promises).then(function(){
+				update_winners(sport);
+			});
+		});
+	};
+
+	//update the teams that won
+	var update_winners = function(sport){
+
+		//find the winning teams in each league
+		var group = {"$group": {_id: "$league", maxScore: {$max: "$score"}, teams: {$push: {"owner": "$owner", "score": "$score"}}}};
+		var winning_teams = {"$cond": [{"$eq": ["$maxScore", "$$team.score"]},"$$team.owner", false]};
+		var project = {"$project": {"teams": {"$setDifference": [{"$map": {"input": "$teams", "as": "team", "in": winning_teams}}, [false]]}}};
+		teams.aggregate([group, project], function(err, winning_teams){
+			
+			var query = {$or: []};
+			winning_teams.forEach(function(league){
+				query["$or"].push({league: league._id, score: {$gt: 0}, owner: {$in: league.teams}})
+			});
+			
+			teams.update(query, {$inc: {wins: 1}}, function(){
+				
+				//tell users that the specific sport stats have been updated
+				wss.clients.forEach(function(client){
+					if (client.readyState === WebSocket.OPEN)
+        				client.send(sport + " stats updated");
+				});
+
+
+////////////////////
+console.log("done")
+///////////////////
+
+
 			});
 		});
 	};
@@ -371,6 +410,7 @@ wss.on('connection', function connection(ws) {
 		this.league = league;
 		this.sport = 'nhl'
 		this.score = 0;
+		this.wins = 0;
 	};
 
 	var Trade = function(sender, reciever, sender_players, reciever_players, league){

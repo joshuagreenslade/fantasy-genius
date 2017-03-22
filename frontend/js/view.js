@@ -560,6 +560,21 @@ var view = (function() {
 	//if error is raised
 	view.error = function(data){
 		document.getElementById('error').innerHTML = data;
+
+		var main = document.getElementById("main");
+		main.style.display = 'none';
+		var leaguejoin = document.getElementById("leaguejoin");
+		var leaguecreate = document.getElementById("leaguecreate");
+		var signin = document.getElementById("signin");
+		var signup = document.getElementById("signup");
+		var teampage = document.getElementById("team_page")
+		var leaguepage = document.getElementById("league_page");
+		leaguecreate.style.display = 'none';
+		leaguejoin.style.display = 'none';
+		signin.style.display = 'none';
+		signup.style.display = 'none';
+		teampage.style.display = 'none';
+		leaguepage.style.display = 'none';
 	};
 
 	view.loadmain = function(){
@@ -1038,7 +1053,7 @@ var view = (function() {
 			var e = document.createElement("tr");
 			e.classname = "list-group";
 			e.id = user.owner;
-			e.innerHTML = `<td>${user.owner}</td><td>${user.score}</td>`;
+			e.innerHTML = `<td>${user.owner}</td><td>${user.score}</td><td>${user.wins}</td>`;
 			userdisplay.append(e);
 			e.onclick = function(e){
 				e.preventDefault();
