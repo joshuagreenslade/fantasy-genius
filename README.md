@@ -1,14 +1,14 @@
-#Project
+# Project
 
-##Project Links
+## Project Links
 
-###Website URL
+### Website URL
 https://fantasy-genius.herokuapp.com/
 
-###Video URL
+### Video URL
 
 
-###Documentation URL
+### Documentation URL
 
 
 
