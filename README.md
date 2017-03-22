@@ -1,4 +1,18 @@
-# Project Proposal
+#Project
+
+##Project Links
+
+###Website URL
+https://fantasy-genius.herokuapp.com/
+
+###Video URL
+
+
+###Documentation URL
+
+
+
+## Project Proposal
 
 ### Project title
 FantasyGenius
