@@ -452,6 +452,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 
 			            //tell users a new player was added the user's team
 						wss.clients.forEach(function(client){
+							console.log("____________________________________________")
 							if (client.readyState === WebSocket.OPEN)
 			    				client.send(req.params.user + "'s team updated");
 						});
