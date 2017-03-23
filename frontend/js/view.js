@@ -272,7 +272,7 @@ var view = (function() {
 		data.password = document.getElementById('league_pwd').value;
 		data.sport = 'nhl';
 		document.dispatchEvent(new CustomEvent("creatingleague", {detail: data}));
-		document,getElementById('league_name').value = "";
+		document.getElementById('league_name').value = "";
 		document.getElementById('league_pwd').value = "";
 	};
 
@@ -563,16 +563,8 @@ var view = (function() {
 
 		var main = document.getElementById("main");
 		main.style.display = 'none';
-		var leaguejoin = document.getElementById("leaguejoin");
-		var leaguecreate = document.getElementById("leaguecreate");
-		var signin = document.getElementById("signin");
-		var signup = document.getElementById("signup");
 		var teampage = document.getElementById("team_page")
 		var leaguepage = document.getElementById("league_page");
-		leaguecreate.style.display = 'none';
-		leaguejoin.style.display = 'none';
-		signin.style.display = 'none';
-		signup.style.display = 'none';
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
 	};
