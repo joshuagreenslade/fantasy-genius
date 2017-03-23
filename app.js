@@ -330,6 +330,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 
 			            //tell users a new user was added to the league
 						wss.clients.forEach(function(client){
+	console.log("__________________________________________")
 							if (client.readyState === WebSocket.OPEN)
 			    				client.send("new user added to " + req.params.league);
 						});
@@ -452,6 +453,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 
 			            //tell users a new player was added the user's team
 						wss.clients.forEach(function(client){
+	console.log("__________________________________________")
 							if (client.readyState === WebSocket.OPEN)
 			    				client.send(req.params.user + "'s team updated");
 						});
@@ -512,6 +514,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 
 		            //tell users a new trade was added
 					wss.clients.forEach(function(client){
+	console.log("__________________________________________")
 						if (client.readyState === WebSocket.OPEN)
 	        				client.send(sender.owner  + " requested a trade with " + reciever.owner);
 					});
@@ -592,6 +595,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 
 							//tell users a new trade was added
 							wss.clients.forEach(function(client){
+	console.log("__________________________________________")
 								if (client.readyState === WebSocket.OPEN)
 			        				client.send(reciever.owner  + " accepted a trade with " + sender.owner);
 							});
@@ -983,6 +987,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 					
 		            //tell users the the users team was updated
 					wss.clients.forEach(function(client){
+	console.log("__________________________________________")
 						if (client.readyState === WebSocket.OPEN)
 		    				client.send(req.params.user + "'s team updated");
 					});
@@ -1048,6 +1053,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 
 			            //tell users a new trade was added
 						wss.clients.forEach(function(client){
+	console.log("__________________________________________")
 							if (client.readyState === WebSocket.OPEN)
 		        				client.send(sender.owner  + " countered a trade with " + reciever.owner);
 						});
@@ -1124,6 +1130,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 
 						//tell users that the users team was updated
 						wss.clients.forEach(function(client){
+	console.log("__________________________________________")
 							if (client.readyState === WebSocket.OPEN)
 			    				client.send(req.params.user + "'s team updated");
 			    		});
@@ -1150,6 +1157,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 
 					//tell users that the trade was deleted
 					wss.clients.forEach(function(client){
+	console.log("__________________________________________")
 						if (client.readyState === WebSocket.OPEN)
 		    				client.send("trade between " + trade.sender + " and " + trade.reciever + "was deleted");
 		    		});
@@ -1426,6 +1434,7 @@ console.log("start")
 						
 						//tell users that the specific user's team has been updated
 						wss.clients.forEach(function(client){
+	console.log("__________________________________________")
 							if (client.readyState === WebSocket.OPEN)
 		        				client.send(team.owner + "'s team updated");
 						});
@@ -1459,6 +1468,7 @@ console.log("start")
 				
 				//tell users that the specific sport stats have been updated
 				wss.clients.forEach(function(client){
+	console.log("__________________________________________")
 					if (client.readyState === WebSocket.OPEN)
         				client.send(sport + " stats updated");
 				});
