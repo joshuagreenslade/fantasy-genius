@@ -122,4 +122,8 @@
 	document.addEventListener('addplayer', function(e){
 		model.addplayer(e.detail);
 	});
+
+	document.addEventListener('deleteplayer', function(e){
+		model.deleteplayers(e.detail);
+	});
 }(model, view));

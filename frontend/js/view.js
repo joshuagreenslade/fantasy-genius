@@ -827,6 +827,18 @@ var view = (function() {
 								<td>${goalie.SavePercentage}</td><td>${goalie.Shutouts}</td><td>${goalie.Played}</td>
 								<td>${goalie.points}</td>`;
 			goaliedisplay.append(e);
+			var removebutton = document.createElement('button');
+			removebutton.classname = "btn btn-primary pull-right"
+			removebutton.type = "button";
+			removebutton.value = "Remove Player";
+			removebutton.id = "removebutton";
+			removebutton.onclick = function(e){
+				e.preventDefault();
+				var data = {};
+				data.player = goalie.playerID;
+				document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
+			};
+			e.append(removebutton);
 		}
 		playerdisplay.innerHTML = "";
 		var players = data.forward;
@@ -839,6 +851,18 @@ var view = (function() {
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				playerdisplay.append(e);
+				var removebutton = document.createElement('button');
+				removebutton.classname = "btn btn-primary pull-right"
+				removebutton.type = "button";
+				removebutton.value = "Remove Player";
+				removebutton.id = "removebutton";
+				removebutton.onclick = function(e){
+					e.preventDefault();
+					var data = {};
+					data.player = player.playerID;
+					document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
+				};
+				e.append(removebutton);
 			}
 		});
 		players = data.defence;
@@ -851,6 +875,18 @@ var view = (function() {
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				playerdisplay.append(e);
+				var removebutton = document.createElement('button');
+				removebutton.classname = "btn btn-primary pull-right"
+				removebutton.type = "button";
+				removebutton.value = "Remove Player";
+				removebutton.id = "removebutton";
+				removebutton.onclick = function(e){
+					e.preventDefault();
+					var data = {};
+					data.player = player.playerID;
+					document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
+				};
+				e.append(removebutton);
 			}
 		});
 		benchplayerdisplay.innerHTML = "";
@@ -864,6 +900,18 @@ var view = (function() {
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				benchplayerdisplay.append(e);
+				var removebutton = document.createElement('button');
+				removebutton.classname = "btn btn-primary pull-right"
+				removebutton.type = "button";
+				removebutton.value = "Remove Player";
+				removebutton.id = "removebutton";
+				removebutton.onclick = function(e){
+					e.preventDefault();
+					var data = {};
+					data.player = player.playerID;
+					document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
+				};
+				e.append(removebutton);
 			}
 		});
 		players = data.bench_defence;
@@ -876,6 +924,18 @@ var view = (function() {
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				benchplayerdisplay.append(e);
+				var removebutton = document.createElement('button');
+				removebutton.classname = "btn btn-primary pull-right"
+				removebutton.type = "button";
+				removebutton.value = "Remove Player";
+				removebutton.id = "removebutton";
+				removebutton.onclick = function(e){
+					e.preventDefault();
+					var data = {};
+					data.player = player.playerID;
+					document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
+				};
+				e.append(removebutton);
 			}
 		});
 	};
@@ -978,13 +1038,19 @@ var view = (function() {
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 			playerdisplay.append(e);
-			e.onclick = function(e){
+			var addbutton = document.createElement('button');
+			addbutton.classname = "btn btn-primary pull-right"
+			addbutton.type = "button";
+			addbutton.value = "Add Player";
+			addbutton.id = "addbutton";
+			addbutton.onclick = function(e){
 				e.preventDefault();
 				var data = {};
 				data.playerID = player.playerID;
 				data.sport = 'nhl';
 				document.dispatchEvent(new CustomEvent("addplayer", {detail:data}));
 			};
+			e.append(addbutton);
 		});
 	};
 
@@ -1023,13 +1089,19 @@ var view = (function() {
 								<td>${goalie.SavePercentage}</td><td>${goalie.Shutouts}</td><td>${goalie.Played}</td>
 								<td>${goalie.points}</td>`;
 			goaliedisplay.append(e);
-			e.onclick = function(e){
+			var addbutton = document.createElement('button');
+			addbutton.classname = "btn btn-primary pull-right"
+			addbutton.type = "button";
+			addbutton.value = "Add Player";
+			addbutton.id = "addbutton";
+			addbutton.onclick = function(e){
 				e.preventDefault();
 				var data = {};
 				data.playerID = goalie.playerID;
 				data.sport = 'nhl';
 				document.dispatchEvent(new CustomEvent("addplayer", {detail:data}));
 			};
+			e.append(addbutton);
 		});
 	};
 
