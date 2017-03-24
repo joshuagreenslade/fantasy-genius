@@ -120,7 +120,8 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 		    secret: 'keyboard cat',
 		    resave: false,
 		    saveUninitialized: true,
-		    cookie: {secure: false, sameSite: true}
+		    proxy: true,
+		    cookie: {secure: true, sameSite: true}
 		}))
 
 		.use(validator({
