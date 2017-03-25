@@ -316,12 +316,8 @@ var view = (function() {
 		document.getElementById("to_home").style.display = "none";
 
 		document.dispatchEvent(new CustomEvent("signout"));
-		var data = {};
-		data.sport = 'nhl';
-		data.type = 's';
-		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data}));
-		data.type = 'g';
-		document.dispatchEvent(new CustomEvent("getallgoalies", {detail:data}));
+
+		reset_sort();
 	};
 
 	document.getElementById('my_team').onclick = function(e){
@@ -452,117 +448,330 @@ var view = (function() {
 		document.getElementById("to_signup").style.display = "none";
 		document.getElementById("to_home").style.display = "block";
 
+		reset_sort();
+	};
+
+	var next_player = function(event, type, element){
 		var data = {};
 		data.sport = 'nhl';
-		data.type = 's';
-		document.dispatchEvent(new CustomEvent("getallplayerstoadd", {detail: data}));
-		data.type = 'g';
-		document.dispatchEvent(new CustomEvent("getallgoaliestoadd", {detail:data}));
+		data.type = type;
+		var players = document.getElementById(element).children
+		data.id = players[players.length-1].id;
+
+		//gets the attribute that is being sorted by
+		get_titles(type).forEach(function(title){
+			if(title && (title.style.display !== 'none')){
+
+				data.sortField = title.id.split('_')[1];
+				if(title.id.includes('Lastname'))
+					data.sortField = 'LastName';
+				if(title.id.includes('Firstname'))
+					data.sortField = 'FirstName';
+				else if(title.id.includes('GAA'))
+					data.sortField = 'GoalsAgainstAverage';
+				
+				data.sort = 'decreasing';
+				if(title.className === "down_arrow")
+					data.sort = 'increasing';
+			}
+		});
+
+		document.dispatchEvent(new CustomEvent(event, {detail: data}));
+	};
+
+	var prev_player = function(event, type, element){
+		var data = {};
+		data.sport = 'nhl';
+		data.type = type;
+		var players = document.getElementById(element).children
+		data.id = players[0].id;
+
+		//gets the attribute that is being sorted by
+		get_titles(type).forEach(function(title){
+			if(title && (title.style.display !== 'none')){
+
+				data.sortField = title.id.split('_')[1];
+				if(title.id.includes('Lastname'))
+					data.sortField = 'LastName';
+				if(title.id.includes('Firstname'))
+					data.sortField = 'FirstName';
+				else if(title.id.includes('GAA'))
+					data.sortField = 'GoalsAgainstAverage';
+				
+				data.sort = 'increasing';
+				data.flip = true;
+				if(title.className === "down_arrow")
+					data.sort = 'decreasing';
+			}
+		});
+
+		document.dispatchEvent(new CustomEvent(event, {detail: data}));
 	};
 
 	document.getElementById('next_player').onclick = function(e){
 		e.preventDefault();
-
-		var data = {};
-		data.sport = 'nhl';
-		data.type = 's';
-		var players = document.getElementById('players').children
-		data.id = players[players.length-1].id
-		data.sort = 'increasing';
-		document.dispatchEvent(new CustomEvent("getallplayersat", {detail: data}));
+		next_player("getallplayersat", "s", "players");
 	};
 
 	document.getElementById('prev_player').onclick = function(e){
 		e.preventDefault();
-
-		var data = {};
-		data.sport = 'nhl';
-		data.type = 's';
-		var players = document.getElementById('players').children
-		data.id = players[0].id
-		data.sort = 'decreasing';
-		document.dispatchEvent(new CustomEvent("getallplayersat", {detail: data}));
+		prev_player("getallplayersat", "s", "players");
 	};
 
 	document.getElementById('next_goalie').onclick = function(e){
 		e.preventDefault();
-
-		var data = {};
-		data.sport = 'nhl';
-		data.type = 'g';
-		var players = document.getElementById('goalies').children
-		data.id = players[players.length-1].id
-		data.sort = 'increasing';
-		document.dispatchEvent(new CustomEvent("getallgoaliesat", {detail: data}));
+		next_player("getallgoaliesat", "g", "goalies");
 	};
 
 	document.getElementById('prev_goalie').onclick = function(e){
 		e.preventDefault();
-
-		var data = {};
-		data.sport = 'nhl';
-		data.type = 'g';
-		var players = document.getElementById('goalies').children
-		data.id = players[0].id
-		data.sort = 'decreasing';
-		document.dispatchEvent(new CustomEvent("getallgoaliesat", {detail: data}));
+		prev_player("getallgoaliesat", "g", "goalies");
 	};
 
 	document.getElementById('next_player_add').onclick = function(e){
 		e.preventDefault();
-
-		var data = {};
-		data.sport = 'nhl';
-		data.type = 's';
-		var players = document.getElementById('players').children
-		data.id = players[players.length-1].id
-		data.sort = 'increasing';
-		document.dispatchEvent(new CustomEvent("getallplayerstoaddat", {detail: data}));
+		next_player("getallplayerstoaddat", "s", "players");
 	};
 
 	document.getElementById('prev_player_add').onclick = function(e){
 		e.preventDefault();
-
-		var data = {};
-		data.sport = 'nhl';
-		data.type = 's';
-		var players = document.getElementById('players').children
-		data.id = players[0].id
-		data.sort = 'decreasing';
-		document.dispatchEvent(new CustomEvent("getallplayerstoaddat", {detail: data}));
+		prev_player("getallplayerstoaddat", "s", "players");
 	};
 
 	document.getElementById('next_goalie_add').onclick = function(e){
 		e.preventDefault();
-
-		var data = {};
-		data.sport = 'nhl';
-		data.type = 'g';
-		var players = document.getElementById('goalies').children
-		data.id = players[players.length-1].id
-		data.sort = 'increasing';
-		document.dispatchEvent(new CustomEvent("getallgoaliestoaddat", {detail: data}));
+		next_player("getallgoaliestoaddat", "g", "goalies");
 	};
 
 	document.getElementById('prev_goalie_add').onclick = function(e){
 		e.preventDefault();
+		prev_player("getallgoaliestoaddat", "g", "goalies");
+	};
+
+	var get_titles = function(type){
+		var attributes = "player_attributes";
+		if(type === 'g')
+			attributes = "goalie_attributes";
+
+		//get the attribute titles
+		var titles = Array.prototype.slice.call(document.getElementById(attributes).children);
+		return titles.map(function(title){if(title.children[0]) return title.children[0].children[0]});
+	}
+
+	var reset_sort = function(){
+		document.getElementById("player_Lastname_sort").className = "up_arrow";
+		document.getElementById('player_Lastname_button').onclick();
+		document.getElementById("goalie_Lastname_sort").className = "up_arrow";
+		document.getElementById('goalie_Lastname_button').onclick();
+	}
+
+	var sort_player = function(event, curr_attribute, attributeName, type){
+		document.getElementById(curr_attribute).style.display = "flex";
+
+		//reset all other attributes
+		get_titles(type).forEach(function(attribute){
+			if(attribute){
+				if(attribute.id !== curr_attribute){
+					document.getElementById(attribute.id).style.display = "none";
+					document.getElementById(attribute.id).className = "up_arrow";
+				}
+			}
+		});
 
 		var data = {};
 		data.sport = 'nhl';
-		data.type = 'g';
-		var players = document.getElementById('goalies').children
-		data.id = players[0].id
-		data.sort = 'decreasing';
-		document.dispatchEvent(new CustomEvent("getallgoaliestoaddat", {detail: data}));
+		data.type = type;
+		data.sortField = attributeName;
+		if(document.getElementById(curr_attribute).className === "down_arrow"){
+			document.getElementById(curr_attribute).className = "up_arrow";
+			data.sort = "decreasing";
+		}
+		else{
+			document.getElementById(curr_attribute).className = "down_arrow";
+			data.sort = "increasing";
+		}
+		document.dispatchEvent(new CustomEvent(event, {detail: data}));
 	};
+
+
+	//player sorts
+	document.getElementById('player_Lastname_button').onclick = function(){
+		var event = "getallplayers";
+		if(document.getElementById('next_player_add').style.display !== "none")
+			event = "getallplayerstoadd";
+		sort_player(event, 'player_Lastname_sort', 'LastName', 's');
+	};
+
+	document.getElementById('player_Firstname_button').onclick = function(){
+		var event = "getallplayers";
+		if(document.getElementById('next_player_add').style.display !== "none")
+			event = "getallplayerstoadd";
+		sort_player(event, 'player_Firstname_sort', 'FirstName', 's');
+	};
+
+	document.getElementById('player_Position_button').onclick = function(){
+		var event = "getallplayers";
+		if(document.getElementById('next_player_add').style.display !== "none")
+			event = "getallplayerstoadd";
+		sort_player(event, 'player_Position_sort', 'Position', 's');
+	};
+
+	document.getElementById('player_City_button').onclick = function(){
+		var event = "getallplayers";
+		if(document.getElementById('next_player_add').style.display !== "none")
+			event = "getallplayerstoadd";
+		sort_player(event, 'player_City_sort', 'City', 's');
+	};
+
+	document.getElementById('player_Name_button').onclick = function(){
+		var event = "getallplayers";
+		if(document.getElementById('next_player_add').style.display !== "none")
+			event = "getallplayerstoadd";
+		sort_player(event, 'player_Name_sort', 'Name', 's');
+	};
+
+	document.getElementById('player_Abbreviation_button').onclick = function(){
+		var event = "getallplayers";
+		if(document.getElementById('next_player_add').style.display !== "none")
+			event = "getallplayerstoadd";
+		sort_player(event, 'player_Abbreviation_sort', 'Abbreviation', 's');
+	};
+
+	document.getElementById('player_Goals_button').onclick = function(){
+		var event = "getallplayers";
+		if(document.getElementById('next_player_add').style.display !== "none")
+			event = "getallplayerstoadd";
+		sort_player(event, 'player_Goals_sort', 'Goals', 's');
+	};
+
+	document.getElementById('player_Assists_button').onclick = function(){
+		var event = "getallplayers";
+		if(document.getElementById('next_player_add').style.display !== "none")
+			event = "getallplayerstoadd";
+		sort_player(event, 'player_Assists_sort', 'Assists', 's');
+	};
+
+	document.getElementById('player_Points_button').onclick = function(){
+		var event = "getallplayers";
+		if(document.getElementById('next_player_add').style.display !== "none")
+			event = "getallplayerstoadd";
+		sort_player(event, 'player_Points_sort', 'Points', 's');
+	};
+
+	document.getElementById('player_PlusMinus_button').onclick = function(){
+		var event = "getallplayers";
+		if(document.getElementById('next_player_add').style.display !== "none")
+			event = "getallplayerstoadd";
+		sort_player(event, 'player_PlusMinus_sort', 'PlusMinus', 's');
+	};
+
+	document.getElementById('player_Played_button').onclick = function(){
+		var event = "getallplayers";
+		if(document.getElementById('next_player_add').style.display !== "none")
+			event = "getallplayerstoadd";
+		sort_player(event, 'player_Played_sort', 'Played', 's');
+	};
+
+	document.getElementById('player_points_button').onclick = function(){
+		var event = "getallplayers";
+		if(document.getElementById('next_player_add').style.display !== "none")
+			event = "getallplayerstoadd";
+		sort_player(event, 'player_points_sort', 'points', 's');
+	};
+
+
+	//goalie sorts
+	document.getElementById('goalie_Lastname_button').onclick = function(){
+		var event = "getallgoalies";
+		if(document.getElementById('next_goalie_add').style.display !== "none")
+			event = "getallgoaliestoadd";
+		sort_player(event, 'goalie_Lastname_sort', 'LastName', 'g');
+	};
+
+	document.getElementById('goalie_Firstname_button').onclick = function(){
+		var event = "getallgoalies";
+		if(document.getElementById('next_goalie_add').style.display !== "none")
+			event = "getallgoaliestoadd";
+		sort_player(event, 'goalie_Firstname_sort', 'FirstName', 'g');
+	};
+
+	document.getElementById('goalie_City_button').onclick = function(){
+		var event = "getallgoalies";
+		if(document.getElementById('next_goalie_add').style.display !== "none")
+			event = "getallgoaliestoadd";
+		sort_player(event, 'goalie_City_sort', 'City', 'g');
+	};
+
+	document.getElementById('goalie_Name_button').onclick = function(){
+		var event = "getallgoalies";
+		if(document.getElementById('next_goalie_add').style.display !== "none")
+			event = "getallgoaliestoadd";
+		sort_player(event, 'goalie_Name_sort', 'Name', 'g');
+	};
+
+	document.getElementById('goalie_Abbreviation_button').onclick = function(){
+		var event = "getallgoalies";
+		if(document.getElementById('next_goalie_add').style.display !== "none")
+			event = "getallgoaliestoadd";
+		sort_player(event, 'goalie_Abbreviation_sort', 'Abbreviation', 'g');
+	};
+
+	document.getElementById('goalie_Wins_button').onclick = function(){
+		var event = "getallgoalies";
+		if(document.getElementById('next_goalie_add').style.display !== "none")
+			event = "getallgoaliestoadd";
+		sort_player(event, 'goalie_Wins_sort', 'Wins', 'g');
+	};
+
+	document.getElementById('goalie_Losses_button').onclick = function(){
+		var event = "getallgoalies";
+		if(document.getElementById('next_goalie_add').style.display !== "none")
+			event = "getallgoaliestoadd";
+		sort_player(event, 'goalie_Losses_sort', 'Losses', 'g');
+	};
+
+	document.getElementById('goalie_GAA_button').onclick = function(){
+		var event = "getallgoalies";
+		if(document.getElementById('next_goalie_add').style.display !== "none")
+			event = "getallgoaliestoadd";
+		sort_player(event, 'goalie_GAA_sort', 'GoalsAgainstAverage', 'g');
+	};
+
+	document.getElementById('goalie_SavePercentage_button').onclick = function(){
+		var event = "getallgoalies";
+		if(document.getElementById('next_goalie_add').style.display !== "none")
+			event = "getallgoaliestoadd";
+		sort_player(event, 'goalie_SavePercentage_sort', 'SavePercentage', 'g');
+	};
+
+	document.getElementById('goalie_Shutouts_button').onclick = function(){
+		var event = "getallgoalies";
+		if(document.getElementById('next_goalie_add').style.display !== "none")
+			event = "getallgoaliestoadd";
+		sort_player(event, 'goalie_Shutouts_sort', 'Shutouts', 'g');
+	};
+
+	document.getElementById('goalie_Played_button').onclick = function(){
+		var event = "getallgoalies";
+		if(document.getElementById('next_goalie_add').style.display !== "none")
+			event = "getallgoaliestoadd";
+		sort_player(event, 'goalie_Played_sort', 'Played', 'g');
+	};
+
+	document.getElementById('goalie_points_button').onclick = function(e){
+		e.preventDefault();
+		var event = "getallgoalies";
+		if(document.getElementById('next_goalie_add').style.display !== "none")
+			event = "getallgoaliestoadd";
+		sort_player(event, 'goalie_points_sort', 'points', 'g');
+	};
+
 
 	var view = {};
 	//if error is raised
 	view.error = function(data){
 		document.getElementById('error').innerHTML = data;
 
-		var main = document.getElementById("main");
-		main.style.display = 'none';
 		var teampage = document.getElementById("team_page")
 		var leaguepage = document.getElementById("league_page");
 		teampage.style.display = 'none';
@@ -606,15 +815,10 @@ var view = (function() {
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
 		document.getElementById("to_home").style.display = "none";
+		
+		reset_sort();
 
-		var data = {};
-		data.sport = 'nhl';
-		data.type = 's';
-		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data}));
-		data.type = 'g';
-		document.dispatchEvent(new CustomEvent("getallgoalies", {detail:data}));
-
-		socketparam = data.sport;
+		socketparam = 'nhl';
 		socket.onmessage = function(event){
 			if(event.data === (socketparam + " stats updated"))
 				document.dispatchEvent(new CustomEvent("pageloaded"));
@@ -678,14 +882,9 @@ var view = (function() {
 		document.getElementById("to_signup").style.display = "none";
 		document.getElementById("to_home").style.display = "none";
 
-		var data = {};
-		data.sport = 'nhl';
-		data.type = 's';
-		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data}));
-		data.type = 'g';
-		document.dispatchEvent(new CustomEvent("getallgoalies", {detail: data}));
+		reset_sort();
 
-		socketparam = data.sport;
+		socketparam = 'nhl';
 		socket.onmessage = function(event){
 			if(event.data === (socketparam + " stats updated"))
 				document.dispatchEvent(new CustomEvent("pageloaded"));
@@ -737,15 +936,10 @@ var view = (function() {
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
 		document.getElementById("to_home").style.display = "none";
+		
+		reset_sort();
 
-		var data = {};
-		data.sport = 'nhl';
-		data.type = 's';
-		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data}));
-		data.type = 'g';
-		document.dispatchEvent(new CustomEvent("getallgoalies", {detail:data}));
-
-		socketparam = data.sport;
+		socketparam = 'nhl';
 		socket.onmessage = function(event){
 			if(event.data === (socketparam + " stats updated"))
 				document.dispatchEvent(new CustomEvent("pageloaded"));
@@ -790,19 +984,15 @@ var view = (function() {
 		document.getElementById("to_signup").style.display = "none";
 		document.getElementById("to_home").style.display = "none";
 
-		var data = {};
-		data.sport = 'nhl';
-		data.type = 's';
-		document.dispatchEvent(new CustomEvent("getallplayers", {detail: data}));
-		data.type = 'g';
-		document.dispatchEvent(new CustomEvent("getallgoalies", {detail:data}));
+		reset_sort();
 
-		socketparam = data.sport;
+		socketparam = 'nhl';
 		socket.onmessage = function(event){
 			if(event.data === (socketparam + " stats updated"))
 				document.dispatchEvent(new CustomEvent("pageloaded"));
 		};
 	};
+
 	//displaying users after joining fails, trying to display team after joining displays admins team
 	view.displayplayers = function(data){
 		socketparam = data;
@@ -1007,13 +1197,9 @@ var view = (function() {
 
 	view.displayallplayerstoadd = function(data){
 		socket.onmessage = function(event){
-				if(event.data === ("nhl stats updated")){
-					var data = {sport: 'nhl', type: 'g'};
-					document.dispatchEvent(new CustomEvent("getallgoaliestoadd", {detail: data}));
-					data.type = 's';
-					document.dispatchEvent(new CustomEvent("getallplayerstoadd", {detail: data}));
-				}
-			};
+			if(event.data === ("nhl stats updated"))
+				reset_sort();
+		};
 		
 		//show the correct next/prev buttons
 		document.getElementById('next_player_add').style.display = 'inline';
@@ -1056,12 +1242,8 @@ var view = (function() {
 
 	view.displayallgoaliestoadd = function(data){
 		socket.onmessage = function(event){
-			if(event.data === ("nhl stats updated")){
-				var data = {sport: 'nhl', type: 'g'};
-				document.dispatchEvent(new CustomEvent("getallgoaliestoadd", {detail: data}));
-				data.type = 's';
-				document.dispatchEvent(new CustomEvent("getallplayerstoadd", {detail: data}));
-			}
+			if(event.data === ("nhl stats updated"))
+				reset_sort();
 		};
 
 		//show the correct next/prev buttons

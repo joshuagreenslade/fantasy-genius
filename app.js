@@ -689,8 +689,8 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 		//get the specified sports players
 		.get('/api/sports/:sport/players/type/:type/', checkInput, function(req, res, next){
 
-			// /api/sports/:sport/players/(type)/?limit=(integer)&sort=(increasing or decreasing)&sortField=(string)LastName&firstPlayer=(playerid)
-			// /api/sports/:sport/players/skater/?limit=10&sort=increasing&sortField=LastName&firstPlayer=4583
+			// /api/sports/:sport/players/type/(type)/?limit=(integer)&sort=(increasing or decreasing)&sortField=(string)LastName&firstPlayer=(playerid)
+			// /api/sports/:sport/players/type/skater/?limit=10&sort=increasing&sortField=LastName&firstPlayer=4583
 			//type can be G, Goalie, S, Skater (in any case)
 
 			//sorting is case sensitive so v comes after Z
@@ -707,11 +707,9 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 				limit = JSON.parse(limit);
 
 			//get the field to sort by
-			var sortField = req.query.sortField;
-			if(sortField === undefined){
-				//sortField = "LastName";
-				sortField = "id";
-			}
+			var sortField = req.query.sortField + "_id";
+			if(sortField === "undefined_id")
+				sortField = "LastName_id";
 
 			//get the sort direction
 			var sort_direction = req.query.sort;
@@ -721,11 +719,8 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 			//set the sort
 			sort = {};
 			sort[sortField] = 1;
-			sort.id = 1
-			if(sort_direction === 'decreasing'){
+			if(sort_direction === 'decreasing')
 				sort[sortField] = -1;
-				sort.id = -1
-			}
 
 			//if a firstPlayer id was given start looking getting players after and including that
 			var search_player = {};
@@ -761,14 +756,6 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 				query[sortField] = {$gte: player[sortField]};
 				if(sort_direction === 'decreasing')
 					query[sortField] = {$lte: player[sortField]};
-
-				//make the secondary sort by lastname
-				if((req.query.firstPlayer !== undefined) && (player[sortField] !== undefined) && (sortField !== 'id')){
-					query.id = {$gte: player.id}
-					if(sort_direction === 'decreasing'){
-						query.id = {$lte: player.id}
-					}
-				}
 
 				//get the data from the db
 				stats.find(query).sort(sort).limit(parseInt(limit)).toArray(function(err, result){
@@ -1177,18 +1164,13 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 	rule.hour = 10;
 	rule.minute = 0;
 
-	//run update every day at 6am eastern standers time (10am UTC)
+	//run update every day at 6am eastern standard time (10am UTC)
 	schedule.scheduleJob(rule, function(){
 		get_updates(['nhl']);
 	});
 
 	//updates the stats database and updates the teams' stats
 	var get_updates = function(sports){
-
-/////////////////////
-console.log("start")
-/////////////////////
-
 		
 		//update each supported sport's stats
 		sports.forEach(function(sport){
@@ -1211,9 +1193,25 @@ console.log("start")
 					//initialize each active player
 					active_players.forEach(function(player){
 
+						//skip if the player doesn't have a team
+						if(player.team === undefined){
+							active_players[active_players.indexOf(player)] = null;
+							return;
+						}
+	
 						//create a promise for each player that resolves when their stats update
 						promises.push(new Promise(function(resolve, reject){
 							var player_stuff = {sport: sport, points: 0}
+
+							//add the player's team info
+							if(player.team){
+								Object.keys(player.team).forEach(function(key){
+									if(key === 'ID')
+										player_stuff['teamID'] = player.team[key];
+									else
+										player_stuff[key] = player.team[key];
+								});
+							}
 
 							//add the player info
 							Object.keys(player.player).forEach(function(key){
@@ -1228,24 +1226,6 @@ console.log("start")
 									player_stuff[key] = player.player[key];
 								}
 							});
-
-							//add the player's team info
-							if(player.team){
-								Object.keys(player.team).forEach(function(key){
-									if(key === 'ID')
-										player_stuff['teamID'] = player.team[key];
-									else
-										player_stuff[key] = player.team[key];
-								});
-							}
-
-							//if the player doesn't have a team
-							else{
-								player_stuff['teamID'] = "N/A";
-								player_stuff["City"] = "N/A";
-								player_stuff["Name"] = "N/A";
-								player_stuff["Abbreviation"] = "N/A";
-							}
 
 							//add default player stats
 							switch(sport){
@@ -1309,33 +1289,63 @@ console.log("start")
 
 					//calculate the points each player got for the day before
 					var promises = [];
-					player_stats.forEach(function(player){
 
-						//only update player stats who have updated stats
-						active_players.forEach(function(next_player){
-							if(next_player.playerID === player.player.ID){
-							
-								//create a promise for each player that resolves when their stats update
-								promises.push(new Promise(function(resolve, reject){
+					//only update player stats who have updated stats
+					active_players.forEach(function(next_player){
+						if(next_player === null)
+							return;
 
-									//calculate the next_players' points from player.stats in the given sport
-									next_player = calculate_points(player.stats, next_player, sport);
+						//get player_stats for the next_player
+						var player = player_stats.reduce(function(acc, player){
+							if((acc===null) && (player.player.ID===next_player.playerID))
+								return player;
+							return acc
+						}, null);
 
-									//find teams who have next_player in their active_players array and give them the corresponding points
-									teams.find({active_players: {$elemMatch: {$eq: next_player.playerID}}}).toArray(function(err, team){
-										team.forEach(function(next_team){
-											if(team_points[next_team.owner] === undefined)
-												team_points[next_team.owner] = 0
-											team_points[next_team.owner] += next_player.points;
-										});
-										
-										//update the player's stats and info
-										next_player.id = next_player.LastName + " " + next_player.FirstName + " " + next_player.playerID;
-										stats.update({playerID: next_player['playerID']}, {$set: next_player}, {upsert: true}, resolve());
-									});
-								}));
-							}
-						});
+						//calculate the next_players' points from player.stats in the given sport
+						if(player !== null)
+							next_player = calculate_points(player.stats, next_player, sport);
+
+						//create a promise for each player that resolves when their stats update
+						promises.push(new Promise(function(resolve, reject){
+
+							//find teams who have next_player in their active_players array and give them the corresponding points
+							teams.find({active_players: {$elemMatch: {$eq: next_player.playerID}}}).toArray(function(err, team){
+								team.forEach(function(next_team){
+									if(team_points[next_team.owner] === undefined)
+										team_points[next_team.owner] = 0
+									team_points[next_team.owner] += next_player.points;
+								});
+								
+
+								//add id's to help sort by the player attributes
+								next_player.LastName_id = next_player.LastName + " " + next_player.FirstName + " " + next_player.playerID;
+								next_player.FirstName_id = next_player.FirstName + " " + next_player.LastName + " " + next_player.playerID;
+								next_player.Position_id = next_player.Position + " " + next_player.LastName + " " + next_player.FirstName + " " + next_player.playerID;
+								next_player.City_id = next_player.City + " " + next_player.LastName + " " + next_player.FirstName + " " + next_player.playerID;
+								next_player.Name_id = next_player.Name + " " + next_player.LastName + " " + next_player.FirstName + " " + next_player.playerID;
+								next_player.Abbreviation_id = next_player.Abbreviation + " " + next_player.LastName + " " + next_player.FirstName + " " + next_player.playerID;
+								next_player.Played_id = next_player.Played + " " + next_player.LastName + " " + next_player.FirstName + " " + next_player.playerID;
+								next_player.points_id = next_player.points + " " + next_player.LastName + " " + next_player.FirstName + " " + next_player.playerID;
+
+								if(next_player.Position !== 'G'){
+									next_player.Goals_id = next_player.Goals + " " + next_player.LastName + " " + next_player.FirstName + " " + next_player.playerID;
+									next_player.Assists_id = next_player.Assists + " " + next_player.LastName + " " + next_player.FirstName + " " + next_player.playerID;
+									next_player.Points_id = next_player.Points + " " + next_player.LastName + " " + next_player.FirstName + " " + next_player.playerID;
+									next_player.PlusMinus_id = next_player.PlusMinus + " " + next_player.LastName + " " + next_player.FirstName + " " + next_player.playerID;
+								}
+								else{
+									next_player.Wins_id = next_player.Wins + " " + next_player.LastName + " " + next_player.FirstName + " " + next_player.playerID;
+									next_player.Losses_id = next_player.Losses + " " + next_player.LastName + " " + next_player.FirstName + " " + next_player.playerID;
+									next_player.GoalsAgainstAverage_id = next_player.GoalsAgainstAverage + " " + next_player.LastName + " " + next_player.FirstName + " " + next_player.playerID;
+									next_player.SavePercentage_id = next_player.SavePercentage + " " + next_player.LastName + " " + next_player.FirstName + " " + next_player.playerID;
+									next_player.Shutouts_id = next_player.Shutouts + " " + next_player.LastName + " " + next_player.FirstName + " " + next_player.playerID;
+								}
+
+								//update the player's stats and info
+								stats.update({playerID: next_player['playerID']}, {$set: next_player}, {upsert: true}, resolve());
+							});
+						}));
 					});
 
 					//only update teams when all player stats have been updated
@@ -1463,13 +1473,6 @@ console.log("start")
 					if (client.readyState === WebSocket.OPEN)
         				client.send(sport + " stats updated");
 				});
-
-
-////////////////////
-console.log("done")
-///////////////////
-
-
 			});
 		});
 	};
