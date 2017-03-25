@@ -1290,6 +1290,9 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 					//calculate the points each player got for the day before
 					var promises = [];
 
+					//reset the stats db
+					stats.remove({});
+
 					//only update player stats who have updated stats
 					active_players.forEach(function(next_player){
 						if(next_player === null)
