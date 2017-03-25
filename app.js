@@ -1174,10 +1174,10 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 	var wss = new WebSocket.Server({ server });
 
 	var rule = new schedule.RecurrenceRule();
-	rule.hour = 6;
+	rule.hour = 10;
 	rule.minute = 0;
 
-	//run update every day at 6am
+	//run update every day at 6am eastern standers time (10am UTC)
 	schedule.scheduleJob(rule, function(){
 		get_updates(['nhl']);
 	});

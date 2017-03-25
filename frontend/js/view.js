@@ -821,7 +821,7 @@ var view = (function() {
 		if(goalie !== null){
 			var e = document.createElement("tr");
 			e.id = goalie.playerID;
-			e.innerHTML = `<td>${goalie.LastName}</td><td>${goalie.FirstName}</td><td>${goalie.Position}</td>
+			e.innerHTML = `<td>${goalie.LastName}</td><td>${goalie.FirstName}</td>
 								<td>${goalie.City}</td><td>${goalie.Name}</td><td>${goalie.Abbreviation}</td>
 								<td>${goalie.Wins}</td><td>${goalie.Losses}</td><td>${goalie.GoalsAgainstAverage}</td>
 								<td>${goalie.SavePercentage}</td><td>${goalie.Shutouts}</td><td>${goalie.Played}</td>
@@ -996,7 +996,7 @@ var view = (function() {
 		data.forEach(function(goalie){
 			var e = document.createElement("tr");
 			e.id = goalie.playerID;
-			e.innerHTML = `<td>${goalie.LastName}</td><td>${goalie.FirstName}</td><td>${goalie.Position}</td>
+			e.innerHTML = `<td>${goalie.LastName}</td><td>${goalie.FirstName}</td>
 								<td>${goalie.City}</td><td>${goalie.Name}</td><td>${goalie.Abbreviation}</td>
 								<td>${goalie.Wins}</td><td>${goalie.Losses}</td><td>${goalie.GoalsAgainstAverage}</td>
 								<td>${goalie.SavePercentage}</td><td>${goalie.Shutouts}</td><td>${goalie.Played}</td>
@@ -1083,7 +1083,7 @@ var view = (function() {
 		data.forEach(function(goalie){
 			var e = document.createElement("tr");
 			e.id = goalie.playerID;
-			e.innerHTML = `<td>${goalie.LastName}</td><td>${goalie.FirstName}</td><td>${goalie.Position}</td>
+			e.innerHTML = `<td>${goalie.LastName}</td><td>${goalie.FirstName}</td>
 								<td>${goalie.City}</td><td>${goalie.Name}</td><td>${goalie.Abbreviation}</td>
 								<td>${goalie.Wins}</td><td>${goalie.Losses}</td><td>${goalie.GoalsAgainstAverage}</td>
 								<td>${goalie.SavePercentage}</td><td>${goalie.Shutouts}</td><td>${goalie.Played}</td>
