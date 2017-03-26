@@ -1673,7 +1673,7 @@ var view = (function() {
 		//set visibility of bottom buttons
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
-		document.getElementById("to_home").style.display = "none";
+		document.getElementById("to_home").style.display = "block";
 		//have lists of players now need to be displayed then confirm and delete need to be appended below
 		var yourplayerdisplay = document.getElementById("sending");
 		yourplayerdisplay.innerHTML = "";
