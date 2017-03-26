@@ -471,6 +471,9 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 			if(!req.session.user || (req.session.user.username !== req.body.sender))
 				return res.status(403).end("Forbidden");
 
+			if(req.body.sender === req.body.reciever)
+				return res.status(403).end("Cannot trade with yourself");
+
 			//convert the player ids to strings
 			var sender_players = req.body.sender_players.map(function(player){return player.toString();});
 			var reciever_players = req.body.reciever_players.map(function(player){return player.toString();});
@@ -514,7 +517,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 		            //tell users a new trade was added
 					wss.clients.forEach(function(client){
 						if (client.readyState === WebSocket.OPEN)
-	        				client.send(sender.owner  + " requested a trade with " + reciever.owner);
+	        				client.send("a trade between " + sender.owner  + " and " + reciever.owner + " was created, countered, or deleted");
 					});
 
 		            return res.json(trade);
@@ -665,7 +668,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 		.get('/api/sports/:sport/leagues/:league/teams/', checkInput, function(req, res, next){
 			if(!req.session.user) return res.status(403).end("Forbidden");
 			
-			teams.find({league: req.params.league, sport: req.params.sport}).sort({wins: 1}).toArray(function(err, league_teams){
+			teams.find({league: req.params.league, sport: req.params.sport}).sort({wins: -1, score: -1}).toArray(function(err, league_teams){
 				if(err) return res.status(500).end(err);
 				if(!league_teams) return res.status(404).end("League " + req.params.league + " does not exist in the " + req.params.sport);
 
@@ -1037,7 +1040,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 			            //tell users a new trade was added
 						wss.clients.forEach(function(client){
 							if (client.readyState === WebSocket.OPEN)
-		        				client.send(sender.owner  + " countered a trade with " + reciever.owner);
+		        				client.send("a trade between " + sender.owner  + " and " + reciever.owner + " was created, countered, or deleted");
 						});
 
 			            return res.json(trade);
@@ -1139,7 +1142,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 					//tell users that the trade was deleted
 					wss.clients.forEach(function(client){
 						if (client.readyState === WebSocket.OPEN)
-		    				client.send("trade between " + trade.sender + " and " + trade.reciever + "was deleted");
+							client.send("a trade between " + trade.owner  + " and " + trade.owner + " was created, countered, or deleted");
 		    		});
 
 		    		return res.json(_id);
