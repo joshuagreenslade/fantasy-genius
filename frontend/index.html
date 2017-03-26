@@ -23,6 +23,8 @@
     <button type="button" class="btn btn-link pull-left" id="my_team">My Team</button>
     <button type="button" class="btn btn-link pull-left" id="my_league">My League</button>
     <button type="button" class="btn btn-link pull-left" id="add_players">Add Players</button>
+    <button type="button" class="btn btn-link pull-left" id="trade_players">Trade Players</button>
+    <button type="button" class="btn btn-link pull-left" id="my_trades">Make Trades</button>
   </div>
   <div class="container" id="error"></div>
 </div>
@@ -270,6 +272,87 @@
   </div>
 </div>
 
+<div class="container" id="trade_page">
+  <div >
+    <div class="col-md-2">
+      
+    </div>
+    <div class="col-md-8">
+      <div class="well">Teams</div>
+          <table class="table table-bordered table-responsive table-hover">
+            <thead>
+              <tr>
+                <th id="Username_button">Username</th>
+                <th id="Points_button">Points</th>
+                <th id="Daily_wins_button">Daily Wins</th>
+              </tr>
+            </thead>
+            <tbody id="traders">
+            </tbody>
+          </table>
+    </div>
+    <div class="col-md-2">
+      
+    </div>
+  </div>
+</div>
+
+<div class="container" id="tradeconfirm_page">
+  <div>
+    <div class="col-md-2">
+      
+    </div>
+    <div class="col-md-4">
+      <div class="well">You Trade</div>
+      <table class="table table-bordered table-responsive table-hover">
+            <thead>
+              <tr>
+                <th id="Name">Name</th>
+              </tr>
+            </thead>
+            <tbody id="sending">
+            </tbody>
+          </table>
+    </div>
+    <div class="col-md-4">
+      <div class="well">You Recieve</div>
+      <table class="table table-bordered table-responsive table-hover">
+            <thead>
+              <tr>
+                <th id="Name">Name</th>
+              </tr>
+            </thead>
+            <tbody id="receiving">
+            </tbody>
+          </table>
+    </div>
+    <div class="col-md-2">
+      
+    </div>
+  </div>
+</div>
+
+<div class="container" id="your_trades_page">
+  <div>
+    <div class="col-md-2">
+      
+    </div>
+    <div class="col-md-4">
+      <div class="well">You Trade</div>
+      <div id="yoursending">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="well">You Recieve</div>
+      <div id="yourreceiving">
+      </div>
+    </div>
+    <div class="col-md-2">
+      
+    </div>
+  </div>
+</div>
+
 <div class="col-md-8">
   <a id="to_signin">Already Have an Account?</a>
   <a id="to_signup">New User?</a>
@@ -281,4 +364,3 @@
 <script src="./js/controller.js"></script>
 </body>
 </html>
-<!-- change player display to table-->
