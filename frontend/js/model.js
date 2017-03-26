@@ -172,6 +172,48 @@ var model = (function() {
 		xhr.setRequestHeader('Content-Type', 'application/json');
 		xhr.send(body);
 	};
+
+	model.maketrade = function(data){
+		var method = "POST"; // either POST, PUT, GET, PATCH, DELETE
+		var url = "/api/leagues/" + activeleague + "/trades/"; // the full url http:// ...
+		var body = JSON.stringify(data); // should be set to null for GET and DELETE
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === XMLHttpRequest.DONE) {
+				if (this.status >= 400) {
+					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
+					return;
+				}
+				else{
+					document.dispatchEvent(new CustomEvent("loadteam"));
+				}
+			}
+		};
+		xhr.open(method, url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(body);
+	};
+
+	model.completetrade = function(data){
+		var method = "POST"; // either POST, PUT, GET, PATCH, DELETE
+		var url = "/api/leagues/" + activeleague + "/trades/" + data.tradeID + "/"; // the full url http:// ...
+		var body = JSON.stringify(data); // should be set to null for GET and DELETE
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === XMLHttpRequest.DONE) {
+				if (this.status >= 400) {
+					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
+					return;
+				}
+				else{
+					document.dispatchEvent(new CustomEvent("loadteam"));
+				}
+			}
+		};
+		xhr.open(method, url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(body);
+	};
 	
 	model.displayplayers = function() {
 		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
@@ -193,6 +235,27 @@ var model = (function() {
 		xhr.send(body);
 	};
 
+	model.displayyourplayerstotrade = function(data) {
+		//need to also send back list of players
+		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
+		var url = "/api/users/" + activeuser + "/leagues/" + activeleague + "/team/"; // the full url http:// ...
+		var body = null; // should be set to null for GET and DELETE
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === XMLHttpRequest.DONE) {
+				if (this.status >= 400) {
+					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
+					return;
+				} else {
+					document.dispatchEvent(new CustomEvent("displayyourplayerstotrade", {detail: [data.players, JSON.parse(this.responseText)]}));
+				}
+			}
+		};
+		xhr.open(method, url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(body);
+	};
+
 	model.displayhisplayers = function(data){
 		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
 		var url = "/api/users/" + data.username + "/leagues/" + activeleague + "/team/"; // the full url http:// ...
@@ -205,6 +268,26 @@ var model = (function() {
 					return;
 				} else {
 					document.dispatchEvent(new CustomEvent("playersdisplayed", {detail: JSON.parse(this.responseText)}));
+				}
+			}
+		};
+		xhr.open(method, url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(body);
+	};
+
+	model.displayhisplayerstotrade = function(data){
+		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
+		var url = "/api/users/" + data.username + "/leagues/" + activeleague + "/team/"; // the full url http:// ...
+		var body = null; // should be set to null for GET and DELETE
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === XMLHttpRequest.DONE) {
+				if (this.status >= 400) {
+					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
+					return;
+				} else {
+					document.dispatchEvent(new CustomEvent("playersdisplayedtotrade", {detail: JSON.parse(this.responseText)}));
 				}
 			}
 		};
@@ -343,9 +426,91 @@ var model = (function() {
 		xhr.send(body);
 	};
 
+	model.getuserstotrade = function(data){
+		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
+		var url = "/api/sports/" + data.sport + "/leagues/" + activeleague + "/teams/"; // the full url http:// ...
+		var body = null; // should be set to null for GET and DELETE
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === XMLHttpRequest.DONE) {
+				if (this.status >= 400) {
+					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
+					return;
+				} else {
+					var teams = JSON.parse(this.responseText)
+					teams[teams.length] = {sport: activesport, league: activeleague};
+					document.dispatchEvent(new CustomEvent("displaytraders", {detail: teams}));
+				}
+			}
+		};
+		xhr.open(method, url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(body);
+	};
+
+	model.getplayer = function(data){
+		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
+		var url = "/api/sports/" + data.sport + "/players/" + data.playerID + "/"; // the full url http:// ...
+		var body = null; // should be set to null for GET and DELETE
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === XMLHttpRequest.DONE) {
+				if (this.status >= 400) {
+					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
+					return;
+				} else {
+					document.dispatchEvent(new CustomEvent("helper", {detail: JSON.parse(this.responseText)}));
+				}
+			}
+		};
+		xhr.open(method, url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(body);
+	};
+
+	model.gettrades = function(data){
+		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
+		var url = "/api/leagues/" + activeleague + "/users/" + activeuser + "/trades/"; // the full url http:// ...
+		var body = null; // should be set to null for GET and DELETE
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === XMLHttpRequest.DONE) {
+				if (this.status >= 400) {
+					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
+					return;
+				} else {
+					document.dispatchEvent(new CustomEvent("displaytrades", {detail: JSON.parse(this.responseText)}));
+				}
+			}
+		};
+		xhr.open(method, url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(body);
+	};
+
 	model.deleteplayers = function(data){
 		var method = "DELETE"; // either POST, PUT, GET, PATCH, DELETE
 		var url = "/api/users/" + activeuser + "/sports/" + activesport + "/players/" + data.player + "/"; // the full url http:// ...
+		var body = null; // should be set to null for GET and DELETE
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === XMLHttpRequest.DONE) {
+				if (this.status >= 400) {
+					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
+					return;
+				} else {
+					document.dispatchEvent(new CustomEvent("loadteam"));
+				}
+			}
+		};
+		xhr.open(method, url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(body);
+	};
+
+	model.deletetrade = function(data){
+		var method = "DELETE"; // either POST, PUT, GET, PATCH, DELETE
+		var url = "/api/leagues/" + activeleague + "/trades/" + data.tradeID + "/"; // the full url http:// ...
 		var body = null; // should be set to null for GET and DELETE
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function() {

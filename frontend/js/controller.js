@@ -126,4 +126,56 @@
 	document.addEventListener('deleteplayer', function(e){
 		model.deleteplayers(e.detail);
 	});
+
+	document.addEventListener('gettraders', function(e){
+		model.getuserstotrade(e.detail);
+	});
+
+	document.addEventListener('displaytraders', function(e){
+		view.displaytraders(e.detail);
+	});
+
+	document.addEventListener('displayhisplayerstotrade', function(e){
+		model.displayhisplayerstotrade(e.detail);
+	});
+
+	document.addEventListener('playersdisplayedtotrade', function(e){
+		view.displayplayerstotrade(e.detail);
+	});
+
+	document.addEventListener('getyourplayerstotrade', function(e){
+		model.getyourplayerstotrade(e.detail);
+	});
+
+	document.addEventListener('displayyourplayerstotrade', function(e){
+		view.displayyourplayerstotrade(e.detail);
+	});
+
+	document.addEventListener('getplayer', function(e){
+		model.getplayer(e.detail);
+	});
+
+	document.addEventListener('helper', function(e){
+		view.helper(e.detail);
+	});
+
+	document.addEventListener('maketrade', function(e){
+		model.maketrade(e.detail);
+	});
+
+	document.addEventListener('gettrades', function(e){
+		model.gettrades(e.detail);
+	});
+
+	document.addEventListener('displaytrades', function(e){
+		view.displaytrades(e.detail);
+	});
+
+	document.addEventListener('completetrade', function(e){
+		model.completetrade(e.detail);
+	});
+
+	document.addEventListener('deletetrade', function(e){
+		model.deletetrade(e.detail);
+	});
 }(model, view));
