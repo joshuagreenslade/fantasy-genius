@@ -1201,7 +1201,7 @@ var view = (function() {
 	view.displayplayers = function(data){
 		socketparam = data;
 		socket.onmessage = function(event){
-			if((event.data === (socketparam.owner + "'s team updated")) || event.data.startswith(socketparam.owner + " accepted a trade with ") || event.data.endswith(" accepted a trade with " + socketparam.owner)){
+			if(event.data === (socketparam.owner + "'s team updated")){
 				var data = {username: socketparam.owner};
 				document.dispatchEvent(new CustomEvent("displayhisplayers", {detail: data}));
 			}
@@ -1221,19 +1221,17 @@ var view = (function() {
 								<td>${goalie.SavePercentage}</td><td>${goalie.Shutouts}</td><td>${goalie.Played}</td>
 								<td>${goalie.points}</td>`;
 			goaliedisplay.append(e);
-			if(data.activeuser === data.owner){
-				var removebutton = document.createElement('button');
-				removebutton.classname = "btn btn-primary pull-right"
-				removebutton.type = "button";
-				removebutton.value = "Remove Player";
-				removebutton.onclick = function(e){
-					e.preventDefault();
-					var data = {};
-					data.player = goalie.playerID;
-					document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
-				};
-				e.append(removebutton);
-			}
+			var removebutton = document.createElement('button');
+			removebutton.classname = "btn btn-primary pull-right"
+			removebutton.type = "button";
+			removebutton.value = "Remove Player";
+			removebutton.onclick = function(e){
+				e.preventDefault();
+				var data = {};
+				data.player = goalie.playerID;
+				document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
+			};
+			e.append(removebutton);
 		}
 		playerdisplay.innerHTML = "";
 		var players = data.forward;
@@ -1246,19 +1244,17 @@ var view = (function() {
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				playerdisplay.append(e);
-				if(data.activeuser === data.owner){
-					var removebutton = document.createElement('button');
-					removebutton.classname = "btn btn-primary pull-right"
-					removebutton.type = "button";
-					removebutton.value = "Remove Player";
-					removebutton.onclick = function(e){
-						e.preventDefault();
-						var data = {};
-						data.player = player.playerID;
-						document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
-					};
-					e.append(removebutton);
-				}
+				var removebutton = document.createElement('button');
+				removebutton.classname = "btn btn-primary pull-right"
+				removebutton.type = "button";
+				removebutton.value = "Remove Player";
+				removebutton.onclick = function(e){
+					e.preventDefault();
+					var data = {};
+					data.player = player.playerID;
+					document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
+				};
+				e.append(removebutton);
 			}
 		});
 		players = data.defence;
@@ -1271,19 +1267,17 @@ var view = (function() {
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				playerdisplay.append(e);
-				if(data.activeuser === data.owner){
-					var removebutton = document.createElement('button');
-					removebutton.classname = "btn btn-primary pull-right"
-					removebutton.type = "button";
-					removebutton.value = "Remove Player";
-					removebutton.onclick = function(e){
-						e.preventDefault();
-						var data = {};
-						data.player = player.playerID;
-						document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
-					};
-					e.append(removebutton);
-				}
+				var removebutton = document.createElement('button');
+				removebutton.classname = "btn btn-primary pull-right"
+				removebutton.type = "button";
+				removebutton.value = "Remove Player";
+				removebutton.onclick = function(e){
+					e.preventDefault();
+					var data = {};
+					data.player = player.playerID;
+					document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
+				};
+				e.append(removebutton);
 			}
 		});
 		benchplayerdisplay.innerHTML = "";
@@ -1297,19 +1291,17 @@ var view = (function() {
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				benchplayerdisplay.append(e);
-				if(data.activeuser === data.owner){
-					var removebutton = document.createElement('button');
-					removebutton.classname = "btn btn-primary pull-right"
-					removebutton.type = "button";
-					removebutton.value = "Remove Player";
-					removebutton.onclick = function(e){
-						e.preventDefault();
-						var data = {};
-						data.player = player.playerID;
-						document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
-					};
-					e.append(removebutton);
-				}
+				var removebutton = document.createElement('button');
+				removebutton.classname = "btn btn-primary pull-right"
+				removebutton.type = "button";
+				removebutton.value = "Remove Player";
+				removebutton.onclick = function(e){
+					e.preventDefault();
+					var data = {};
+					data.player = player.playerID;
+					document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
+				};
+				e.append(removebutton);
 			}
 		});
 		players = data.bench_defence;
@@ -1322,19 +1314,17 @@ var view = (function() {
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				benchplayerdisplay.append(e);
-				if(data.activeuser === data.owner){
-					var removebutton = document.createElement('button');
-					removebutton.classname = "btn btn-primary pull-right"
-					removebutton.type = "button";
-					removebutton.value = "Remove Player";
-					removebutton.onclick = function(e){
-						e.preventDefault();
-						var data = {};
-						data.player = player.playerID;
-						document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
-					};
-					e.append(removebutton);
-				}
+				var removebutton = document.createElement('button');
+				removebutton.classname = "btn btn-primary pull-right"
+				removebutton.type = "button";
+				removebutton.value = "Remove Player";
+				removebutton.onclick = function(e){
+					e.preventDefault();
+					var data = {};
+					data.player = player.playerID;
+					document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
+				};
+				e.append(removebutton);
 			}
 		});
 	};
@@ -1513,7 +1503,7 @@ var view = (function() {
 		var usable = data[1];
 		socketparam = usable;
 		socket.onmessage = function(event){
-			if(event.data === (socketparam.owner + "'s team updated")){
+			if(event.usable === (socketparam.owner + "'s team updated")){
 					var usable = {username: socketparam.owner};
 					document.dispatchEvent(new CustomEvent("displayhisplayers", {detail: usable}));
 			}
@@ -1753,12 +1743,6 @@ var view = (function() {
 	};
 	//need function that gets trades and confirms or declines them
 	view.displaytrades = function(data){
-		socketparam = data.pop();
-		socket.onmessage = function(event){
-			if(event.data.startswith("a trade between " +  socketparam) || event.data.endswith(" and " + socketparam + " was created, countered, or deleted") || event.data.startswith(socketparam + " accepted a trade with ") || event.data.endswith(" accepted a trade with " + socketparam))
-				document.dispatchEvent(new CustomEvent('gettrades'));
-		};
-
 		var yourplayerstotrade = document.getElementById("yoursending");
 		var yourplayerstorecieve = document.getElementById("yourreceiving");
 		yourplayerstotrade.innerHTML = "";
