@@ -22,6 +22,35 @@
 	width: 100px;
 }
 
+.attribute_title{
+	display: flex;
+}
+
+#player_Lastname_sort, #goalie_Lastname_sort{
+	display: flex;
+}
+
+.down_arrow{
+	display: none;
+	background-image: url('../media/arrow.png');
+	background-repeat: no-repeat;
+    height: 20px;
+    width: 20px;
+    margin-left: 5px;
+    background-size: 100% 100%;
+}
+
+.up_arrow{
+	display: none;
+	background-image: url('../media/arrow.png');
+	background-repeat: no-repeat;
+    height: 20px;
+    width: 20px;
+    margin-left: 5px;
+    background-size: 100% 100%;
+    -webkit-transform: scaleY(-1);
+}
+
 body{
 	background-color: #000000;
 	color: #ff0000;

@@ -30,7 +30,7 @@
 </div>
 
 <div id="main">
-<div >
+<div>
   <div class="col-md-2">
     
   </div>
@@ -39,19 +39,67 @@
     <div class=" table-responsive">
     <table class="table table-bordered table-hover">
       <thead>
-        <tr>
-          <th id="player_Lastname_button">Lastname</th>
-          <th id="player_Firstname_button">Firstname</th>
-          <th id="player_Position_button">Postion</th>
-          <th id="player_City_button">City</th>
-          <th id="player_Name_button">Name</th>
-          <th id="player_Abbreviation_button">Abbreviation</th>
-          <th id="player_Goals_button">Goals</th>
-          <th id="player_Assists_button">Assists</th>
-          <th id="player_Points_button">Points</th>
-          <th id="player_PlusMinus_button">+/-</th>
-          <th id="player_Played_button">Played?</th>
-          <th id="player_points_button">Fantasy Points</th>
+        <tr id="player_attributes">
+          <th id="player_Lastname_button">
+            <div class="attribute_title">
+              Lastname<div id="player_Lastname_sort" class="down_arrow"></div>
+            </div>
+          </th>
+          <th id="player_Firstname_button">
+            <div class="attribute_title">
+              Firstname<div id="player_Firstname_sort" class="up_arrow"></div>
+            </div>
+          </th>
+          <th id="player_Position_button">
+            <div class="attribute_title">
+              Postion<div id="player_Position_sort" class="up_arrow"></div>
+            </div>
+          </th>
+          <th id="player_City_button">
+            <div class="attribute_title">
+              City<div id="player_City_sort" class="up_arrow"></div>
+            </div>
+          </th>
+          <th id="player_Name_button">
+            <div class="attribute_title">
+              Name<div id="player_Name_sort" class="up_arrow"></div>
+            </div>
+          </th>
+          <th id="player_Abbreviation_button">
+            <div class="attribute_title">
+              Abbreviation<div id="player_Abbreviation_sort" class="up_arrow"></div>
+            </div>
+          </th>
+          <th id="player_Goals_button">
+            <div class="attribute_title">
+              Goals<div id="player_Goals_sort" class="up_arrow"></div>
+            </div>
+          </th>
+          <th id="player_Assists_button">
+            <div class="attribute_title">
+              Assists<div id="player_Assists_sort" class="up_arrow"></div>
+            </div>
+          </th>
+          <th id="player_Points_button">
+            <div class="attribute_title">
+              Points<div id="player_Points_sort" class="up_arrow"></div>
+            </div>
+          </th>
+          <th id="player_PlusMinus_button">
+            <div class="attribute_title">
+              +/-<div id="player_PlusMinus_sort" class="up_arrow"></div>
+            </div>
+          </th>
+          <th id="player_Played_button">
+            <div class="attribute_title">
+              Played?<div id="player_Played_sort" class="up_arrow"></div>
+            </div>
+          </th>
+          <th id="player_points_button">
+            <div class="attribute_title">
+              Fantasy Points<div id="player_points_sort" class="up_arrow"></div>
+            </div>
+          </th>
         </tr>
       </thead>
       <tbody id="players">
@@ -68,20 +116,67 @@
     <div class=" table-responsive">
     <table class="table table-bordered table-hover">
       <thead>
-        <tr>
-          <th id="goalie_Lastname_button">Lastname</th>
-          <th id="goalie_Firstname_button">Firstname</th>
-          <th id="goalie_Position_button">Position</th>
-          <th id="goalie_City_button">City</th>
-          <th id="goalie_Name_button">Name</th>
-          <th id="goalie_Abbreviation_button">Abbreviation</th>
-          <th id="goalie_Wins_button">Wins</th>
-          <th id="goalie_Losses_button">Losses</th>
-          <th id="goalie_GAA_button">GAA</th>
-          <th id="goalie_SavePercentage_button">Save%</th>
-          <th id="goalie_Shutouts_button">Shutouts</th>
-          <th id="goalie_Played_button">Played?</th>
-          <th id="goalie_points_button">Fantasy Points</th>
+        <tr id="goalie_attributes">
+          <th id="goalie_Lastname_button">
+            <div class="attribute_title">
+              Lastname<div id="goalie_Lastname_sort" class="down_arrow"></div>
+            </div>
+          </th>
+          <th id="goalie_Firstname_button">
+            <div class="attribute_title">
+              Firstname<div id="goalie_Firstname_sort" class="up_arrow"></div>
+            </div>
+          </th>
+          <th id="goalie_City_button">
+            <div class="attribute_title">
+              City<div id="goalie_City_sort" class="up_arrow"></div>
+            </div>
+          </th>
+          <th id="goalie_Name_button">
+            <div class="attribute_title">
+              Name<div id="goalie_Name_sort" class="up_arrow"></div>
+            </div>
+          </th>
+          <th id="goalie_Abbreviation_button">
+            <div class="attribute_title">
+              Abbreviation<div id="goalie_Abbreviation_sort" class="up_arrow"></div>
+            </div>
+          </th>
+          <th id="goalie_Wins_button">
+            <div class="attribute_title">
+              Wins<div id="goalie_Wins_sort" class="up_arrow"></div>
+            </div>
+          </th>
+          <th id="goalie_Losses_button">
+            <div class="attribute_title">
+              Losses<div id="goalie_Losses_sort" class="up_arrow"></div>
+            </div>
+          </th>
+          <th id="goalie_GAA_button">
+            <div class="attribute_title">
+              GAA<div id="goalie_GAA_sort" class="up_arrow"></div>
+            </div>
+          </th>
+          <th id="goalie_SavePercentage_button">
+            <div class="attribute_title">
+              Save%<div id="goalie_SavePercentage_sort" class="up_arrow"></div>
+            </div>
+          </th>
+          <th id="goalie_Shutouts_button">
+            <div class="attribute_title">
+              Shutouts<div id="goalie_Shutouts_sort" class="up_arrow"></div>
+            </div>
+          </th>
+          <th id="goalie_Played_button">
+            <div class="attribute_title">
+              Played?<div id="goalie_Played_sort" class="up_arrow"></div>
+            </div>
+          </th>
+          <th id="goalie_points_button">
+            <div class="attribute_title">
+              Fantasy Points<div id="goalie_points_sort" class="up_arrow"></div>
+            </div>
+          </th>
         </tr>
       </thead>
       <tbody id="goalies">
@@ -223,7 +318,6 @@
             <tr>
               <th id="your_goalie_Lastname_button">Lastname</th>
               <th id="your_goalie_Firstname_button">Firstname</th>
-              <th id="your_goalie_Position_button">Position</th>
               <th id="your_goalie_City_button">City</th>
               <th id="your_goalie_Name_button">Name</th>
               <th id="your_goalie_Abbreviation_button">Abbreviation</th>
@@ -357,6 +451,8 @@
   <a id="to_signin">Already Have an Account?</a>
   <a id="to_signup">New User?</a>
   <a id="to_home"><span class="glyphicon glyphicon-home"></span></a>
+  <a href="credits.html">Credits</a>
+  <a href="documentation.html">Documentation</a>
 </div>
 
 <script src="./js/model.js"></script>

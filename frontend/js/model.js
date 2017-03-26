@@ -297,8 +297,16 @@ var model = (function() {
 	};
 
 	var getallplayers = function(event, data){
+		var sort = "";
+		var sortField = "";
+		if(data.sort !== undefined)
+			sort = "&sort=" + data.sort;
+
+		if(data.sortField !== undefined)
+			sortField = "&sortField=" + data.sortField;
+
 		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
-		var url = "/api/sports/" + data.sport + "/players/type/" + data.type + "/?limit=11"; // the full url http:// ...
+		var url = "/api/sports/" + data.sport + "/players/type/" + data.type + "/?limit=11" + sort + sortField; // the full url http:// ...
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function() {
 			if (this.readyState === XMLHttpRequest.DONE) {
@@ -322,8 +330,16 @@ var model = (function() {
 	};
 
 	var getallplayersat = function(event, data){
+		var sort = "";
+		var sortField = "";
+		if(data.sort !== undefined)
+			sort = "&sort=" + data.sort;
+
+		if(data.sortField !== undefined)
+			sortField = "&sortField=" + data.sortField;
+
 		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE	
-		var url = "/api/sports/" + data.sport + "/players/type/" + data.type + "/?limit=12&firstPlayer=" + data.id + "&sort=" + data.sort;
+		var url = "/api/sports/" + data.sport + "/players/type/" + data.type + "/?limit=12&firstPlayer=" + data.id + sort + sortField;
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function() {
 			if (this.readyState === XMLHttpRequest.DONE) {
@@ -332,6 +348,9 @@ var model = (function() {
 					return;
 				} else {
 					var players = JSON.parse(this.responseText);
+					if(players.length === 1)
+						return;
+					
 					players.next = false;
 					players.prev = true;
 					players.splice(0,1);
@@ -339,7 +358,7 @@ var model = (function() {
 						players.pop();
 						players.next = true;
 					}
-					if(data.sort === 'decreasing'){
+					if(data.flip){
 						players.reverse();
 						var temp = players.next;
 						players.next = players.prev;
