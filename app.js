@@ -665,7 +665,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 		.get('/api/sports/:sport/leagues/:league/teams/', checkInput, function(req, res, next){
 			if(!req.session.user) return res.status(403).end("Forbidden");
 			
-			teams.find({league: req.params.league, sport: req.params.sport}).sort({wins: 1}).toArray(function(err, league_teams){
+			teams.find({league: req.params.league, sport: req.params.sport}).sort({wins: -1, score: -1}).toArray(function(err, league_teams){
 				if(err) return res.status(500).end(err);
 				if(!league_teams) return res.status(404).end("League " + req.params.league + " does not exist in the " + req.params.sport);
 
