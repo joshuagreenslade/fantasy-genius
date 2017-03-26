@@ -401,7 +401,7 @@ var view = (function() {
 		//set visibility of bottom buttons
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
-		document.getElementById("to_home").style.display = "none";
+		document.getElementById("to_home").style.display = "block";
 		//dispatch event to show modified users page
 		var data = {};
 		data.sport = 'nhl';
@@ -452,7 +452,7 @@ var view = (function() {
 		//set visibility of bottom buttons
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
-		document.getElementById("to_home").style.display = "none";
+		document.getElementById("to_home").style.display = "block";
 
 		//dispatch get trades event
 		var data = {};
