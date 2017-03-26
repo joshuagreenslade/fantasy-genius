@@ -1752,7 +1752,7 @@ var view = (function() {
 	view.displaytrades = function(data){
 		socketparam = data.pop();
 		socket.onmessage = function(event){
-			if(event.data.startswith("a trade between " +  socketparam) || event.data.endswith(" and " + socketparam + " was created, countered, or deleted") || event.data.startswith(socketparam + " accepted a trade with ") || event.data.endswith(" accepted a trade with " socketparam))
+			if(event.data.startswith("a trade between " +  socketparam) || event.data.endswith(" and " + socketparam + " was created, countered, or deleted") || event.data.startswith(socketparam + " accepted a trade with ") || event.data.endswith(" accepted a trade with " + socketparam))
 				document.dispatchEvent(new CustomEvent('gettrades'));
 		};
 
