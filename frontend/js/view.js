@@ -1005,8 +1005,8 @@ var view = (function() {
 		socketparam = data;
 		socket.onmessage = function(event){
 			if(event.data === (socketparam.owner + "'s team updated")){
-					var data = {username: socketparam.owner};
-					document.dispatchEvent(new CustomEvent("displayhisplayers", {detail: data}));
+				var data = {username: socketparam.owner};
+				document.dispatchEvent(new CustomEvent("displayhisplayers", {detail: data}));
 			}
 		};
 		

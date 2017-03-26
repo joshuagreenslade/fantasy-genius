@@ -1,3 +1,5 @@
+/*jshint esversion: 6*/
+
 var express = require('express');
 var fs = require('fs');
 var https = require('https');
@@ -129,7 +131,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 				isIntArray: function(array){
 					//check that it is an array, has only positive integers
 					return Array.isArray(array) && array.reduce(function(acc, val){
-						return acc && !isNaN(val) && (Number.isInteger(JSON.parse(val))) && (JSON.parse(val) >= 0)
+						return acc && !isNaN(val) && (Number.isInteger(JSON.parse(val))) && (JSON.parse(val) >= 0);
 					}, true);
 				}
 			}
@@ -205,7 +207,6 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 				if(league) return res.status(409).end("League " + league.name + " already exists");
 
 				var team;
-				var league;
 
 				//set the user's corresponding league variable to the new league's name
 				switch(req.body.sport){
@@ -222,7 +223,6 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 						break;
 					default:
 						return res.status(400).end(req.body.sport + " is not a currently supported sport");
-						break;
 				}
 
 				//alow the 3 independent db calls to be run in 'parallel'
@@ -304,7 +304,6 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 							break;
 						default:
 							return res.status(400).end(result.sport + " is not a currently supported sport");
-							break;
 					}
 
 					//alow the 2 independent db calls to be run in 'parallel'
@@ -357,7 +356,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 			var promises = [];
 			promises.push(new Promise(function(resolve, reject){
 
-				//get the give team's info
+				//get the given team's info
 				teams.findOne({owner: req.params.user, sport: req.params.sport}, function(err, team){
 					if(err) return res.status(500).end(err);
 					if(!team) return res.status(404).end(req.params.user + " does not have a league in the " + req.params.sport);
@@ -381,16 +380,18 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 
 				switch(team.sport){
 					case 'nhl':
+						var ice_index;
+						var bench_index;
+
 						if(player.Position === 'F'){
-							query.forward = {$elemMatch: {$eq: player.playerID}};
-							query.bench_forward = {$elemMatch: {$eq: player.playerID}};
+							query.$or = [{forward: {$elemMatch: {$eq: player.playerID}}}, {bench_forward: {$elemMatch: {$eq: player.playerID}}}];
 
 							//no space on the ice
-							var ice_index = team.forward.indexOf(null);
+							ice_index = team.forward.indexOf(null);
 							if(ice_index === -1){
 
 								//no space on bench
-								var bench_index = team.bench_forward.indexOf(null);
+								bench_index = team.bench_forward.indexOf(null);
 								if(bench_index === -1)
 									return res.status(403).end("There is no more room for forwards");
 
@@ -406,15 +407,14 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 							}
 						}
 						else if(player.Position === 'D'){
-							query.defence = {$elemMatch: {$eq: player.playerID}};
-							query.bench_defence = {$elemMatch: {$eq: player.playerID}};
+							query.$or = [{defence: {$elemMatch: {$eq: player.playerID}}}, {bench_defence: {$elemMatch: {$eq: player.playerID}}}];
 
 							//no space on the ice
-							var ice_index = team.defence.indexOf(null);
+							ice_index = team.defence.indexOf(null);
 							if(ice_index === -1){
 
 								//no space on bench
-								var bench_index = team.bench_defence.indexOf(null);
+								bench_index = team.bench_defence.indexOf(null);
 								if(bench_index === -1)
 									return res.status(403).end("There is no more room for defence");
 
@@ -472,8 +472,8 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 				return res.status(403).end("Forbidden");
 
 			//convert the player ids to strings
-			var sender_players = req.body.sender_players.map(function(player){return player.toString()});
-			var reciever_players = req.body.reciever_players.map(function(player){return player.toString()});
+			var sender_players = req.body.sender_players.map(function(player){return player.toString();});
+			var reciever_players = req.body.reciever_players.map(function(player){return player.toString();});
 
 			//get the two player's teams
 			teams.find({league: req.params.league, $or: [{owner: req.body.sender}, {owner: req.body.reciever}]}).toArray(function(err, user_teams){
@@ -491,12 +491,12 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 
 				//check that sender has the players
 				accepted = sender_players.reduce(function(acc, val){
-					return acc && ((sender.G === val) || (sender.forward.includes(val)) || (sender.defence.includes(val)) || (sender.bench_forward.includes(val)) || (sender.bench_defence.includes(val)))
+					return acc && ((sender.G === val) || (sender.forward.includes(val)) || (sender.defence.includes(val)) || (sender.bench_forward.includes(val)) || (sender.bench_defence.includes(val)));
 				}, accepted);
 
 				//check that reciever has the players
 				accepted = reciever_players.reduce(function(acc, val){
-					return acc && ((reciever.G === val) || (reciever.forward.includes(val)) || (reciever.defence.includes(val)) || (reciever.bench_forward.includes(val)) || (reciever.bench_defence.includes(val)))
+					return acc && ((reciever.G === val) || (reciever.forward.includes(val)) || (reciever.defence.includes(val)) || (reciever.bench_forward.includes(val)) || (reciever.bench_defence.includes(val)));
 				}, accepted);
 				
 				if(!accepted)
@@ -549,12 +549,12 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 
 					//check that sender has the players
 					accepted = trade.sender_players.reduce(function(acc, val){
-						return acc && ((sender.G === val) || (sender.forward.includes(val)) || (sender.defence.includes(val)) || (sender.bench_forward.includes(val)) || (sender.bench_defence.includes(val)))
+						return acc && ((sender.G === val) || (sender.forward.includes(val)) || (sender.defence.includes(val)) || (sender.bench_forward.includes(val)) || (sender.bench_defence.includes(val)));
 					}, accepted);
 
 					//check that reciever has the players
 					accepted = trade.reciever_players.reduce(function(acc, val){
-						return acc && ((reciever.G === val) || (reciever.forward.includes(val)) || (reciever.defence.includes(val)) || (reciever.bench_forward.includes(val)) || (reciever.bench_defence.includes(val)))
+						return acc && ((reciever.G === val) || (reciever.forward.includes(val)) || (reciever.defence.includes(val)) || (reciever.bench_forward.includes(val)) || (reciever.bench_defence.includes(val)));
 					}, accepted);
 
 					if(!accepted)
@@ -647,7 +647,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 					get_players(resolve, reject, team);
 				});
 				promise.then(function(team){
-					return res.json(team)
+					return res.json(team);
 				});
 			});
 		})
@@ -773,7 +773,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 			if(!req.session.user || (req.session.user.username !== req.params.user))
 				return res.status(403).end("Forbidden");
 
-			var query = {league: req.params.league}
+			var query = {league: req.params.league};
 
 			var sort_direction = req.query.sort;
 			if((sort_direction !== undefined) && (sort_direction !== 'increasing') && (sort_direction !== 'decreasing'))
@@ -783,7 +783,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 			var firstTrade = req.query.firstTrade;
 			if(firstTrade !== undefined){
 				try{
-					firstTrade = mongo.ObjectID(firstTrade)
+					firstTrade = mongo.ObjectID(firstTrade);
 				}
 				catch(e){
 					return res.status(400).end("Invalid Arguments, firstTrade is not a valid trade id");
@@ -809,13 +809,13 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 
 			//which trades to get; ones sent by the user, recieved by the user, or both
 			if(req.query.which === 'sent')
-				query['sender'] = req.params.user;
+				query.sender = req.params.user;
 			else if(req.query.which === 'recieved')
-				query['reciever'] = req.params.user;
+				query.reciever = req.params.user;
 			else if((req.query.which === undefined) || (req.query.which === "both"))
-				query['$or'] = [{sender: req.params.user}, {reciever: req.params.user}];
+				query.$or = [{sender: req.params.user}, {reciever: req.params.user}];
 			else
-				return res.status(400).end("Invalid arguments. which must be sent, recieved, or both")
+				return res.status(400).end("Invalid arguments. which must be sent, recieved, or both");
 
 			trades.find(query).limit(limit).sort(sort).toArray(function(err, user_trades){
 				if(err) return res.status(500).end(err);
@@ -853,7 +853,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 				promise.then(function(trade){
 					return res.json(trade);
 				});
-			})
+			});
 		})
 
 
@@ -881,7 +881,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 		        	return res.status(401).end("Unauthorized");
 
 				//put the new password's saltedHash in the db
-				var hash = crypto.createHmac('sha512', user.salt);
+				hash = crypto.createHmac('sha512', user.salt);
 			    hash.update(req.body.new_password);
 			    var saltedHash = hash.digest('base64');
 		    	users.update({username: req.session.user.username}, {$set: {saltedHash: saltedHash}}, function(err, result){
@@ -915,7 +915,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 		        	return res.status(401).end("Unauthorized");
 
 				//put the new password's saltedHash in the db
-				var hash = crypto.createHmac('sha512', league.salt);
+				hash = crypto.createHmac('sha512', league.salt);
 			    hash.update(req.body.password);
 			    var saltedHash = hash.digest('base64');
 		    	leagues.update({name: league.name}, {$set: {saltedHash: saltedHash}}, function(err, result){
@@ -939,7 +939,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 			if(req.session.user.username !== req.params.user)
 				return res.status(401).end("Unauthorized");
 
-			var benched_player = req.body.benched_player.toString()
+			var benched_player = req.body.benched_player.toString();
 			var activated_player = req.body.activated_player.toString();
 
 			teams.findOne({owner: req.params.user, sport: req.params.sport}, function(err, team){
@@ -995,8 +995,8 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 				if(!trade) return res.status(404).end(req.session.user.username + " has not recieved a trade in the league " + req.params.league + " with the id " + req.params.trade);
 
 				//convert the player ids to strings
-				var new_reciever_players = req.body.original_sender_players.map(function(player){return player.toString()});
-				var new_sender_players = req.body.original_reciever_players.map(function(player){return player.toString()});
+				var new_reciever_players = req.body.original_sender_players.map(function(player){return player.toString();});
+				var new_sender_players = req.body.original_reciever_players.map(function(player){return player.toString();});
 
 				//get the two player's teams
 				teams.find({league: req.params.league, $or: [{owner: trade.reciever}, {owner: trade.sender}]}).toArray(function(err, user_teams){
@@ -1014,12 +1014,12 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 
 					//check that sender has the players
 					accepted = new_sender_players.reduce(function(acc, val){
-						return acc && ((sender.G === val) || (sender.forward.includes(val)) || (sender.defence.includes(val)) || (sender.bench_forward.includes(val)) || (sender.bench_defence.includes(val)))
+						return acc && ((sender.G === val) || (sender.forward.includes(val)) || (sender.defence.includes(val)) || (sender.bench_forward.includes(val)) || (sender.bench_defence.includes(val)));
 					}, accepted);
 
 					//check that reciever has the players
 					accepted = new_reciever_players.reduce(function(acc, val){
-						return acc && ((reciever.G === val) || (reciever.forward.includes(val)) || (reciever.defence.includes(val)) || (reciever.bench_forward.includes(val)) || (reciever.bench_defence.includes(val)))
+						return acc && ((reciever.G === val) || (reciever.forward.includes(val)) || (reciever.defence.includes(val)) || (reciever.bench_forward.includes(val)) || (reciever.bench_defence.includes(val)));
 					}, accepted);
 					
 					if(!accepted)
@@ -1158,7 +1158,15 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 		});
 
 
-	var wss = new WebSocket.Server({ server });
+	const wss = new WebSocket.Server({ server });
+
+	//ping clients to keep them connected
+	setInterval(function(){
+		wss.clients.forEach(function(client){
+			if (client.readyState === WebSocket.OPEN)
+				client.send();
+		});
+	}, 45000);
 
 	var rule = new schedule.RecurrenceRule();
 	rule.hour = 10;
@@ -1182,8 +1190,8 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 	var get_active_players = function(sport){
 
 		//get all the active players
-		var url = 'https://www.mysportsfeeds.com/api/feed/pull/' + sport + '/current/active_players.json'		
-		var header = {'Authorization': 'Basic dmV0aHVzaDEzOTU6Q1NDQzA5dmV0aHVzaA=='}
+		var url = 'https://www.mysportsfeeds.com/api/feed/pull/' + sport + '/current/active_players.json';
+		var header = {'Authorization': 'Basic dmV0aHVzaDEzOTU6Q1NDQzA5dmV0aHVzaA=='};
 		request({url: url, headers: header}, function(error, response, body){
 			if(body !== ''){
 				var active_players = JSON.parse(body).activeplayers.playerentry;
@@ -1201,13 +1209,13 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 	
 						//create a promise for each player that resolves when their stats update
 						promises.push(new Promise(function(resolve, reject){
-							var player_stuff = {sport: sport, points: 0}
+							var player_stuff = {sport: sport, points: 0};
 
 							//add the player's team info
 							if(player.team){
 								Object.keys(player.team).forEach(function(key){
 									if(key === 'ID')
-										player_stuff['teamID'] = player.team[key];
+										player_stuff.teamID = player.team[key];
 									else
 										player_stuff[key] = player.team[key];
 								});
@@ -1216,7 +1224,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 							//add the player info
 							Object.keys(player.player).forEach(function(key){
 								if(key === 'ID')
-									player_stuff['playerID'] = player.player[key];
+									player_stuff.playerID = player.player[key];
 
 								//don't keep all of the player's info
 								else if((key === 'LastName') || (key === 'FirstName') || (key === 'Position')){
@@ -1230,20 +1238,20 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 							//add default player stats
 							switch(sport){
 								case 'nhl':
-									if(player_stuff['Position'] === 'G'){
-										player_stuff["Wins"] = '0';
-										player_stuff["Losses"] = '0';
-										player_stuff["GoalsAgainstAverage"] = '0';
-										player_stuff["SavePercentage"] = '0';
-										player_stuff["Shutouts"] = '0';
-										player_stuff['Played'] = "No";
+									if(player_stuff.Position === 'G'){
+										player_stuff.Wins = '0';
+										player_stuff.Losses = '0';
+										player_stuff.GoalsAgainstAverage = '0';
+										player_stuff.SavePercentage = '0';
+										player_stuff.Shutouts = '0';
+										player_stuff.Played = "No";
 									}
 									else{
-										player_stuff["Goals"] = '0';
-										player_stuff["Assists"] = '0';
-										player_stuff["Points"] = '0';
-										player_stuff["PlusMinus"] = '0';
-										player_stuff['Played'] = "No";
+										player_stuff.Goals = '0';
+										player_stuff.Assists = '0';
+										player_stuff.Points = '0';
+										player_stuff.PlusMinus = '0';
+										player_stuff.Played = "No";
 									}
 									break;
 							}								
@@ -1278,7 +1286,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 
 		//get the sport's stats
 		var url = 'https://www.mysportsfeeds.com/api/feed/pull/' + sport + '/current/daily_player_stats.json?fordate=' + year + month + day;
-		var header = {'Authorization': 'Basic dmV0aHVzaDEzOTU6Q1NDQzA5dmV0aHVzaA=='}
+		var header = {'Authorization': 'Basic dmV0aHVzaDEzOTU6Q1NDQzA5dmV0aHVzaA=='};
 		request({url: url, headers: header}, function(error, response, body){
 			if(body !== ''){
 				var player_stats = JSON.parse(body).dailyplayerstats.playerstatsentry;
@@ -1302,7 +1310,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 						var player = player_stats.reduce(function(acc, player){
 							if((acc===null) && (player.player.ID===next_player.playerID))
 								return player;
-							return acc
+							return acc;
 						}, null);
 
 						//calculate the next_players' points from player.stats in the given sport
@@ -1316,7 +1324,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 							teams.find({active_players: {$elemMatch: {$eq: next_player.playerID}}}).toArray(function(err, team){
 								team.forEach(function(next_team){
 									if(team_points[next_team.owner] === undefined)
-										team_points[next_team.owner] = 0
+										team_points[next_team.owner] = 0;
 									team_points[next_team.owner] += next_player.points;
 								});
 								
@@ -1346,7 +1354,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 								}
 
 								//update the player's stats and info
-								stats.update({playerID: next_player['playerID']}, {$set: next_player}, {upsert: true}, resolve());
+								stats.update({playerID: next_player.playerID}, {$set: next_player}, {upsert: true}, resolve());
 							});
 						}));
 					});
@@ -1365,11 +1373,11 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 		Object.keys(stats).forEach(function(key){
 			switch(sport){
 				case 'nhl':
-					var goalie = (player['Position'] === 'G') && ((key === 'Wins') || (key === 'Losses') || (key === 'GoalsAgainstAverage') || (key === 'SavePercentage') || (key === 'Shutouts'));
-					var skater = (player['Position'] !== 'G') && ((key == 'Goals') ||(key === 'Assists') || (key === 'Points') || (key === 'PlusMinus'));
+					var goalie = (player.Position === 'G') && ((key === 'Wins') || (key === 'Losses') || (key === 'GoalsAgainstAverage') || (key === 'SavePercentage') || (key === 'Shutouts'));
+					var skater = (player.Position !== 'G') && ((key == 'Goals') ||(key === 'Assists') || (key === 'Points') || (key === 'PlusMinus'));
 					if(goalie || skater){
 						player.Played = 'Yes';
-						player[key] = stats[key]['#text']
+						player[key] = stats[key]['#text'];
 					}
 
 					//calculate the player's points
@@ -1379,7 +1387,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 								player.points += stats[key]['#text'] * 3;
 								break;
 							case 'GoalsAgainstAverage':
-								var GAA = parseFloat(stats[key]['#text'])
+								var GAA = parseFloat(stats[key]['#text']);
 								if((GAA >= 0) && (GAA <= 1))
 									player.points += 3;
 								else if((GAA > 1) && (GAA <= 2))
@@ -1410,8 +1418,8 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 
 	//update all of the teams' who were either modified or had a player who got points
 	var update_teams = function(team_points, sport){
-		var active = {}
-		var team_owners = Object.keys(team_points)
+		var active = {};
+		var team_owners = Object.keys(team_points);
 
 		//update each team who had their points changed
 		teams.find({$or: [{modified: true}, {owner: {$in: team_owners}, sport: sport}, {score: {$gt: 0}}]}, {league: 0}).toArray(function(err, modified_teams){
@@ -1424,11 +1432,11 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 
 					//recalculate the teams backup list
 					if(team.modified === true)
-						active[team.owner] = [].concat(team.G).concat(team.forward).concat(team.defence)
+						active[team.owner] = [].concat(team.G).concat(team.forward).concat(team.defence);
 
 					//increment the team's points
 					if(team_owners.includes(team.owner))
-						update.score = team_points[team.owner]
+						update.score = team_points[team.owner];
 
 					//reset the team's active list
 					if(active[team.owner] !== undefined){
@@ -1443,7 +1451,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 							if (client.readyState === WebSocket.OPEN)
 		        				client.send(team.owner + "'s team updated");
 						});
-						resolve()
+						resolve();
 					});
 				}));
 			});
@@ -1466,7 +1474,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 			
 			var query = {$or: []};
 			winning_teams.forEach(function(league){
-				query["$or"].push({league: league._id, score: {$gt: 0}, owner: {$in: league.teams}})
+				query.$or.push({league: league._id, score: {$gt: 0}, owner: {$in: league.teams}});
 			});
 			
 			teams.update(query, {$inc: {wins: 1}}, function(){
@@ -1484,7 +1492,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 	//if one of the sports is not in the stats db initialize it
 	stats.find({}, {sport: 1}).toArray(function(err, result){
 		if(result.length === 0){
-			get_updates(['nhl'])
+			get_updates(['nhl']);
 		}
 	});
 
@@ -1522,7 +1530,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 		this.modified = false;
 		this.owner = user.username;
 		this.league = league;
-		this.sport = 'nhl'
+		this.sport = 'nhl';
 		this.score = 0;
 		this.wins = 0;
 	};
@@ -1549,8 +1557,8 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 	var test_trade = function(sender, reciever, sender_players, reciever_players){
 		
 		//create a copy of sender and reciever
-		var sender = Object.assign({}, sender)
-		var reciever = Object.assign({}, reciever)
+		sender = Object.assign({}, sender);
+		reciever = Object.assign({}, reciever);
 
 		//remove the sender_players from sender's team
 		sender_players.forEach(function(player){
@@ -1610,18 +1618,20 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 	var get_players = function(resolve, reject, team){
 		var query = [];
 		Object.keys(team).forEach(function(element){
-			query = query.concat(team[element])
-		})
+			query = query.concat(team[element]);
+		});
 
 		//get all the players that are on the team
 		stats.find({playerID: {$in: query}}).toArray(function(err, players){
 			
+			var index;
+
 			//put each player in the place of the corresponding id in team
 			players.forEach(function(player){
 
 				//if forward look in forward, then in forward_bench
 				if(player.Position === 'F'){
-					var index = team.forward.indexOf(player.playerID);
+					index = team.forward.indexOf(player.playerID);
 					if(index !== -1)
 						team.forward[index] = player;
 					else
@@ -1629,7 +1639,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 				}
 				//if defence look in defence, then in defence_bench
 				else if(player.Position === 'D'){
-					var index = team.defence.indexOf(player.playerID);
+					index = team.defence.indexOf(player.playerID);
 					if(index !== -1)
 						team.defence[index] = player;
 					else
@@ -1640,13 +1650,13 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 					team.G = player;
 
 				//put the player stats into the active player array
-				var index = team.active_players.indexOf(player.playerID);
+				index = team.active_players.indexOf(player.playerID);
 				if(index !== -1)
 					team.active_players[index] = player;
 			});
 			resolve(team);
 		});
-	}
+	};
 
 	//puts the player's stats inplace of their ids in the trade
 	var get_trade_players = function(resolve, reject, trade){
