@@ -226,7 +226,9 @@ var model = (function() {
 					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
 					return;
 				} else {
-					document.dispatchEvent(new CustomEvent("playersdisplayed", {detail: JSON.parse(this.responseText)}));
+					var result = JSON.parse(this.responseText);
+					result.activeuser = activeuser;
+					document.dispatchEvent(new CustomEvent("playersdisplayed", {detail: result}));
 				}
 			}
 		};
@@ -479,7 +481,9 @@ var model = (function() {
 					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
 					return;
 				} else {
-					document.dispatchEvent(new CustomEvent("displaytrades", {detail: JSON.parse(this.responseText)}));
+					var result = JSON.parse(this.responseText);
+					result[result.length] = activeuser
+					document.dispatchEvent(new CustomEvent("displaytrades", {detail: result}));
 				}
 			}
 		};
