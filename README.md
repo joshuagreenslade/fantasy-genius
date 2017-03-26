@@ -9,7 +9,7 @@ https://fantasy-genius.herokuapp.com/
 
 
 ### Documentation URL
-
+https://fantasy-genius.herokuapp.com/documentation.html
 
 
 ## Project Proposal
