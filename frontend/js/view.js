@@ -1360,11 +1360,11 @@ var view = (function() {
 				if(checkbox.checked == false){
 					checkbox.checked = true;
 					tradeassets.push(goalie.playerID);
-				};
+				}
 				else{
 					checkbox.checked = false;
 					tradeassets.splice(tradeassets.indexOf(goalie.playerID), 1);
-				};
+				}
 			};
 			e.append(checkbox);
 		}
@@ -1386,11 +1386,11 @@ var view = (function() {
 					if(checkbox.checked == false){
 						checkbox.checked = true;
 						tradeassets.push(player.playerID);
-					};
+					}
 					else{
 						checkbox.checked = false;
 						tradeassets.splice(tradeassets.indexOf(player.playerID), 1);
-					};
+					}
 				}; 
 				e.append(checkbox);
 			}
@@ -1412,11 +1412,11 @@ var view = (function() {
 					if(checkbox.checked == false){
 						checkbox.checked = true;
 						tradeassets.push(player.playerID);
-					};
+					}
 					else{
 						checkbox.checked = false;
 						tradeassets.splice(tradeassets.indexOf(player.playerID), 1);
-					};
+					}
 				};  
 				e.append(checkbox);
 			}
@@ -1439,11 +1439,11 @@ var view = (function() {
 					if(checkbox.checked == false){
 						checkbox.checked = true;
 						tradeassets.push(player.playerID);
-					};
+					}
 					else{
 						checkbox.checked = false;
 						tradeassets.splice(tradeassets.indexOf(player.playerID), 1);
-					};
+					}
 				}; 
 				e.append(checkbox);
 			}
@@ -1465,11 +1465,11 @@ var view = (function() {
 					if(checkbox.checked == false){
 						checkbox.checked = true;
 						tradeassets.push(player.playerID);
-					};
+					}
 					else{
 						checkbox.checked = false;
 						tradeassets.splice(tradeassets.indexOf(player.playerID), 1);
-					};
+					}
 				}; 
 				e.append(checkbox);
 			}
@@ -1490,10 +1490,10 @@ var view = (function() {
 	view.helper = function(data){
 		if(data == null){
 			return null;
-		};
+		}
 		else{
 			dataofplayertodisplayfortrade = data;
-		};
+		}
 	};
 
 	view.displayyourplayerstotrade = function(data){
@@ -1528,11 +1528,11 @@ var view = (function() {
 				if(checkbox.checked == false){
 					checkbox.checked = true;
 					yourtradeassets.push(goalie.playerID);
-				};
+				}
 				else{
 					checkbox.checked = false;
 					yourtradeassets.splice(yourtradeassets.indexOf(goalie.playerID), 1);
-				};
+				}
 			};
 			e.append(checkbox);
 		}
@@ -1554,11 +1554,11 @@ var view = (function() {
 					if(checkbox.checked == false){
 						checkbox.checked = true;
 						yourtradeassets.push(player.playerID);
-					};
+					}
 					else{
 						checkbox.checked = false;
 						yourtradeassets.splice(yourtradeassets.indexOf(player.playerID), 1);
-					};
+					}
 				}; 
 				e.append(checkbox);
 			}
@@ -1580,11 +1580,11 @@ var view = (function() {
 					if(checkbox.checked == false){
 						checkbox.checked = true;
 						yourtradeassets.push(player.playerID);
-					};
+					}
 					else{
 						checkbox.checked = false;
 						yourtradeassets.splice(yourtradeassets.indexOf(player.playerID), 1);
-					};
+					}
 				};  
 				e.append(checkbox);
 			}
@@ -1607,11 +1607,11 @@ var view = (function() {
 					if(checkbox.checked == false){
 						checkbox.checked = true;
 						yourtradeassets.push(player.playerID);
-					};
+					}
 					else{
 						checkbox.checked = false;
 						yourtradeassets.splice(yourtradeassets.indexOf(player.playerID), 1);
-					};
+					}
 				}; 
 				e.append(checkbox);
 			}
@@ -1633,11 +1633,11 @@ var view = (function() {
 					if(checkbox.checked == false){
 						checkbox.checked = true;
 						yourtradeassets.push(player.playerID);
-					};
+					}
 					else{
 						checkbox.checked = false;
 						yourtradeassets.splice(yourtradeassets.indexOf(player.playerID), 1);
-					};
+					}
 				}; 
 				e.append(checkbox);
 			}
