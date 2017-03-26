@@ -537,7 +537,7 @@ var view = (function() {
 		signin.style.display = 'none';
 		signup.style.display = 'none';
 		teampage.style.display = 'none';
-		leaguepage.style.display = 'none';
+		leaguepage.style.display = 'block';
 
 		//set visibility of buttons and text
 		document.getElementById('title').innerHTML = "FantasyGenius";
