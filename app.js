@@ -463,6 +463,24 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 			});
 		})
 
+		//create a sample trade to show the user
+		.post('/api/sports/:sport/trades/', checkInput, function(req, res, next){
+			if((req.body.sender_players === undefined) || (req.body.reciever_players === undefined))
+				return res.status(400).end("Invalid body, requires sender_players, reciever_players");
+
+			//convert the player ids to strings
+			var sender_players = req.body.sender_players.map(function(player){return player.toString()});
+			var reciever_players = req.body.reciever_players.map(function(player){return player.toString()});
+
+			//get the players tht would be invloved
+			var promise = new Promise(function(resolve, reject){
+				get_trade_players(resolve, reject, req.body);
+			});
+			promise.then(function(trade){
+				return res.json(trade);
+			});
+		})
+
 		//create a new trade between two players in the given league
 		.post('/api/leagues/:league/trades/', checkInput, function(req, res, next){
 			if((req.body.sender === undefined) || (req.body.reciever === undefined) || (req.body.sender_players === undefined) || (req.body.reciever_players === undefined))

@@ -51,6 +51,10 @@ var view = (function() {
 		document.getElementById("add_players").style.display = "none";
 		document.getElementById("trade_players").style.display = "none";
 		document.getElementById("my_trades").style.display = "none";
+		document.getElementById('my_players').style.display = "none";
+		document.getElementById('submit_trade').style.display = "none";
+		document.getElementById('confirmTrade').style.display = "none";
+		document.getElementById('rejectTrade').style.display = "none";
 		//set visibility of bottom buttons
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "block";
@@ -97,6 +101,10 @@ var view = (function() {
 		document.getElementById("add_players").style.display = "none";
 		document.getElementById("trade_players").style.display = "none";
 		document.getElementById("my_trades").style.display = "none";
+		document.getElementById('my_players').style.display = "none";
+		document.getElementById('submit_trade').style.display = "none";
+		document.getElementById('confirmTrade').style.display = "none";
+		document.getElementById('rejectTrade').style.display = "none";
 		//set visibility of bottom buttons
 		document.getElementById("to_signin").style.display = "block";
 		document.getElementById("to_signup").style.display = "none";
@@ -151,6 +159,10 @@ var view = (function() {
 		document.getElementById("add_players").style.display = "none";
 		document.getElementById("trade_players").style.display = "none";
 		document.getElementById("my_trades").style.display = "none";
+		document.getElementById('my_players').style.display = "none";
+		document.getElementById('submit_trade').style.display = "none";
+		document.getElementById('confirmTrade').style.display = "none";
+		document.getElementById('rejectTrade').style.display = "none";
 		//set visibility of bottom buttons
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "block";
@@ -197,6 +209,10 @@ var view = (function() {
 		document.getElementById("add_players").style.display = "none";
 		document.getElementById("trade_players").style.display = "none";
 		document.getElementById("my_trades").style.display = "none";
+		document.getElementById('my_players').style.display = "none";
+		document.getElementById('submit_trade').style.display = "none";
+		document.getElementById('confirmTrade').style.display = "none";
+		document.getElementById('rejectTrade').style.display = "none";
 		//set visibility of bottom buttons
 		document.getElementById("to_signin").style.display = "block";
 		document.getElementById("to_signup").style.display = "none";
@@ -248,6 +264,10 @@ var view = (function() {
 		document.getElementById("add_players").style.display = "none";
 		document.getElementById("trade_players").style.display = "none";
 		document.getElementById("my_trades").style.display = "none";
+		document.getElementById('my_players').style.display = "none";
+		document.getElementById('submit_trade').style.display = "none";
+		document.getElementById('confirmTrade').style.display = "none";
+		document.getElementById('rejectTrade').style.display = "none";
 		//set visibility of bottom buttons
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
@@ -279,6 +299,10 @@ var view = (function() {
 		document.getElementById("add_players").style.display = "none";
 		document.getElementById("trade_players").style.display = "none";
 		document.getElementById("my_trades").style.display = "none";
+		document.getElementById('my_players').style.display = "none";
+		document.getElementById('submit_trade').style.display = "none";
+		document.getElementById('confirmTrade').style.display = "none";
+		document.getElementById('rejectTrade').style.display = "none";
 		//set visibility of bottom buttons
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
@@ -347,6 +371,10 @@ var view = (function() {
 		document.getElementById("add_players").style.display = "none";
 		document.getElementById("trade_players").style.display = "none";
 		document.getElementById("my_trades").style.display = "none";
+		document.getElementById('my_players').style.display = "none";
+		document.getElementById('submit_trade').style.display = "none";
+		document.getElementById('confirmTrade').style.display = "none";
+		document.getElementById('rejectTrade').style.display = "none";
 		//set visibility of bottom buttons
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
@@ -398,6 +426,10 @@ var view = (function() {
 		document.getElementById("add_players").style.display = "block";
 		document.getElementById("trade_players").style.display = "none";
 		document.getElementById("my_trades").style.display = "block";
+		document.getElementById('my_players').style.display = "none";
+		document.getElementById('submit_trade').style.display = "none";
+		document.getElementById('confirmTrade').style.display = "none";
+		document.getElementById('rejectTrade').style.display = "none";
 		//set visibility of bottom buttons
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
@@ -449,6 +481,10 @@ var view = (function() {
 		document.getElementById("add_players").style.display = "block";
 		document.getElementById("trade_players").style.display = "block";
 		document.getElementById("my_trades").style.display = "none";
+		document.getElementById('my_players').style.display = "none";
+		document.getElementById('submit_trade').style.display = "none";
+		document.getElementById('confirmTrade').style.display = "none";
+		document.getElementById('rejectTrade').style.display = "none";
 		//set visibility of bottom buttons
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
@@ -504,6 +540,10 @@ var view = (function() {
 		document.getElementById("add_players").style.display = "block";
 		document.getElementById("trade_players").style.display = "block";
 		document.getElementById("my_trades").style.display = "block";
+		document.getElementById('my_players').style.display = "none";
+		document.getElementById('submit_trade').style.display = "none";
+		document.getElementById('confirmTrade').style.display = "none";
+		document.getElementById('rejectTrade').style.display = "none";
 		//set visibility of bottom buttons
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
@@ -553,6 +593,10 @@ var view = (function() {
 		document.getElementById("add_players").style.display = "block";
 		document.getElementById("trade_players").style.display = "block";
 		document.getElementById("my_trades").style.display = "block";
+		document.getElementById('my_players').style.display = "none";
+		document.getElementById('submit_trade').style.display = "none";
+		document.getElementById('confirmTrade').style.display = "none";
+		document.getElementById('rejectTrade').style.display = "none";
 		//set visibility of bottom buttons
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
@@ -603,6 +647,10 @@ var view = (function() {
 		document.getElementById("add_players").style.display = "none";
 		document.getElementById("trade_players").style.display = "block";
 		document.getElementById("my_trades").style.display = "block";
+		document.getElementById('my_players').style.display = "none";
+		document.getElementById('submit_trade').style.display = "none";
+		document.getElementById('confirmTrade').style.display = "none";
+		document.getElementById('rejectTrade').style.display = "none";
 		//set visibility of bottom buttons
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
@@ -949,6 +997,8 @@ var view = (function() {
 		tradepage.style.display = 'none';
 		teampage.style.display = 'none';
 		leaguepage.style.display = 'none';
+		document.getElementById('my_players').style.display = "none";
+		document.getElementById('submit_trade').style.display = "none";
 	};
 
 	view.loadmain = function(){
@@ -991,6 +1041,10 @@ var view = (function() {
 		document.getElementById("add_players").style.display = "none";
 		document.getElementById("trade_players").style.display = "none";
 		document.getElementById("my_trades").style.display = "none";
+		document.getElementById('my_players').style.display = "none";
+		document.getElementById('submit_trade').style.display = "none";
+		document.getElementById('confirmTrade').style.display = "none";
+		document.getElementById('rejectTrade').style.display = "none";
 		//set visibility of bottom buttons
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
@@ -1066,6 +1120,10 @@ var view = (function() {
 			document.getElementById("trade_players").style.display = "block";
 			document.getElementById("my_trades").style.display = "block";
 		}
+		document.getElementById('my_players').style.display = "none";
+		document.getElementById('submit_trade').style.display = "none";
+		document.getElementById('confirmTrade').style.display = "none";
+		document.getElementById('rejectTrade').style.display = "none";
 
 		//set visibility of bottom buttons
 		document.getElementById("to_signin").style.display = "none";
@@ -1129,6 +1187,10 @@ var view = (function() {
 		document.getElementById("add_players").style.display = "block";
 		document.getElementById("trade_players").style.display = "block";
 		document.getElementById("my_trades").style.display = "block";
+		document.getElementById('my_players').style.display = "none";
+		document.getElementById('submit_trade').style.display = "none";
+		document.getElementById('confirmTrade').style.display = "none";
+		document.getElementById('rejectTrade').style.display = "none";
 		//set visibility of bottom buttons
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
@@ -1183,6 +1245,10 @@ var view = (function() {
 		document.getElementById("add_players").style.display = "block";
 		document.getElementById("trade_players").style.display = "block";
 		document.getElementById("my_trades").style.display = "block";
+		document.getElementById('my_players').style.display = "none";
+		document.getElementById('submit_trade').style.display = "none";
+		document.getElementById('confirmTrade').style.display = "none";
+		document.getElementById('rejectTrade').style.display = "none";
 		//set visibility of bottom buttons
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
@@ -1337,7 +1403,8 @@ var view = (function() {
 					document.dispatchEvent(new CustomEvent("displayhisplayers", {detail: data}));
 			}
 		};
-		
+		var i = 0;
+
 		var goaliedisplay = document.getElementById("your_goalies");
 		var playerdisplay = document.getElementById("your_players");
 		var benchplayerdisplay = document.getElementById("your_bench_players");
@@ -1347,7 +1414,7 @@ var view = (function() {
 		if(goalie !== null){
 			var e = document.createElement("tr");
 			e.id = goalie.playerID;
-			e.innerHTML = `<td>${goalie.LastName}</td><td>${goalie.FirstName}</td><td>${goalie.Position}</td>
+			e.innerHTML = `<td>${goalie.LastName}</td><td>${goalie.FirstName}</td>
 								<td>${goalie.City}</td><td>${goalie.Name}</td><td>${goalie.Abbreviation}</td>
 								<td>${goalie.Wins}</td><td>${goalie.Losses}</td><td>${goalie.GoalsAgainstAverage}</td>
 								<td>${goalie.SavePercentage}</td><td>${goalie.Shutouts}</td><td>${goalie.Played}</td>
@@ -1355,21 +1422,9 @@ var view = (function() {
 			goaliedisplay.append(e);
 			var checkbox = document.createElement('div');
 			checkbox.classname = "checkbox";
-			checkbox.innerHTML = `<label><input type="checkbox" value="">Trade Player</label>`;
-			checkbox.onclick = function(e){
-				e.preventDefault();
-				if(checkbox.checked == false){
-					checkbox.checked = true;
-					tradeassets.push(goalie.playerID);
-					console.log(tradeassets);
-				}
-				else{
-					checkbox.checked = false;
-					tradeassets.splice(tradeassets.indexOf(goalie.playerID), 1);
-					console.log(tradeassets);
-				}
-			};
-			e.append(checkbox);
+			checkbox.innerHTML = `<label><input type="checkbox" value="" id=otherCheckbox${i}>Trade Player</label>`;
+			i++;
+			e.append(checkbox);			
 		}
 		playerdisplay.innerHTML = "";
 		var players = data.forward;
@@ -1384,17 +1439,8 @@ var view = (function() {
 				playerdisplay.append(e);
 				var checkbox = document.createElement('div');
 				checkbox.classname = "checkbox";
-				checkbox.innerHTML = `<label><input type="checkbox" value="">Trade Player</label>`;
-				checkbox.onclick = function(e){
-					if(checkbox.checked == false){
-						checkbox.checked = true;
-						tradeassets.push(player.playerID);
-					}
-					else{
-						checkbox.checked = false;
-						tradeassets.splice(tradeassets.indexOf(player.playerID), 1);
-					}
-				}; 
+				checkbox.innerHTML = `<label><input type="checkbox" value="" id=otherCheckbox${i}>Trade Player</label>`;
+				i++;
 				e.append(checkbox);
 			}
 		});
@@ -1410,17 +1456,8 @@ var view = (function() {
 				playerdisplay.append(e);
 				var checkbox = document.createElement('div');
 				checkbox.classname = "checkbox";
-				checkbox.innerHTML = `<label><input type="checkbox" value="">Trade Player</label>`;
-				checkbox.onclick = function(e){
-					if(checkbox.checked == false){
-						checkbox.checked = true;
-						tradeassets.push(player.playerID);
-					}
-					else{
-						checkbox.checked = false;
-						tradeassets.splice(tradeassets.indexOf(player.playerID), 1);
-					}
-				};  
+				checkbox.innerHTML = `<label><input type="checkbox" value="" id=otherCheckbox${i}>Trade Player</label>`;
+				i++;
 				e.append(checkbox);
 			}
 		});
@@ -1437,18 +1474,10 @@ var view = (function() {
 				benchplayerdisplay.append(e);
 				var checkbox = document.createElement('div');
 				checkbox.classname = "checkbox";
-				checkbox.innerHTML = `<label><input type="checkbox" value="">Trade Player</label>`;
-				checkbox.onclick = function(e){
-					if(checkbox.checked == false){
-						checkbox.checked = true;
-						tradeassets.push(player.playerID);
-					}
-					else{
-						checkbox.checked = false;
-						tradeassets.splice(tradeassets.indexOf(player.playerID), 1);
-					}
-				}; 
+				checkbox.innerHTML = `<label><input type="checkbox" value="" id=otherCheckbox${i}>Trade Player</label>`;
+				i++;
 				e.append(checkbox);
+				
 			}
 		});
 		players = data.bench_defence;
@@ -1463,40 +1492,24 @@ var view = (function() {
 				benchplayerdisplay.append(e);
 				var checkbox = document.createElement('div');
 				checkbox.classname = "checkbox";
-				checkbox.innerHTML = `<label><input type="checkbox" value="">Trade Player</label>`;
-				checkbox.onclick = function(e){
-					if(checkbox.checked == false){
-						checkbox.checked = true;
-						tradeassets.push(player.playerID);
-					}
-					else{
-						checkbox.checked = false;
-						tradeassets.splice(tradeassets.indexOf(player.playerID), 1);
-					}
-				}; 
+				checkbox.innerHTML = `<label><input type="checkbox" value="" id=otherCheckbox${i}>Trade Player</label>`;
+				i++;
 				e.append(checkbox);
+				
 			}
 		});
-		var submit = document.createElement('button');
-		submit.classname = "btn btn-primary pull-right"
-		submit.type = "button";
-		submit.value = "Submit";
-		submit.id = "submit";
+		var submit = document.getElementById('my_players');
+		submit.style.display = "inline";
 		submit.onclick = function(e){
+			for(var j=0; j<i; j++){
+				var checkbox = document.getElementById("otherCheckbox" + j);
+				if(checkbox.checked)
+					tradeassets.push(checkbox.parentNode.parentNode.parentNode.id);
+			}
 			var data = {};
 			data.players = tradeassets;
 			document.dispatchEvent(new CustomEvent("getyourplayerstotrade", {detail:data}));
 		};
-		benchplayerdisplay.append(submit);
-	};
-
-	view.helper = function(data){
-		if(data == null){
-			return null;
-		}
-		else{
-			dataofplayertodisplayfortrade = data;
-		}
 	};
 
 	view.displayyourplayerstotrade = function(data){
@@ -1508,7 +1521,7 @@ var view = (function() {
 					document.dispatchEvent(new CustomEvent("displayhisplayers", {detail: usable}));
 			}
 		};
-		
+		var i = 0;
 		var goaliedisplay = document.getElementById("your_goalies");
 		var playerdisplay = document.getElementById("your_players");
 		var benchplayerdisplay = document.getElementById("your_bench_players");
@@ -1526,17 +1539,8 @@ var view = (function() {
 			goaliedisplay.append(e);
 			var checkbox = document.createElement('div');
 			checkbox.classname = "checkbox";
-			checkbox.innerHTML = `<label><input type="checkbox" value="">Trade Player</label>`;
-			checkbox.onclick = function(e){
-				if(checkbox.checked == false){
-					checkbox.checked = true;
-					yourtradeassets.push(goalie.playerID);
-				}
-				else{
-					checkbox.checked = false;
-					yourtradeassets.splice(yourtradeassets.indexOf(goalie.playerID), 1);
-				}
-			};
+			checkbox.innerHTML = `<label><input type="checkbox" value="" id=myCheckbox${i}>Trade Player</label>`;
+			i++;
 			e.append(checkbox);
 		}
 		playerdisplay.innerHTML = "";
@@ -1552,17 +1556,8 @@ var view = (function() {
 				playerdisplay.append(e);
 				var checkbox = document.createElement('div');
 				checkbox.classname = "checkbox";
-				checkbox.innerHTML = `<label><input type="checkbox" value="">Trade Player</label>`;
-				checkbox.onclick = function(e){
-					if(checkbox.checked == false){
-						checkbox.checked = true;
-						yourtradeassets.push(player.playerID);
-					}
-					else{
-						checkbox.checked = false;
-						yourtradeassets.splice(yourtradeassets.indexOf(player.playerID), 1);
-					}
-				}; 
+				checkbox.innerHTML = `<label><input type="checkbox" value="" id=myCheckbox${i}>Trade Player</label>`;
+				i++;
 				e.append(checkbox);
 			}
 		});
@@ -1578,17 +1573,8 @@ var view = (function() {
 				playerdisplay.append(e);
 				var checkbox = document.createElement('div');
 				checkbox.classname = "checkbox";
-				checkbox.innerHTML = `<label><input type="checkbox" value="">Trade Player</label>`;
-				checkbox.onclick = function(e){
-					if(checkbox.checked == false){
-						checkbox.checked = true;
-						yourtradeassets.push(player.playerID);
-					}
-					else{
-						checkbox.checked = false;
-						yourtradeassets.splice(yourtradeassets.indexOf(player.playerID), 1);
-					}
-				};  
+				checkbox.innerHTML = `<label><input type="checkbox" value="" id=myCheckbox${i}>Trade Player</label>`;
+				i++;
 				e.append(checkbox);
 			}
 		});
@@ -1605,17 +1591,8 @@ var view = (function() {
 				benchplayerdisplay.append(e);
 				var checkbox = document.createElement('div');
 				checkbox.classname = "checkbox";
-				checkbox.innerHTML = `<label><input type="checkbox" value="">Trade Player</label>`;
-				checkbox.onclick = function(e){
-					if(checkbox.checked == false){
-						checkbox.checked = true;
-						yourtradeassets.push(player.playerID);
-					}
-					else{
-						checkbox.checked = false;
-						yourtradeassets.splice(yourtradeassets.indexOf(player.playerID), 1);
-					}
-				}; 
+				checkbox.innerHTML = `<label><input type="checkbox" value="" id=myCheckbox${i}>Trade Player</label>`;
+				i++;
 				e.append(checkbox);
 			}
 		});
@@ -1631,116 +1608,110 @@ var view = (function() {
 				benchplayerdisplay.append(e);
 				var checkbox = document.createElement('div');
 				checkbox.classname = "checkbox";
-				checkbox.innerHTML = `<label><input type="checkbox" value="">Trade Player</label>`;
-				checkbox.onclick = function(e){
-					if(checkbox.checked == false){
-						checkbox.checked = true;
-						yourtradeassets.push(player.playerID);
-					}
-					else{
-						checkbox.checked = false;
-						yourtradeassets.splice(yourtradeassets.indexOf(player.playerID), 1);
-					}
-				}; 
+				checkbox.innerHTML = `<label><input type="checkbox" value="" id=myCheckbox${i}>Trade Player</label>`;
+				i++;
 				e.append(checkbox);
 			}
 		});
-		var submit = document.createElement('button');
-		submit.classname = "btn btn-primary pull-right"
-		submit.type = "button";
-		submit.value = "Submit";
-		submit.id = "submit";
-		submit.onclick = function(e){
-			var main = document.getElementById("main");
-			main.style.display = 'none';
-			var leaguejoin = document.getElementById("leaguejoin");
-			var leaguecreate = document.getElementById("leaguecreate");
-			var signin = document.getElementById("signin");
-			var signup = document.getElementById("signup");
-			var teampage = document.getElementById("team_page")
-			var leaguepage = document.getElementById("league_page");
-			var tradepage = document.getElementById("trade_page");
-			var confirmpage = document.getElementById("tradeconfirm_page");
-			var mytrades = document.getElementById("your_trades_page");
-			mytrades.style.display = 'none';
-			confirmpage.style.display = 'block';
-			leaguecreate.style.display = 'none';
-			leaguejoin.style.display = 'none';
-			signin.style.display = 'none';
-			signup.style.display = 'none';
-			teampage.style.display = 'none';
-			leaguepage.style.display = 'none';
-			tradepage.style.display = 'none';
-			//set visibility of buttons and text
-			document.getElementById('title').innerHTML = "FantasyGenius";
-			document.getElementById('subtitle').innerHTML = "Trade Confirmation";
-			document.getElementById("error").innerHTML = "";
-			document.getElementById("signup_page").style.display = "none";
-			document.getElementById("signin_page").style.display = "none";
-			document.getElementById("signout").style.display = "none";
-			document.getElementById("link_to_createleague").style.display = "none";
-			document.getElementById("link_to_joinleague").style.display = "none";
-			document.getElementById("my_team").style.display = "none";
-			document.getElementById("my_league").style.display = "none";
-			document.getElementById("add_players").style.display = "none";
-			document.getElementById("trade_players").style.display = "none";
-			document.getElementById("my_trades").style.display = "none";
-			//set visibility of bottom buttons
-			document.getElementById("to_signin").style.display = "none";
-			document.getElementById("to_signup").style.display = "none";
-			document.getElementById("to_home").style.display = "none";
-			//have lists of players now need to be displayed then confirm and delete need to be appended below
-			var yourplayerdisplay = document.getElementById("sending");
-			yourplayerdisplay.innerHTML = "";
-			yourtradeassets.forEach(function(player){
-				var info = {};
-				info.sport = 'nhl';
-				info.playerID = player.playerID;
-				document.dispatchEvent(new CustomEvent("getplayer", {detail:info}));
-				var e = document.createElement("tr");
-				e.id = player.playerID;
-				e.innerHTML = `<td>${dataofplayertodisplayfortrade.name}</td>`;
-				yourplayerdisplay.append(e);
-			});
-			var theirplayerdisplay = document.getElementById("receiving");
-			theirplayerdisplay.innerHTML = "";
-			data[0].forEach(function(player){
-				var info = {};
-				info.sport = 'nhl';
-				info.playerID = player.playerID;
-				document.dispatchEvent(new CustomEvent("getplayer", {detail:info}));
-				var e = document.createElement("tr");
-				e.id = player.playerID;
-				e.innerHTML = `<td>${dataofplayertodisplayfortrade.name}</td>`;
-				theirplayerdisplay.append(e);
-			});
-			var confirm = document.createElement('button');
-			confirm.classname = "btn btn-primary pull-left"
-			confirm.type = "button";
-			confirm.value = "Confirm";
-			confirm.id = "confirm";
-			confirm.onclick = function(e){
-				//post a new trade then go to loadteam
-				var info = {};
-				info.reciever = activetrader;
-				info.sender_players = yourtradeassets;
-				info.reciever_players = data[0];
-				document.dispatchEvent(new CustomEvent("maketrade", {detail:info}));
-			};
-			theirplayerdisplay.append(confirm);
+		var submit = document.getElementById('submit_trade');
+		submit.style.display = "inline";
+		document.getElementById('my_players').style.display = "none";
 
-			var decline = document.createElement('button');
-			decline.classname = "btn btn-primary pull-right"
-			decline.type = "button";
-			decline.value = "Decline";
-			decline.id = "decline";
-			decline.onclick = function(e){
-				loadteam();
-			};
-			theirplayerdisplay.append(decline);
+		submit.onclick = function(e){
+			for(var j=0; j<i; j++){
+				var checkbox = document.getElementById("myCheckbox" + j);
+				if(checkbox.checked)
+					yourtradeassets.push(checkbox.parentNode.parentNode.parentNode.id);
+			}
+			var all_players = {sender_players: yourtradeassets, reciever_players: data[0]}
+			document.dispatchEvent(new CustomEvent("getplayers", {detail: all_players}));
 		};
-		benchplayerdisplay.append(submit);
 	};
+
+
+	view.displaySampleTrade = function(data){
+		var yourtradeassets = data.sender_players;
+		var theirtradeassets = data.reciever_players;
+
+		var main = document.getElementById("main");
+		main.style.display = 'none';
+		var leaguejoin = document.getElementById("leaguejoin");
+		var leaguecreate = document.getElementById("leaguecreate");
+		var signin = document.getElementById("signin");
+		var signup = document.getElementById("signup");
+		var teampage = document.getElementById("team_page")
+		var leaguepage = document.getElementById("league_page");
+		var tradepage = document.getElementById("trade_page");
+		var confirmpage = document.getElementById("tradeconfirm_page");
+		var mytrades = document.getElementById("your_trades_page");
+		mytrades.style.display = 'none';
+		confirmpage.style.display = 'block';
+		leaguecreate.style.display = 'none';
+		leaguejoin.style.display = 'none';
+		signin.style.display = 'none';
+		signup.style.display = 'none';
+		teampage.style.display = 'none';
+		leaguepage.style.display = 'none';
+		tradepage.style.display = 'none';
+		//set visibility of buttons and text
+		document.getElementById('title').innerHTML = "FantasyGenius";
+		document.getElementById('subtitle').innerHTML = "Trade Confirmation";
+		document.getElementById("error").innerHTML = "";
+		document.getElementById("signup_page").style.display = "none";
+		document.getElementById("signin_page").style.display = "none";
+		document.getElementById("signout").style.display = "none";
+		document.getElementById("link_to_createleague").style.display = "none";
+		document.getElementById("link_to_joinleague").style.display = "none";
+		document.getElementById("my_team").style.display = "none";
+		document.getElementById("my_league").style.display = "none";
+		document.getElementById("add_players").style.display = "none";
+		document.getElementById("trade_players").style.display = "none";
+		document.getElementById("my_trades").style.display = "none";
+		document.getElementById('my_players').style.display = "none";
+		document.getElementById('submit_trade').style.display = "none";
+
+		//set visibility of bottom buttons
+		document.getElementById("to_signin").style.display = "none";
+		document.getElementById("to_signup").style.display = "none";
+		document.getElementById("to_home").style.display = "none";
+		//have lists of players now need to be displayed then confirm and delete need to be appended below
+		var yourplayerdisplay = document.getElementById("sending");
+		yourplayerdisplay.innerHTML = "";
+
+		yourtradeassets.forEach(function(player){
+			var e = document.createElement("tr");
+			e.id = player.playerID;
+			e.innerHTML = `<td>${player.FirstName + " " +player.LastName}</td>`;
+			yourplayerdisplay.append(e);
+		});
+		var theirplayerdisplay = document.getElementById("receiving");
+		theirplayerdisplay.innerHTML = "";
+		theirtradeassets.forEach(function(player){
+			var e = document.createElement("tr");
+			e.id = player.playerID;
+			e.innerHTML = `<td>${player.FirstName + " " + player.LastName}</td>`;
+			theirplayerdisplay.append(e);
+		});
+		var confirm = document.getElementById('confirmTrade');
+		confirm.style.display = "inline";
+		
+		confirm.onclick = function(e){
+			//post a new trade then go to loadteam
+
+			var info = {};
+			info.reciever = activetrader;
+			info.sender_players = yourtradeassets.map(function(player){return player.playerID});
+			info.reciever_players = theirtradeassets.map(function(player){return player.playerID});
+			document.dispatchEvent(new CustomEvent("maketrade", {detail:info}));
+		};
+
+		var decline = document.getElementById('rejectTrade');
+		decline.style.display = "inline";
+		decline.onclick = function(e){
+			loadteam();
+		};
+	};
+
 	//need function that gets trades and confirms or declines them
 	view.displaytrades = function(data){
 		var yourplayerstotrade = document.getElementById("yoursending");
@@ -1994,6 +1965,8 @@ var view = (function() {
 				document.getElementById("add_players").style.display = "block";
 				document.getElementById("trade_players").style.display = "block";
 				document.getElementById("my_trades").style.display = "block";
+				document.getElementById('confirmTrade').style.display = "none";
+				document.getElementById('rejectTrade').style.display = "none";
 				//set visibility of bottom buttons
 				document.getElementById("to_signin").style.display = "none";
 				document.getElementById("to_signup").style.display = "none";
@@ -2067,6 +2040,8 @@ var view = (function() {
 				document.getElementById("add_players").style.display = "block";
 				document.getElementById("trade_players").style.display = "block";
 				document.getElementById("my_trades").style.display = "block";
+				document.getElementById('confirmTrade').style.display = "none";
+				document.getElementById('rejectTrade').style.display = "none";
 				//set visibility of bottom buttons
 				document.getElementById("to_signin").style.display = "none";
 				document.getElementById("to_signup").style.display = "none";

@@ -24,7 +24,7 @@
     <button type="button" class="btn btn-link pull-left" id="my_league">My League</button>
     <button type="button" class="btn btn-link pull-left" id="add_players">Add Players</button>
     <button type="button" class="btn btn-link pull-left" id="trade_players">Trade Players</button>
-    <button type="button" class="btn btn-link pull-left" id="my_trades">My Trades</button>
+    <button type="button" class="btn btn-link pull-left" id="my_trades">Make Trades</button>
   </div>
   <div class="container" id="error"></div>
 </div>
@@ -334,6 +334,8 @@
           </tbody>
         </table>
         </div>
+        <input id="my_players" type="button" name="submit" value="Select My Players" class="btn btn-primary pull-right">
+        <input id="submit_trade" type="button" name="submit" value="Review Trade" class="btn btn-primary pull-right">
     </div>
     <div class="col-md-2">
       
@@ -401,7 +403,7 @@
       <table class="table table-bordered table-responsive table-hover">
             <thead>
               <tr>
-                <th id="Name">Name</th>
+                <th id="yourName">Name</th>
               </tr>
             </thead>
             <tbody id="sending">
@@ -413,7 +415,7 @@
       <table class="table table-bordered table-responsive table-hover">
             <thead>
               <tr>
-                <th id="Name">Name</th>
+                <th id="theirName">Name</th>
               </tr>
             </thead>
             <tbody id="receiving">
@@ -423,6 +425,8 @@
     <div class="col-md-2">
       
     </div>
+      <input id="rejectTrade" type="button" name="submit" value="Decline Trade" class="btn btn-primary pull-right">
+      <input id="confirmTrade" type="button" name="submit" value="Confirm Trade" class="btn btn-primary pull-right">
   </div>
 </div>
 

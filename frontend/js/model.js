@@ -451,10 +451,10 @@ var model = (function() {
 		xhr.send(body);
 	};
 
-	model.getplayer = function(data){
-		var method = "GET"; // either POST, PUT, GET, PATCH, DELETE
-		var url = "/api/sports/" + data.sport + "/players/" + data.playerID + "/"; // the full url http:// ...
-		var body = null; // should be set to null for GET and DELETE
+	model.getplayers = function(data){
+		var method = "POST"; // either POST, PUT, GET, PATCH, DELETE
+		var url = "/api/sports/" + activesport + "/trades/"; // the full url http:// ...
+		var body = JSON.stringify(data);
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function() {
 			if (this.readyState === XMLHttpRequest.DONE) {
@@ -462,7 +462,7 @@ var model = (function() {
 					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
 					return;
 				} else {
-					document.dispatchEvent(new CustomEvent("helper", {detail: JSON.parse(this.responseText)}));
+					document.dispatchEvent(new CustomEvent(/*"helper"*/"displaySampleTrade", {detail: JSON.parse(this.responseText)}));
 				}
 			}
 		};

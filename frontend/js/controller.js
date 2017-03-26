@@ -151,12 +151,12 @@
 		view.displayyourplayerstotrade(e.detail);
 	});
 
-	document.addEventListener('getplayer', function(e){
-		model.getplayer(e.detail);
+	document.addEventListener('getplayers', function(e){
+		model.getplayers(e.detail);
 	});
 
-	document.addEventListener('helper', function(e){
-		view.helper(e.detail);
+	document.addEventListener("displaySampleTrade", function(e){
+		view.displaySampleTrade(e.detail);
 	});
 
 	document.addEventListener('maketrade', function(e){
