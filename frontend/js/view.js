@@ -448,7 +448,7 @@ var view = (function() {
 		document.getElementById("to_signup").style.display = "none";
 		document.getElementById("to_home").style.display = "block";
 
-		reset_sort();
+		reset_add_sort();
 	};
 
 	var next_player = function(event, type, element){
@@ -560,10 +560,17 @@ var view = (function() {
 
 	var reset_sort = function(){
 		document.getElementById("player_Lastname_sort").className = "up_arrow";
-		document.getElementById('player_Lastname_button').onclick();
 		document.getElementById("goalie_Lastname_sort").className = "up_arrow";
-		document.getElementById('goalie_Lastname_button').onclick();
-	}
+		sort_player("getallplayers", 'player_Lastname_sort', 'LastName', 's');
+		sort_player("getallgoalies", 'goalie_Lastname_sort', 'LastName', 'g');
+	};
+
+	var reset_add_sort = function(){
+		document.getElementById("player_Lastname_sort").className = "up_arrow";
+		document.getElementById("goalie_Lastname_sort").className = "up_arrow";
+		sort_player("getallplayerstoadd", 'player_Lastname_sort', 'LastName', 's');
+		sort_player("getallgoaliestoadd", 'goalie_Lastname_sort', 'LastName', 'g');
+	};
 
 	var sort_player = function(event, curr_attribute, attributeName, type){
 		document.getElementById(curr_attribute).style.display = "flex";
@@ -1021,7 +1028,6 @@ var view = (function() {
 			removebutton.classname = "btn btn-primary pull-right"
 			removebutton.type = "button";
 			removebutton.value = "Remove Player";
-			removebutton.id = "removebutton";
 			removebutton.onclick = function(e){
 				e.preventDefault();
 				var data = {};
@@ -1045,7 +1051,6 @@ var view = (function() {
 				removebutton.classname = "btn btn-primary pull-right"
 				removebutton.type = "button";
 				removebutton.value = "Remove Player";
-				removebutton.id = "removebutton";
 				removebutton.onclick = function(e){
 					e.preventDefault();
 					var data = {};
@@ -1069,7 +1074,6 @@ var view = (function() {
 				removebutton.classname = "btn btn-primary pull-right"
 				removebutton.type = "button";
 				removebutton.value = "Remove Player";
-				removebutton.id = "removebutton";
 				removebutton.onclick = function(e){
 					e.preventDefault();
 					var data = {};
@@ -1094,7 +1098,6 @@ var view = (function() {
 				removebutton.classname = "btn btn-primary pull-right"
 				removebutton.type = "button";
 				removebutton.value = "Remove Player";
-				removebutton.id = "removebutton";
 				removebutton.onclick = function(e){
 					e.preventDefault();
 					var data = {};
@@ -1118,7 +1121,6 @@ var view = (function() {
 				removebutton.classname = "btn btn-primary pull-right"
 				removebutton.type = "button";
 				removebutton.value = "Remove Player";
-				removebutton.id = "removebutton";
 				removebutton.onclick = function(e){
 					e.preventDefault();
 					var data = {};
@@ -1198,7 +1200,7 @@ var view = (function() {
 	view.displayallplayerstoadd = function(data){
 		socket.onmessage = function(event){
 			if(event.data === ("nhl stats updated"))
-				reset_sort();
+				reset_add_sort();
 		};
 		
 		//show the correct next/prev buttons
@@ -1228,7 +1230,6 @@ var view = (function() {
 			addbutton.classname = "btn btn-primary pull-right"
 			addbutton.type = "button";
 			addbutton.value = "Add Player";
-			addbutton.id = "addbutton";
 			addbutton.onclick = function(e){
 				e.preventDefault();
 				var data = {};
@@ -1243,7 +1244,7 @@ var view = (function() {
 	view.displayallgoaliestoadd = function(data){
 		socket.onmessage = function(event){
 			if(event.data === ("nhl stats updated"))
-				reset_sort();
+				reset_add_sort();
 		};
 
 		//show the correct next/prev buttons
@@ -1275,7 +1276,6 @@ var view = (function() {
 			addbutton.classname = "btn btn-primary pull-right"
 			addbutton.type = "button";
 			addbutton.value = "Add Player";
-			addbutton.id = "addbutton";
 			addbutton.onclick = function(e){
 				e.preventDefault();
 				var data = {};
