@@ -537,7 +537,7 @@ var view = (function() {
 		signin.style.display = 'none';
 		signup.style.display = 'none';
 		teampage.style.display = 'none';
-		leaguepage.style.display = 'none';
+		leaguepage.style.display = 'block';
 
 		//set visibility of buttons and text
 		document.getElementById('title').innerHTML = "FantasyGenius";
@@ -1357,13 +1357,16 @@ var view = (function() {
 			checkbox.classname = "checkbox";
 			checkbox.innerHTML = `<label><input type="checkbox" value="">Trade Player</label>`;
 			checkbox.onclick = function(e){
+				e.preventDefault();
 				if(checkbox.checked == false){
 					checkbox.checked = true;
 					tradeassets.push(goalie.playerID);
+					console.log(tradeassets);
 				}
 				else{
 					checkbox.checked = false;
 					tradeassets.splice(tradeassets.indexOf(goalie.playerID), 1);
+					console.log(tradeassets);
 				}
 			};
 			e.append(checkbox);
@@ -1669,8 +1672,8 @@ var view = (function() {
 			leaguepage.style.display = 'none';
 			tradepage.style.display = 'none';
 			//set visibility of buttons and text
-			document.getElementById('title').innerHTML = "Signin";
-			document.getElementById('subtitle').innerHTML = "Signin to Fantasy Genius";
+			document.getElementById('title').innerHTML = "FantasyGenius";
+			document.getElementById('subtitle').innerHTML = "Trade Confirmation";
 			document.getElementById("error").innerHTML = "";
 			document.getElementById("signup_page").style.display = "none";
 			document.getElementById("signin_page").style.display = "none";
@@ -2028,6 +2031,46 @@ var view = (function() {
 			submit.value = "Trade with Me";
 			submit.id = "submit";
 			submit.onclick = function(e){
+				e.preventDefault();
+				var main = document.getElementById("main");
+				main.style.display = 'none';
+				var leaguejoin = document.getElementById("leaguejoin");
+				var leaguecreate = document.getElementById("leaguecreate");
+				var signin = document.getElementById("signin");
+				var signup = document.getElementById("signup");
+				var teampage = document.getElementById("team_page")
+				var leaguepage = document.getElementById("league_page");
+				var tradepage = document.getElementById("trade_page");
+				var confirmpage = document.getElementById("tradeconfirm_page");
+				var mytrades = document.getElementById("your_trades_page");
+				mytrades.style.display = 'none';
+				confirmpage.style.display = 'none';
+				tradepage.style.display = 'none';
+				leaguecreate.style.display = 'none';
+				leaguejoin.style.display = 'none';
+				signin.style.display = 'none';
+				signup.style.display = 'none';
+				teampage.style.display = 'block';
+				leaguepage.style.display = 'none';
+
+				//set visibility of buttons and text
+				document.getElementById('title').innerHTML = "FantasyGenius";
+				document.getElementById('subtitle').innerHTML = user.owner + "'s team";
+				document.getElementById("error").innerHTML = "";
+				document.getElementById("signup_page").style.display = "none";
+				document.getElementById("signin_page").style.display = "none";
+				document.getElementById("signout").style.display = "block";
+				document.getElementById("link_to_createleague").style.display = "none";
+				document.getElementById("link_to_joinleague").style.display = "none";
+				document.getElementById("my_team").style.display = "block";
+				document.getElementById("my_league").style.display = "block";
+				document.getElementById("add_players").style.display = "block";
+				document.getElementById("trade_players").style.display = "block";
+				document.getElementById("my_trades").style.display = "block";
+				//set visibility of bottom buttons
+				document.getElementById("to_signin").style.display = "none";
+				document.getElementById("to_signup").style.display = "none";
+				document.getElementById("to_home").style.display = "block";
 				var data = {};
 				data.username = user.owner;
 				activetrader = user.owner;

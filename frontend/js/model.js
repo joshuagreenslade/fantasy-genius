@@ -174,6 +174,7 @@ var model = (function() {
 	};
 
 	model.maketrade = function(data){
+		data.sender = activeuser;
 		var method = "POST"; // either POST, PUT, GET, PATCH, DELETE
 		var url = "/api/leagues/" + activeleague + "/trades/"; // the full url http:// ...
 		var body = JSON.stringify(data); // should be set to null for GET and DELETE

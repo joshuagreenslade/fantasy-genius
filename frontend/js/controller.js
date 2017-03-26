@@ -144,7 +144,7 @@
 	});
 
 	document.addEventListener('getyourplayerstotrade', function(e){
-		model.getyourplayerstotrade(e.detail);
+		model.displayyourplayerstotrade(e.detail);
 	});
 
 	document.addEventListener('displayyourplayerstotrade', function(e){
