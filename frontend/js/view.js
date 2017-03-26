@@ -1752,13 +1752,13 @@ var view = (function() {
 				var tr = document.createElement("tr");
 				tr.innerHTML = `<td>${player.name}</td>`;
 				e.append(tr);
-			};
+			});
 			yourplayerstotrade.append(e);
 			trade.reciever_players.forEach(function(player){
 				var tr = document.createElement("tr");
 				tr.innerHTML = `<td>${player.name}</td>`;
 				e.append(tr);
-			};
+			});
 			yourplayerstorecieve.append(e);
 			var confirm = document.createElement('button');
 			confirm.classname = "btn btn-primary pull-left"
@@ -1783,7 +1783,7 @@ var view = (function() {
 				document.dispatchEvent(new CustomEvent("deletetrade", {detail:info}));
 			};
 			yourplayerstorecieve.append(decline);
-		};
+		});
 	};
 	view.displayallplayers = function(data){
 		socket.onmessage = function(event){
