@@ -595,10 +595,12 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 					//commit the trade
 					var promises = [];
 					promises.push(new Promise(function(resolve, reject){
-						teams.update({owner: sender.owner, league: req.params.league}, sender_trade[1], resolve());
+						delete sender_trade[1]._id;
+						teams.update({owner: sender.owner, league: req.params.league}, {$set: sender_trade[1]}, resolve());
 					}));
 					promises.push(new Promise(function(resolve, reject){
-						teams.update({owner: reciever.owner, league: req.params.league}, reciever_trade[1], resolve());
+						delete reciever_trade[1]._id;
+						teams.update({owner: reciever.owner, league: req.params.league}, {$set: reciever_trade[1]}, resolve());
 					}));
 
 					//wait until the trades have been saved
@@ -1631,6 +1633,34 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 					error = sender.owner + " does not have enough space to complete the trade";
 			}
 		});
+
+		//pull players up from the bench if there is space
+
+		//if there is now space on the bench
+		var forward_space = sender.forward.filter(function(player){return player === null}).length;
+		if(forward_space >= 1){
+			var forward_index = sender.forward.indexOf(null);
+			var next = sender.bench_forward[1] || sender.bench_forward[0];	
+			sender.forward[forward_index] = next;
+			sender.bench_forward[sender.bench_forward.indexOf(next)] = null;
+		}
+
+		//if there was 2 spaces add another player
+		if(forward_space >= 2){
+			var forward_index = sender.forward.indexOf(null);
+			var next = sender.bench_forward[1] || sender.bench_forward[0];	
+			sender.forward[forward_index] = next;
+			sender.bench_forward[sender.bench_forward.indexOf(next)] = null;
+		}
+
+		//if there is now space on the bench
+		var defence_space = sender.defence.filter(function(player){return player === null}).length;
+		if(defence_space >= 1){
+			var defence_index = sender.defence.indexOf(null);
+			var next = sender.bench_defence[0];	
+			sender.defence[defence_index] = next;
+			sender.bench_defence[sender.bench_defence.indexOf(next)] = null;
+		}
 
 		//if there is someone on the bench and not on the ice
 		return [error, sender];
