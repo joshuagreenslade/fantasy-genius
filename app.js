@@ -790,7 +790,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 		//get the trades involving the user
 		.get('/api/leagues/:league/users/:user/trades/', checkInput, function(req, res, next){
 
-			// /api/leagues/:league/users/:user/trades/?sort=decreasing&firstTrade=514bf8bbbe11e483111af213&limit=15&which=sent
+			// /api/leagues/:league/users/:user/trades/?sort=decreasing&firstTrade=514bf8bbbe11e483111af213&which=sent
 
 			if(!req.session.user || (req.session.user.username !== req.params.user))
 				return res.status(403).end("Forbidden");
@@ -820,15 +820,6 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 			if(sort_direction === 'decreasing')
 				sort = {_id: -1};
 
-			//default the limit to 10
-			var limit = req.query.limit;
-			if(limit === undefined)
-				limit = 10;
-			else if(isNaN(limit) || !Number.isInteger(JSON.parse(limit)))
-				return res.status(400).json("Invalid arguments. Limit must be an integer and " + limit + " is not");
-			else
-				limit = JSON.parse(limit);
-
 			//which trades to get; ones sent by the user, recieved by the user, or both
 			if(req.query.which === 'sent')
 				query.sender = req.params.user;
@@ -839,7 +830,7 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 			else
 				return res.status(400).end("Invalid arguments. which must be sent, recieved, or both");
 
-			trades.find(query).limit(limit).sort(sort).toArray(function(err, user_trades){
+			trades.find(query).sort(sort).toArray(function(err, user_trades){
 				if(err) return res.status(500).end(err);
 
 				var promises = [];
