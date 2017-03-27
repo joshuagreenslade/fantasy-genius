@@ -1958,7 +1958,8 @@ var view = (function() {
 		yourtradeassets.forEach(function(player){
 			var e = document.createElement("tr");
 			e.id = player.playerID;
-			e.innerHTML = `<td>${player.FirstName + " " +player.LastName}</td>`;
+			e.innerHTML = `<td>${player.LastName}</td><td>${player.FirstName}</td>
+								<td>${player.Position}</td><td>${player.points}</td>`;
 			yourplayerdisplay.append(e);
 		});
 		var theirplayerdisplay = document.getElementById("receiving");
@@ -1966,7 +1967,8 @@ var view = (function() {
 		theirtradeassets.forEach(function(player){
 			var e = document.createElement("tr");
 			e.id = player.playerID;
-			e.innerHTML = `<td>${player.FirstName + " " + player.LastName}</td>`;
+			e.innerHTML = `<td>${player.LastName}</td><td>${player.FirstName}</td>
+								<td>${player.Position}</td><td>${player.points}</td>`;
 			theirplayerdisplay.append(e);
 		});
 		var confirm = document.getElementById('confirmTrade');
@@ -1999,16 +2001,18 @@ var view = (function() {
 		data.forEach(function(trade){
 			var e = document.createElement("table");
 			e.classname = "table table-bordered table-responsive table-hover";
-			e.innerHTML = `<thead><tr><th></th><th id="Name">Name</th></tr></thead><tbody>`;
+			e.innerHTML = `<thead><tr><th></th><th>LastName</th><th>FirstName</th><th>Position</th><th>Fantasy Points</th></tr></thead><tbody>`;
 			trade.sender_players.forEach(function(player){
 				var tr = document.createElement("tr");
-				tr.innerHTML = `<td>Traded to ${trade.reciever}:</td><td>${player.FirstName + " " + player.LastName}</td>`;
+				tr.innerHTML = `<td>Traded to ${trade.reciever}:<td>${player.LastName}</td><td>${player.FirstName}</td>
+								<td>${player.Position}</td><td>${player.points}</td>`;
 				e.append(tr);
 			});
 			yourplayerstotrade.append(e);
 			trade.reciever_players.forEach(function(player){
 				var tr = document.createElement("tr");
-				tr.innerHTML = `<td>Traded to ${trade.sender}:</td><td>${player.FirstName + " " + player.LastName}</td>`;
+				tr.innerHTML = `<td>Traded to ${trade.sender}:<td>${player.LastName}</td><td>${player.FirstName}</td>
+								<td>${player.Position}</td><td>${player.points}</td>`;
 				e.append(tr);
 			});
 			yourplayerstorecieve.append(e);
