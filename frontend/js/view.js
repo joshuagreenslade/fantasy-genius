@@ -1503,17 +1503,19 @@ var view = (function() {
 								<td>${goalie.SavePercentage}</td><td>${goalie.Shutouts}</td><td>${goalie.Played}</td>
 								<td>${goalie.points}</td>`;
 			goaliedisplay.append(e);
-			var removebutton = document.createElement('input');
-			removebutton.classname = "btn btn-primary pull-right"
-			removebutton.type = "button";
-			removebutton.value = "Remove Player";
-			removebutton.onclick = function(e){
-				e.preventDefault();
-				var data = {};
-				data.player = goalie.playerID;
-				document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
-			};
-			e.append(removebutton);
+			if(data.activeuser === data.owner){
+				var removebutton = document.createElement('input');
+				removebutton.classname = "btn btn-primary pull-right"
+				removebutton.type = "button";
+				removebutton.value = "Remove Player";
+				removebutton.onclick = function(e){
+					e.preventDefault();
+					var data = {};
+					data.player = goalie.playerID;
+					document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
+				};
+				e.append(removebutton);
+			}
 		}
 		playerdisplay.innerHTML = "";
 		var players = data.forward;
@@ -1638,25 +1640,27 @@ var view = (function() {
 				}
 			}
 		});
-		var submit = document.getElementById('swap_players');
-		submit.style.display = "inline";
-		submit.onclick = function(e){
-			var ischecked = 0;
-			var players = [];
-			for(var j=0; j<i; j++){
-				var checkbox = document.getElementById("otherCheckbox" + j);
-				if(checkbox.checked){
-					ischecked++;
-					players.push(checkbox.parentNode.parentNode.parentNode.id);
+		if(data.activeuser === data.owner){
+			var submit = document.getElementById('swap_players');
+			submit.style.display = "inline";
+			submit.onclick = function(e){
+				var ischecked = 0;
+				var players = [];
+				for(var j=0; j<i; j++){
+					var checkbox = document.getElementById("otherCheckbox" + j);
+					if(checkbox.checked){
+						ischecked++;
+						players.push(checkbox.parentNode.parentNode.parentNode.id);
+					}
 				}
-			}
-			if(ischecked == 2){
-				var data = {};
-				data.benched_player = players[0];
-				data.activated_player = players[1];
-				document.dispatchEvent(new CustomEvent("swapplayer", {detail:data}));
+				if(ischecked == 2){
+					var data = {};
+					data.benched_player = players[0];
+					data.activated_player = players[1];
+					document.dispatchEvent(new CustomEvent("swapplayer", {detail:data}));
+				};
 			};
-		};
+		}
 	};
 
 	view.displayplayerstotrade = function(data){
