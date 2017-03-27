@@ -3,15 +3,15 @@ var view = (function() {
 
 	var socket;
 	var socketparam = null;
-	var dataofplayertodisplayfortrade = null;
 	var activetrader = null;
+
 	window.onload = function() {
-		socket = new WebSocket("wss://" + window.location.host)
+		socket = new WebSocket("wss://" + window.location.host);
 		document.dispatchEvent(new CustomEvent("pageloaded"));
-	}
+	};
 	window.onunload = function(){
 		socket.close();
-	}
+	};
 	document.getElementById('to_signin').onclick = function(e) {
 
 		//reset the socket listener
@@ -23,7 +23,7 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var teampage = document.getElementById("team_page")
+		var teampage = document.getElementById("team_page");
 		var leaguepage = document.getElementById("league_page");
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
@@ -65,7 +65,7 @@ var view = (function() {
 		document.getElementById("to_home").style.display = "block";
 		document.getElementById("change_password").style.display = "none";
 		document.getElementById("change_league_password").style.display = "none";
-	}
+	};
 
 	document.getElementById('to_signup').onclick = function(e) {
 
@@ -78,7 +78,7 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var teampage = document.getElementById("team_page")
+		var teampage = document.getElementById("team_page");
 		var leaguepage = document.getElementById("league_page");
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
@@ -121,7 +121,7 @@ var view = (function() {
 		document.getElementById("to_home").style.display = "block";
 		document.getElementById("change_password").style.display = "none";
 		document.getElementById("change_league_password").style.display = "none";
-	}
+	};
 
 	document.getElementById('to_home').onclick = function(e) {
 
@@ -140,7 +140,7 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var teampage = document.getElementById("team_page")
+		var teampage = document.getElementById("team_page");
 		var leaguepage = document.getElementById("league_page");
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
@@ -193,7 +193,7 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var teampage = document.getElementById("team_page")
+		var teampage = document.getElementById("team_page");
 		var leaguepage = document.getElementById("league_page");
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
@@ -268,7 +268,7 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var teampage = document.getElementById("team_page")
+		var teampage = document.getElementById("team_page");
 		var leaguepage = document.getElementById("league_page");
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
@@ -324,7 +324,7 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var teampage = document.getElementById("team_page")
+		var teampage = document.getElementById("team_page");
 		var leaguepage = document.getElementById("league_page");
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
@@ -367,7 +367,7 @@ var view = (function() {
 		document.getElementById("to_home").style.display = "block";
 		document.getElementById("change_password").style.display = "none";
 		document.getElementById("change_league_password").style.display = "none";
-	}
+	};
 	//for when submit is clicked on sign in page
 	document.getElementById('signin_button').onclick = function(e) {
 		e.preventDefault();
@@ -498,7 +498,7 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var teampage = document.getElementById("team_page")
+		var teampage = document.getElementById("team_page");
 		var leaguepage = document.getElementById("league_page");
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
@@ -559,7 +559,7 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var teampage = document.getElementById("team_page")
+		var teampage = document.getElementById("team_page");
 		var leaguepage = document.getElementById("league_page");
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
@@ -620,7 +620,7 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var teampage = document.getElementById("team_page")
+		var teampage = document.getElementById("team_page");
 		var leaguepage = document.getElementById("league_page");
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
@@ -686,7 +686,7 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var teampage = document.getElementById("team_page")
+		var teampage = document.getElementById("team_page");
 		var leaguepage = document.getElementById("league_page");
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
@@ -744,7 +744,7 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var teampage = document.getElementById("team_page")
+		var teampage = document.getElementById("team_page");
 		var leaguepage = document.getElementById("league_page");
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
@@ -804,7 +804,7 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var teampage = document.getElementById("team_page")
+		var teampage = document.getElementById("team_page");
 		var leaguepage = document.getElementById("league_page");
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
@@ -825,7 +825,7 @@ var view = (function() {
 
 		//set visibility of buttons and text
 		document.getElementById('title').innerHTML = "FantasyGenius";
-		document.getElementById('subtitle').innerHTML = "Add Players to Your Team(click to add)";
+		document.getElementById('subtitle').innerHTML = "Add Players to Your Team";
 		document.getElementById("error").innerHTML = "";
 		document.getElementById("signup_page").style.display = "none";
 		document.getElementById("signin_page").style.display = "none";
@@ -854,7 +854,7 @@ var view = (function() {
 		var data = {};
 		data.sport = 'nhl';
 		data.type = type;
-		var players = document.getElementById(element).children
+		var players = document.getElementById(element).children;
 		data.id = players[players.length-1].id;
 
 		//gets the attribute that is being sorted by
@@ -882,7 +882,7 @@ var view = (function() {
 		var data = {};
 		data.sport = 'nhl';
 		data.type = type;
-		var players = document.getElementById(element).children
+		var players = document.getElementById(element).children;
 		data.id = players[0].id;
 
 		//gets the attribute that is being sorted by
@@ -1178,7 +1178,7 @@ var view = (function() {
 	view.error = function(data){
 		document.getElementById('error').innerHTML = data;
 
-		var teampage = document.getElementById("team_page")
+		var teampage = document.getElementById("team_page");
 		var leaguepage = document.getElementById("league_page");
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
@@ -1209,7 +1209,7 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var teampage = document.getElementById("team_page")
+		var teampage = document.getElementById("team_page");
 		var leaguepage = document.getElementById("league_page");
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
@@ -1281,7 +1281,7 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var teampage = document.getElementById("team_page")
+		var teampage = document.getElementById("team_page");
 		var leaguepage = document.getElementById("league_page");
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
@@ -1365,7 +1365,7 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var teampage = document.getElementById("team_page")
+		var teampage = document.getElementById("team_page");
 		var leaguepage = document.getElementById("league_page");
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
@@ -1428,7 +1428,7 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var teampage = document.getElementById("team_page")
+		var teampage = document.getElementById("team_page");
 		var leaguepage = document.getElementById("league_page");
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
@@ -1910,7 +1910,7 @@ var view = (function() {
 		var leaguecreate = document.getElementById("leaguecreate");
 		var signin = document.getElementById("signin");
 		var signup = document.getElementById("signup");
-		var teampage = document.getElementById("team_page")
+		var teampage = document.getElementById("team_page");
 		var leaguepage = document.getElementById("league_page");
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
@@ -2220,7 +2220,7 @@ var view = (function() {
 				var leaguecreate = document.getElementById("leaguecreate");
 				var signin = document.getElementById("signin");
 				var signup = document.getElementById("signup");
-				var teampage = document.getElementById("team_page")
+				var teampage = document.getElementById("team_page");
 				var leaguepage = document.getElementById("league_page");
 				var tradepage = document.getElementById("trade_page");
 				var confirmpage = document.getElementById("tradeconfirm_page");
@@ -2301,7 +2301,7 @@ var view = (function() {
 					var leaguecreate = document.getElementById("leaguecreate");
 					var signin = document.getElementById("signin");
 					var signup = document.getElementById("signup");
-					var teampage = document.getElementById("team_page")
+					var teampage = document.getElementById("team_page");
 					var leaguepage = document.getElementById("league_page");
 					var tradepage = document.getElementById("trade_page");
 					var confirmpage = document.getElementById("tradeconfirm_page");
