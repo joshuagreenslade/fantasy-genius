@@ -6,7 +6,7 @@ var view = (function() {
 	var dataofplayertodisplayfortrade = null;
 	var activetrader = null;
 	window.onload = function() {
-		socket = new WebSocket("wss://" + window.location.host)
+		socket = new WebSocket("ws://" + window.location.host)
 		document.dispatchEvent(new CustomEvent("pageloaded"));
 	}
 	window.onunload = function(){
@@ -1311,13 +1311,8 @@ var view = (function() {
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				playerdisplay.append(e);
-<<<<<<< HEAD
-				var removebutton = document.createElement('button');
-				removebutton.classname = "btn btn-primary pull-right";
-=======
 				var removebutton = document.createElement('input');
 				removebutton.classname = "btn btn-primary pull-right"
->>>>>>> f1006787efbfe14776a1073b69dbfb3b8920a57b
 				removebutton.type = "button";
 				removebutton.value = "Remove Player";
 				removebutton.onclick = function(e){
@@ -1345,13 +1340,8 @@ var view = (function() {
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				playerdisplay.append(e);
-<<<<<<< HEAD
-				var removebutton = document.createElement('button');
-				removebutton.classname = "btn btn-primary pull-right";
-=======
 				var removebutton = document.createElement('input');
-				removebutton.classname = "btn btn-primary pull-right"
->>>>>>> f1006787efbfe14776a1073b69dbfb3b8920a57b
+				removebutton.classname = "btn btn-primary pull-right";
 				removebutton.type = "button";
 				removebutton.value = "Remove Player";
 				removebutton.onclick = function(e){
@@ -1379,13 +1369,8 @@ var view = (function() {
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				benchplayerdisplay.append(e);
-<<<<<<< HEAD
-				var removebutton = document.createElement('button');
-				removebutton.classname = "btn btn-primary pull-right";
-=======
 				var removebutton = document.createElement('input');
 				removebutton.classname = "btn btn-primary pull-right"
->>>>>>> f1006787efbfe14776a1073b69dbfb3b8920a57b
 				removebutton.type = "button";
 				removebutton.value = "Remove Player";
 				removebutton.onclick = function(e){
@@ -1412,13 +1397,8 @@ var view = (function() {
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				benchplayerdisplay.append(e);
-<<<<<<< HEAD
-				var removebutton = document.createElement('button');
-				removebutton.classname = "btn btn-primary pull-right";
-=======
 				var removebutton = document.createElement('input');
 				removebutton.classname = "btn btn-primary pull-right"
->>>>>>> f1006787efbfe14776a1073b69dbfb3b8920a57b
 				removebutton.type = "button";
 				removebutton.value = "Remove Player";
 				removebutton.onclick = function(e){
