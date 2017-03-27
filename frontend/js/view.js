@@ -999,6 +999,8 @@ var view = (function() {
 		leaguepage.style.display = 'none';
 		document.getElementById('my_players').style.display = "none";
 		document.getElementById('submit_trade').style.display = "none";
+		document.getElementById('confirmTrade').style.display = "none";
+		document.getElementById('rejectTrade').style.display = "none";
 	};
 
 	view.loadmain = function(){
@@ -1287,7 +1289,7 @@ var view = (function() {
 								<td>${goalie.SavePercentage}</td><td>${goalie.Shutouts}</td><td>${goalie.Played}</td>
 								<td>${goalie.points}</td>`;
 			goaliedisplay.append(e);
-			var removebutton = document.createElement('button');
+			var removebutton = document.createElement('input');
 			removebutton.classname = "btn btn-primary pull-right"
 			removebutton.type = "button";
 			removebutton.value = "Remove Player";
@@ -1310,7 +1312,7 @@ var view = (function() {
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				playerdisplay.append(e);
-				var removebutton = document.createElement('button');
+				var removebutton = document.createElement('input');
 				removebutton.classname = "btn btn-primary pull-right"
 				removebutton.type = "button";
 				removebutton.value = "Remove Player";
@@ -1333,7 +1335,7 @@ var view = (function() {
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				playerdisplay.append(e);
-				var removebutton = document.createElement('button');
+				var removebutton = document.createElement('input');
 				removebutton.classname = "btn btn-primary pull-right"
 				removebutton.type = "button";
 				removebutton.value = "Remove Player";
@@ -1357,7 +1359,7 @@ var view = (function() {
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				benchplayerdisplay.append(e);
-				var removebutton = document.createElement('button');
+				var removebutton = document.createElement('input');
 				removebutton.classname = "btn btn-primary pull-right"
 				removebutton.type = "button";
 				removebutton.value = "Remove Player";
@@ -1380,7 +1382,7 @@ var view = (function() {
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				benchplayerdisplay.append(e);
-				var removebutton = document.createElement('button');
+				var removebutton = document.createElement('input');
 				removebutton.classname = "btn btn-primary pull-right"
 				removebutton.type = "button";
 				removebutton.value = "Remove Player";
@@ -1718,42 +1720,45 @@ var view = (function() {
 		var yourplayerstorecieve = document.getElementById("yourreceiving");
 		yourplayerstotrade.innerHTML = "";
 		yourplayerstorecieve.innerHTML = "";
+		var activeuser = data.pop();
 		data.forEach(function(trade){
 			var e = document.createElement("table");
 			e.classname = "table table-bordered table-responsive table-hover";
-			e.innerHTML = `<thead><tr><th id="Name">Name</th></tr></thead><tbody>`;
+			e.innerHTML = `<thead><tr><th></th><th id="Name">Name</th></tr></thead><tbody>`;
 			trade.sender_players.forEach(function(player){
 				var tr = document.createElement("tr");
-				tr.innerHTML = `<td>${player.name}</td>`;
+				tr.innerHTML = `<td>Traded to ${trade.reciever}:</td><td>${player.FirstName + " " + player.LastName}</td>`;
 				e.append(tr);
 			});
 			yourplayerstotrade.append(e);
 			trade.reciever_players.forEach(function(player){
 				var tr = document.createElement("tr");
-				tr.innerHTML = `<td>${player.name}</td>`;
+				tr.innerHTML = `<td>Traded to ${trade.sender}:</td><td>${player.FirstName + " " + player.LastName}</td>`;
 				e.append(tr);
 			});
 			yourplayerstorecieve.append(e);
-			var confirm = document.createElement('button');
-			confirm.classname = "btn btn-primary pull-left"
-			confirm.type = "button";
-			confirm.value = "Confirm";
-			confirm.id = "confirm";
-			confirm.onclick = function(e){
-				var info = {};
-				info.tradeID = trade.tradeID;
-				document.dispatchEvent(new CustomEvent("completetrade", {detail:info}));
-			};
-			yourplayerstotrade.append(confirm);
+			if(activeuser === trade.reciever){
+				var confirm = document.createElement('input');
+				confirm.classname = "btn btn-primary pull-left"
+				confirm.type = "button";
+				confirm.value = "Confirm";
+				confirm.id = trade._id + "confirm";
+				confirm.onclick = function(e){
+					var info = {};
+					info.tradeID = trade._id;
+					document.dispatchEvent(new CustomEvent("completetrade", {detail:info}));
+				};
+				/*yourplayerstotrade*/yourplayerstorecieve.append(confirm);
+			}
 
-			var decline = document.createElement('button');
+			var decline = document.createElement('input');
 			decline.classname = "btn btn-primary pull-right"
 			decline.type = "button";
 			decline.value = "Decline";
-			decline.id = "decline";
+			decline.id = trade._id + "decline";
 			decline.onclick = function(e){
 				var info = {};
-				info.tradeID = trade.tradeID;
+				info.tradeID = trade._id;
 				document.dispatchEvent(new CustomEvent("deletetrade", {detail:info}));
 			};
 			yourplayerstorecieve.append(decline);
@@ -1853,7 +1858,7 @@ var view = (function() {
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 			playerdisplay.append(e);
-			var addbutton = document.createElement('button');
+			var addbutton = document.createElement('input');
 			addbutton.classname = "btn btn-primary pull-right"
 			addbutton.type = "button";
 			addbutton.value = "Add Player";
@@ -1899,7 +1904,7 @@ var view = (function() {
 								<td>${goalie.SavePercentage}</td><td>${goalie.Shutouts}</td><td>${goalie.Played}</td>
 								<td>${goalie.points}</td>`;
 			goaliedisplay.append(e);
-			var addbutton = document.createElement('button');
+			var addbutton = document.createElement('input');
 			addbutton.classname = "btn btn-primary pull-right"
 			addbutton.type = "button";
 			addbutton.value = "Add Player";
@@ -1993,65 +1998,67 @@ var view = (function() {
 		var tradedisplay = document.getElementById("traders");
 		tradedisplay.innerHTML = "";
 		data.forEach(function(user){
-			var e = document.createElement("tr");
-			e.classname = "list-group";
-			e.id = user.owner;
-			e.innerHTML = `<td>${user.owner}</td><td>${user.score}</td><td>${user.wins}</td>`;
-			tradedisplay.append(e);
-			var submit = document.createElement('button');
-			submit.classname = "btn btn-primary pull-right"
-			submit.type = "button";
-			submit.value = "Trade with Me";
-			submit.id = "submit";
-			submit.onclick = function(e){
-				e.preventDefault();
-				var main = document.getElementById("main");
-				main.style.display = 'none';
-				var leaguejoin = document.getElementById("leaguejoin");
-				var leaguecreate = document.getElementById("leaguecreate");
-				var signin = document.getElementById("signin");
-				var signup = document.getElementById("signup");
-				var teampage = document.getElementById("team_page")
-				var leaguepage = document.getElementById("league_page");
-				var tradepage = document.getElementById("trade_page");
-				var confirmpage = document.getElementById("tradeconfirm_page");
-				var mytrades = document.getElementById("your_trades_page");
-				mytrades.style.display = 'none';
-				confirmpage.style.display = 'none';
-				tradepage.style.display = 'none';
-				leaguecreate.style.display = 'none';
-				leaguejoin.style.display = 'none';
-				signin.style.display = 'none';
-				signup.style.display = 'none';
-				teampage.style.display = 'block';
-				leaguepage.style.display = 'none';
+			if(active.user !== user.owner){
+				var e = document.createElement("tr");
+				e.classname = "list-group";
+				e.id = user.owner;
+				e.innerHTML = `<td>${user.owner}</td><td>${user.score}</td><td>${user.wins}</td>`;
+				tradedisplay.append(e);
+				var submit = document.createElement('input');
+				submit.classname = "btn btn-primary pull-right"
+				submit.type = "button";
+				submit.value = "Trade with Me";
+				submit.id = "submit";
+				submit.onclick = function(e){
+					e.preventDefault();
+					var main = document.getElementById("main");
+					main.style.display = 'none';
+					var leaguejoin = document.getElementById("leaguejoin");
+					var leaguecreate = document.getElementById("leaguecreate");
+					var signin = document.getElementById("signin");
+					var signup = document.getElementById("signup");
+					var teampage = document.getElementById("team_page")
+					var leaguepage = document.getElementById("league_page");
+					var tradepage = document.getElementById("trade_page");
+					var confirmpage = document.getElementById("tradeconfirm_page");
+					var mytrades = document.getElementById("your_trades_page");
+					mytrades.style.display = 'none';
+					confirmpage.style.display = 'none';
+					tradepage.style.display = 'none';
+					leaguecreate.style.display = 'none';
+					leaguejoin.style.display = 'none';
+					signin.style.display = 'none';
+					signup.style.display = 'none';
+					teampage.style.display = 'block';
+					leaguepage.style.display = 'none';
 
-				//set visibility of buttons and text
-				document.getElementById('title').innerHTML = "FantasyGenius";
-				document.getElementById('subtitle').innerHTML = user.owner + "'s team";
-				document.getElementById("error").innerHTML = "";
-				document.getElementById("signup_page").style.display = "none";
-				document.getElementById("signin_page").style.display = "none";
-				document.getElementById("signout").style.display = "block";
-				document.getElementById("link_to_createleague").style.display = "none";
-				document.getElementById("link_to_joinleague").style.display = "none";
-				document.getElementById("my_team").style.display = "block";
-				document.getElementById("my_league").style.display = "block";
-				document.getElementById("add_players").style.display = "block";
-				document.getElementById("trade_players").style.display = "block";
-				document.getElementById("my_trades").style.display = "block";
-				document.getElementById('confirmTrade').style.display = "none";
-				document.getElementById('rejectTrade').style.display = "none";
-				//set visibility of bottom buttons
-				document.getElementById("to_signin").style.display = "none";
-				document.getElementById("to_signup").style.display = "none";
-				document.getElementById("to_home").style.display = "block";
-				var data = {};
-				data.username = user.owner;
-				activetrader = user.owner;
-				document.dispatchEvent(new CustomEvent("displayhisplayerstotrade", {detail:data}));
-			};
-			e.append(submit);		
+					//set visibility of buttons and text
+					document.getElementById('title').innerHTML = "FantasyGenius";
+					document.getElementById('subtitle').innerHTML = user.owner + "'s team";
+					document.getElementById("error").innerHTML = "";
+					document.getElementById("signup_page").style.display = "none";
+					document.getElementById("signin_page").style.display = "none";
+					document.getElementById("signout").style.display = "block";
+					document.getElementById("link_to_createleague").style.display = "none";
+					document.getElementById("link_to_joinleague").style.display = "none";
+					document.getElementById("my_team").style.display = "block";
+					document.getElementById("my_league").style.display = "block";
+					document.getElementById("add_players").style.display = "block";
+					document.getElementById("trade_players").style.display = "block";
+					document.getElementById("my_trades").style.display = "block";
+					document.getElementById('confirmTrade').style.display = "none";
+					document.getElementById('rejectTrade').style.display = "none";
+					//set visibility of bottom buttons
+					document.getElementById("to_signin").style.display = "none";
+					document.getElementById("to_signup").style.display = "none";
+					document.getElementById("to_home").style.display = "block";
+					var data = {};
+					data.username = user.owner;
+					activetrader = user.owner;
+					document.dispatchEvent(new CustomEvent("displayhisplayerstotrade", {detail:data}));
+				};
+				e.append(submit);
+			}
 		});
 		socketparam = active;
 		socket.onmessage = function(event){
