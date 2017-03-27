@@ -1263,7 +1263,6 @@ var view = (function() {
 		};
 	};
 
-	//displaying users after joining fails, trying to display team after joining displays admins team
 	view.displayplayers = function(data){
 		socketparam = data;
 		socket.onmessage = function(event){
@@ -1272,7 +1271,7 @@ var view = (function() {
 				document.dispatchEvent(new CustomEvent("displayhisplayers", {detail: data}));
 			}
 		};
-		
+		var i = 0;
 		var goaliedisplay = document.getElementById("your_goalies");
 		var playerdisplay = document.getElementById("your_players");
 		var benchplayerdisplay = document.getElementById("your_bench_players");
@@ -1311,7 +1310,7 @@ var view = (function() {
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				playerdisplay.append(e);
 				var removebutton = document.createElement('button');
-				removebutton.classname = "btn btn-primary pull-right"
+				removebutton.classname = "btn btn-primary pull-right";
 				removebutton.type = "button";
 				removebutton.value = "Remove Player";
 				removebutton.onclick = function(e){
@@ -1321,6 +1320,12 @@ var view = (function() {
 					document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
 				};
 				e.append(removebutton);
+				//each player must have a checkbox then at bottom have swap players button
+				var checkbox = document.createElement('div');
+				checkbox.classname = "checkbox";
+				checkbox.innerHTML = `<label><input type="checkbox" value="" id=otherCheckbox${i}>Swap Player</label>`;
+				i++;
+				e.append(checkbox);
 			}
 		});
 		players = data.defence;
@@ -1334,7 +1339,7 @@ var view = (function() {
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				playerdisplay.append(e);
 				var removebutton = document.createElement('button');
-				removebutton.classname = "btn btn-primary pull-right"
+				removebutton.classname = "btn btn-primary pull-right";
 				removebutton.type = "button";
 				removebutton.value = "Remove Player";
 				removebutton.onclick = function(e){
@@ -1344,6 +1349,11 @@ var view = (function() {
 					document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
 				};
 				e.append(removebutton);
+				var checkbox = document.createElement('div');
+				checkbox.classname = "checkbox";
+				checkbox.innerHTML = `<label><input type="checkbox" value="" id=otherCheckbox${i}>Swap Player</label>`;
+				i++;
+				e.append(checkbox);
 			}
 		});
 		benchplayerdisplay.innerHTML = "";
@@ -1358,7 +1368,7 @@ var view = (function() {
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				benchplayerdisplay.append(e);
 				var removebutton = document.createElement('button');
-				removebutton.classname = "btn btn-primary pull-right"
+				removebutton.classname = "btn btn-primary pull-right";
 				removebutton.type = "button";
 				removebutton.value = "Remove Player";
 				removebutton.onclick = function(e){
@@ -1368,6 +1378,11 @@ var view = (function() {
 					document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
 				};
 				e.append(removebutton);
+				var checkbox = document.createElement('div');
+				checkbox.classname = "checkbox";
+				checkbox.innerHTML = `<label><input type="checkbox" value="" id=otherCheckbox${i}>Swap Player</label>`;
+				i++;
+				e.append(checkbox);
 			}
 		});
 		players = data.bench_defence;
@@ -1381,7 +1396,7 @@ var view = (function() {
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				benchplayerdisplay.append(e);
 				var removebutton = document.createElement('button');
-				removebutton.classname = "btn btn-primary pull-right"
+				removebutton.classname = "btn btn-primary pull-right";
 				removebutton.type = "button";
 				removebutton.value = "Remove Player";
 				removebutton.onclick = function(e){
@@ -1391,8 +1406,31 @@ var view = (function() {
 					document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
 				};
 				e.append(removebutton);
+				var checkbox = document.createElement('div');
+				checkbox.classname = "checkbox";
+				checkbox.innerHTML = `<label><input type="checkbox" value="" id=otherCheckbox${i}>Swap Player</label>`;
+				i++;
+				e.append(checkbox);
 			}
 		});
+		var submit = document.getElementById('swap_players');
+		submit.style.display = "inline";
+		submit.onclick = function(e){
+			var ischecked = 0;
+			var players = [];
+			for(var j=0; j<i; j++){
+				var checkbox = document.getElementById("otherCheckbox" + j);
+				if(checkbox.checked)
+					ischecked++;
+					players.push(checkbox.parentNode.parentNode.parentNode.id);
+			}
+			if(ischecked == 2){
+				var data = {};
+				data.benched_player = players[0];
+				data.activated_player = players[1];
+				document.dispatchEvent(new CustomEvent("swapplayer", {detail:data}));
+			};
+		};
 	};
 
 	view.displayplayerstotrade = function(data){

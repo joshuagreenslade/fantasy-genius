@@ -178,4 +178,8 @@
 	document.addEventListener('deletetrade', function(e){
 		model.deletetrade(e.detail);
 	});
+
+	document.addEventListener('swapplayer', function(e){
+		model.moveplayer(e.detail);
+	});
 }(model, view));

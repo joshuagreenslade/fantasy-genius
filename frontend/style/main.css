@@ -51,6 +51,10 @@
     -webkit-transform: scaleY(-1);
 }
 
+#image{
+	height: 100vh;
+}
+
 body{
 	background-color: #000000;
 	color: #ff0000;

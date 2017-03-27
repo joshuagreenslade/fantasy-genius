@@ -493,6 +493,27 @@ var model = (function() {
 		xhr.send(body);
 	};
 
+	model.moveplayer = function(data){
+		var method = "PATCH"; // either POST, PUT, GET, PATCH, DELETE
+		var url = "/api/users/" + activeuser + "/sports/" + activesport + "/"; // the full url http:// ...
+		var body = JSON.stringify(data); // should be set to null for GET and DELETE
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === XMLHttpRequest.DONE) {
+				if (this.status >= 400) {
+					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
+					return;
+				}
+				else{
+					document.dispatchEvent(new CustomEvent("loadteam"));
+				}
+			}
+		};
+		xhr.open(method, url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(body);
+	};
+
 	model.deleteplayers = function(data){
 		var method = "DELETE"; // either POST, PUT, GET, PATCH, DELETE
 		var url = "/api/users/" + activeuser + "/sports/" + activesport + "/players/" + data.player + "/"; // the full url http:// ...
