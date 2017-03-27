@@ -1507,7 +1507,7 @@ var view = (function() {
 			goaliedisplay.append(e);
 			if(data.activeuser === data.owner){
 				var removebutton = document.createElement('input');
-				removebutton.classname = "btn btn-primary pull-right"
+				removebutton.classname = "btn btn-primary pull-right";
 				removebutton.type = "button";
 				removebutton.value = "Remove Player";
 				removebutton.onclick = function(e){
@@ -1532,7 +1532,7 @@ var view = (function() {
 				playerdisplay.append(e);
 				if(data.activeuser === data.owner){
 					var removebutton = document.createElement('input');
-					removebutton.classname = "btn btn-primary pull-right"
+					removebutton.classname = "btn btn-primary pull-right";
 					removebutton.type = "button";
 					removebutton.value = "Remove Player";
 					removebutton.onclick = function(e){
@@ -1594,7 +1594,7 @@ var view = (function() {
 				benchplayerdisplay.append(e);
 				if(data.activeuser === data.owner){
 					var removebutton = document.createElement('input');
-					removebutton.classname = "btn btn-primary pull-right"
+					removebutton.classname = "btn btn-primary pull-right";
 					removebutton.type = "button";
 					removebutton.value = "Remove Player";
 					removebutton.onclick = function(e){
@@ -1624,7 +1624,7 @@ var view = (function() {
 				benchplayerdisplay.append(e);
 				if(data.activeuser === data.owner){
 					var removebutton = document.createElement('input');
-					removebutton.classname = "btn btn-primary pull-right"
+					removebutton.classname = "btn btn-primary pull-right";
 					removebutton.type = "button";
 					removebutton.value = "Remove Player";
 					removebutton.onclick = function(e){
@@ -1660,7 +1660,7 @@ var view = (function() {
 					data.benched_player = players[0];
 					data.activated_player = players[1];
 					document.dispatchEvent(new CustomEvent("swapplayer", {detail:data}));
-				};
+				}
 			};
 		}
 		else
@@ -1896,7 +1896,7 @@ var view = (function() {
 				if(checkbox.checked)
 					yourtradeassets.push(checkbox.parentNode.parentNode.parentNode.id);
 			}
-			var all_players = {sender_players: yourtradeassets, reciever_players: data[0]}
+			var all_players = {sender_players: yourtradeassets, reciever_players: data[0]};
 			document.dispatchEvent(new CustomEvent("getplayers", {detail: all_players}));
 		};
 	};
@@ -1981,8 +1981,8 @@ var view = (function() {
 
 			var info = {};
 			info.reciever = activetrader;
-			info.sender_players = yourtradeassets.map(function(player){return player.playerID});
-			info.reciever_players = theirtradeassets.map(function(player){return player.playerID});
+			info.sender_players = yourtradeassets.map(function(player){return player.playerID;});
+			info.reciever_players = theirtradeassets.map(function(player){return player.playerID;});
 			document.dispatchEvent(new CustomEvent("maketrade", {detail:info}));
 		};
 
@@ -2020,7 +2020,7 @@ var view = (function() {
 			yourplayerstorecieve.append(e);
 			if(activeuser === trade.reciever){
 				var confirm = document.createElement('input');
-				confirm.classname = "btn btn-primary pull-left"
+				confirm.classname = "btn btn-primary pull-left";
 				confirm.type = "button";
 				confirm.value = "Confirm";
 				confirm.id = trade._id + "confirm";
@@ -2033,7 +2033,7 @@ var view = (function() {
 			}
 
 			var decline = document.createElement('input');
-			decline.classname = "btn btn-primary pull-right"
+			decline.classname = "btn btn-primary pull-right";
 			decline.type = "button";
 			decline.value = "Decline";
 			decline.id = trade._id + "decline";
@@ -2140,7 +2140,7 @@ var view = (function() {
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 			playerdisplay.append(e);
 			var addbutton = document.createElement('input');
-			addbutton.classname = "btn btn-primary pull-right"
+			addbutton.classname = "btn btn-primary pull-right";
 			addbutton.type = "button";
 			addbutton.value = "Add Player";
 			addbutton.onclick = function(e){
@@ -2186,7 +2186,7 @@ var view = (function() {
 								<td>${goalie.points}</td>`;
 			goaliedisplay.append(e);
 			var addbutton = document.createElement('input');
-			addbutton.classname = "btn btn-primary pull-right"
+			addbutton.classname = "btn btn-primary pull-right";
 			addbutton.type = "button";
 			addbutton.value = "Add Player";
 			addbutton.onclick = function(e){
@@ -2291,7 +2291,7 @@ var view = (function() {
 				e.innerHTML = `<td>${user.owner}</td><td>${user.score}</td><td>${user.wins}</td>`;
 				tradedisplay.append(e);
 				var submit = document.createElement('input');
-				submit.classname = "btn btn-primary pull-right"
+				submit.classname = "btn btn-primary pull-right";
 				submit.type = "button";
 				submit.value = "Trade with Me";
 				submit.id = "submit";
@@ -2362,4 +2362,4 @@ var view = (function() {
 
 	//remove players, add home buttons for pages
 	return view;
-}())
+}());
