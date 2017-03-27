@@ -1661,6 +1661,8 @@ var view = (function() {
 				};
 			};
 		}
+		else
+			document.getElementById('swap_players').style.display = "none";
 	};
 
 	view.displayplayerstotrade = function(data){
@@ -1767,6 +1769,7 @@ var view = (function() {
 			}
 		});
 		var submit = document.getElementById('my_players');
+		document.getElementById('swap_players').style.display = "none";
 		submit.style.display = "inline";
 		submit.onclick = function(e){
 			for(var j=0; j<i; j++){
