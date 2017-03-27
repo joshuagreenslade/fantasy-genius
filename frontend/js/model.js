@@ -483,7 +483,7 @@ var model = (function() {
 					return;
 				} else {
 					var result = JSON.parse(this.responseText);
-					result[result.length] = activeuser
+					result[result.length] = activeuser;
 					document.dispatchEvent(new CustomEvent("displaytrades", {detail: result}));
 				}
 			}
@@ -496,6 +496,48 @@ var model = (function() {
 	model.moveplayer = function(data){
 		var method = "PATCH"; // either POST, PUT, GET, PATCH, DELETE
 		var url = "/api/users/" + activeuser + "/sports/" + activesport + "/"; // the full url http:// ...
+		var body = JSON.stringify(data); // should be set to null for GET and DELETE
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === XMLHttpRequest.DONE) {
+				if (this.status >= 400) {
+					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
+					return;
+				}
+				else{
+					document.dispatchEvent(new CustomEvent("loadteam"));
+				}
+			}
+		};
+		xhr.open(method, url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(body);
+	};
+
+	model.changepassword = function(data){
+		var method = "PATCH"; // either POST, PUT, GET, PATCH, DELETE
+		var url = "/api/users/" + activeuser + "/"; // the full url http:// ...
+		var body = JSON.stringify(data); // should be set to null for GET and DELETE
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (this.readyState === XMLHttpRequest.DONE) {
+				if (this.status >= 400) {
+					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
+					return;
+				}
+				else{
+					document.dispatchEvent(new CustomEvent("loadteam"));
+				}
+			}
+		};
+		xhr.open(method, url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(body);
+	};
+
+	model.changeleaguepassword = function(data){
+		var method = "PATCH"; // either POST, PUT, GET, PATCH, DELETE
+		var url = "/api/leagues/" + activeleague + "/"; // the full url http:// ...
 		var body = JSON.stringify(data); // should be set to null for GET and DELETE
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function() {

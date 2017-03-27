@@ -182,4 +182,12 @@
 	document.addEventListener('swapplayer', function(e){
 		model.moveplayer(e.detail);
 	});
+
+	document.addEventListener('changepwd', function(e){
+		model.changepassword(e.detail);
+	});
+
+	document.addEventListener('changeleaguepwd', function(e){
+		model.changeleaguepassword(e.detail);
+	});
 }(model, view));

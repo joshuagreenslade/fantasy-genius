@@ -28,6 +28,10 @@ var view = (function() {
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
 		var mytrades = document.getElementById("your_trades_page");
+		var changepwdpage = document.getElementById("change_password_page");
+		var changelgpwdpage = document.getElementById("change_league_password_page");
+		changepwdpage.style.display = 'none';
+		changelgpwdpage.style.display = 'none';
 		mytrades.style.display = 'none';
 		confirmpage.style.display = 'none';
 		leaguecreate.style.display = 'none';
@@ -59,6 +63,8 @@ var view = (function() {
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "block";
 		document.getElementById("to_home").style.display = "block";
+		document.getElementById("change_password").style.display = "none";
+		document.getElementById("change_league_password").style.display = "none";
 	}
 
 	document.getElementById('to_signup').onclick = function(e) {
@@ -77,6 +83,10 @@ var view = (function() {
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
 		var mytrades = document.getElementById("your_trades_page");
+		var changepwdpage = document.getElementById("change_password_page");
+		var changelgpwdpage = document.getElementById("change_league_password_page");
+		changepwdpage.style.display = 'none';
+		changelgpwdpage.style.display = 'none';
 		mytrades.style.display = 'none';
 		confirmpage.style.display = 'none';
 		tradepage.style.display = 'none';
@@ -109,6 +119,8 @@ var view = (function() {
 		document.getElementById("to_signin").style.display = "block";
 		document.getElementById("to_signup").style.display = "none";
 		document.getElementById("to_home").style.display = "block";
+		document.getElementById("change_password").style.display = "none";
+		document.getElementById("change_league_password").style.display = "none";
 	}
 
 	document.getElementById('to_home').onclick = function(e) {
@@ -117,7 +129,133 @@ var view = (function() {
 		socket.onmessage = function(event){};
 
 		document.dispatchEvent(new CustomEvent("pageloaded"));
-	}
+	};
+
+	document.getElementById("change_password").onclick = function(e){
+		socket.onmessage = function(event){};
+
+		var main = document.getElementById("main");
+		main.style.display = 'none';
+		var leaguejoin = document.getElementById("leaguejoin");
+		var leaguecreate = document.getElementById("leaguecreate");
+		var signin = document.getElementById("signin");
+		var signup = document.getElementById("signup");
+		var teampage = document.getElementById("team_page")
+		var leaguepage = document.getElementById("league_page");
+		var tradepage = document.getElementById("trade_page");
+		var confirmpage = document.getElementById("tradeconfirm_page");
+		var mytrades = document.getElementById("your_trades_page");
+		var changepwdpage = document.getElementById("change_password_page");
+		var changelgpwdpage = document.getElementById("change_league_password_page");
+		changepwdpage.style.display = 'block';
+		changelgpwdpage.style.display = 'none';
+		mytrades.style.display = 'none';
+		confirmpage.style.display = 'none';
+		leaguecreate.style.display = 'none';
+		leaguejoin.style.display = 'none';
+		signin.style.display = 'none';
+		signup.style.display = 'none';
+		teampage.style.display = 'none';
+		leaguepage.style.display = 'none';
+		tradepage.style.display = 'none';
+		//set visibility of buttons and text
+		document.getElementById('title').innerHTML = "FantasyGenius";
+		document.getElementById('subtitle').innerHTML = "Change Your Password";
+		document.getElementById("error").innerHTML = "";
+		document.getElementById("signup_page").style.display = "none";
+		document.getElementById("signin_page").style.display = "none";
+		document.getElementById("signout").style.display = "none";
+		document.getElementById("link_to_createleague").style.display = "none";
+		document.getElementById("link_to_joinleague").style.display = "none";
+		document.getElementById("my_team").style.display = "none";
+		document.getElementById("my_league").style.display = "none";
+		document.getElementById("add_players").style.display = "none";
+		document.getElementById("trade_players").style.display = "none";
+		document.getElementById("my_trades").style.display = "none";
+		document.getElementById('my_players').style.display = "none";
+		document.getElementById('submit_trade').style.display = "none";
+		document.getElementById('confirmTrade').style.display = "none";
+		document.getElementById('rejectTrade').style.display = "none";
+		//set visibility of bottom buttons
+		document.getElementById("to_signin").style.display = "none";
+		document.getElementById("to_signup").style.display = "none";
+		document.getElementById("to_home").style.display = "block";
+		document.getElementById("change_password").style.display = "none";
+		document.getElementById("change_league_password").style.display = "none";
+	};
+
+	document.getElementById("change_league_password").onclick = function(e){
+		socket.onmessage = function(event){};
+
+		var main = document.getElementById("main");
+		main.style.display = 'none';
+		var leaguejoin = document.getElementById("leaguejoin");
+		var leaguecreate = document.getElementById("leaguecreate");
+		var signin = document.getElementById("signin");
+		var signup = document.getElementById("signup");
+		var teampage = document.getElementById("team_page")
+		var leaguepage = document.getElementById("league_page");
+		var tradepage = document.getElementById("trade_page");
+		var confirmpage = document.getElementById("tradeconfirm_page");
+		var mytrades = document.getElementById("your_trades_page");
+		var changepwdpage = document.getElementById("change_password_page");
+		var changelgpwdpage = document.getElementById("change_league_password_page");
+		changepwdpage.style.display = 'none';
+		changelgpwdpage.style.display = 'block';
+		mytrades.style.display = 'none';
+		confirmpage.style.display = 'none';
+		leaguecreate.style.display = 'none';
+		leaguejoin.style.display = 'none';
+		signin.style.display = 'none';
+		signup.style.display = 'none';
+		teampage.style.display = 'none';
+		leaguepage.style.display = 'none';
+		tradepage.style.display = 'none';
+		//set visibility of buttons and text
+		document.getElementById('title').innerHTML = "FantasyGenius";
+		document.getElementById('subtitle').innerHTML = "Change Your League Password";
+		document.getElementById("error").innerHTML = "";
+		document.getElementById("signup_page").style.display = "none";
+		document.getElementById("signin_page").style.display = "none";
+		document.getElementById("signout").style.display = "none";
+		document.getElementById("link_to_createleague").style.display = "none";
+		document.getElementById("link_to_joinleague").style.display = "none";
+		document.getElementById("my_team").style.display = "none";
+		document.getElementById("my_league").style.display = "none";
+		document.getElementById("add_players").style.display = "none";
+		document.getElementById("trade_players").style.display = "none";
+		document.getElementById("my_trades").style.display = "none";
+		document.getElementById('my_players').style.display = "none";
+		document.getElementById('submit_trade').style.display = "none";
+		document.getElementById('confirmTrade').style.display = "none";
+		document.getElementById('rejectTrade').style.display = "none";
+		//set visibility of bottom buttons
+		document.getElementById("to_signin").style.display = "none";
+		document.getElementById("to_signup").style.display = "none";
+		document.getElementById("to_home").style.display = "block";
+		document.getElementById("change_password").style.display = "none";
+		document.getElementById("change_league_password").style.display = "none";
+	};
+
+	document.getElementById('change_password_button').onclick = function(e){
+		e.preventDefault();
+		var data = {};
+		data.old_password = document.getElementById("old_pwd").value;
+		data.new_password = document.getElementById("new_pwd").value;
+		document.dispatchEvent(new CustomEvent("changepwd", {detail:data}));
+		document.getElementById("old_pwd").value = "";
+		document.getElementById("new_pwd").value = "";
+	};
+
+	document.getElementById('change_league_password_button').onclick = function(e){
+		e.preventDefault();
+		var data = {};
+		data.admin_password = document.getElementById("admin_pwd").value;
+		data.password = document.getElementById("new_league_pwd").value;
+		document.dispatchEvent(new CustomEvent("changeleaguepwd", {detail:data}));
+		document.getElementById("admin_pwd").value = "";
+		document.getElementById("new_league_pwd").value = "";
+	};
 	//for signin button on main page
 	document.getElementById('signin_page').onclick = function(e) {
 
@@ -135,6 +273,10 @@ var view = (function() {
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
 		var mytrades = document.getElementById("your_trades_page");
+		var changepwdpage = document.getElementById("change_password_page");
+		var changelgpwdpage = document.getElementById("change_league_password_page");
+		changepwdpage.style.display = 'none';
+		changelgpwdpage.style.display = 'none';
 		mytrades.style.display = 'none';
 		confirmpage.style.display = 'none';
 		tradepage.style.display = 'none';
@@ -167,6 +309,8 @@ var view = (function() {
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "block";
 		document.getElementById("to_home").style.display = "block";
+		document.getElementById("change_password").style.display = "none";
+		document.getElementById("change_league_password").style.display = "none";
 	};
 
 	document.getElementById('signup_page').onclick = function(e) {
@@ -185,6 +329,10 @@ var view = (function() {
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
 		var mytrades = document.getElementById("your_trades_page");
+		var changepwdpage = document.getElementById("change_password_page");
+		var changelgpwdpage = document.getElementById("change_league_password_page");
+		changepwdpage.style.display = 'none';
+		changelgpwdpage.style.display = 'none';
 		mytrades.style.display = 'none';
 		confirmpage.style.display = 'none';
 		tradepage.style.display = 'none';
@@ -217,6 +365,8 @@ var view = (function() {
 		document.getElementById("to_signin").style.display = "block";
 		document.getElementById("to_signup").style.display = "none";
 		document.getElementById("to_home").style.display = "block";
+		document.getElementById("change_password").style.display = "none";
+		document.getElementById("change_league_password").style.display = "none";
 	}
 	//for when submit is clicked on sign in page
 	document.getElementById('signin_button').onclick = function(e) {
@@ -272,6 +422,8 @@ var view = (function() {
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
 		document.getElementById("to_home").style.display = "block";
+		document.getElementById("change_password").style.display = "none";
+		document.getElementById("change_league_password").style.display = "none";
 	};
 
 	document.getElementById('link_to_joinleague').onclick = function(e) {
@@ -307,6 +459,8 @@ var view = (function() {
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
 		document.getElementById("to_home").style.display = "block";
+		document.getElementById("change_password").style.display = "none";
+		document.getElementById("change_league_password").style.display = "none";
 	};
 
 	document.getElementById('joinleague').onclick = function(e) {
@@ -317,6 +471,8 @@ var view = (function() {
 		document.dispatchEvent(new CustomEvent("joiningleague", {detail: data}));
 		document.getElementById('join_name').value = "";
 		document.getElementById('join_pwd').value = "";
+		document.getElementById("change_password").style.display = "none";
+		document.getElementById("change_league_password").style.display = "none";
 	};
 
 	document.getElementById('createleague').onclick = function(e) {
@@ -328,6 +484,8 @@ var view = (function() {
 		document.dispatchEvent(new CustomEvent("creatingleague", {detail: data}));
 		document.getElementById('league_name').value = "";
 		document.getElementById('league_pwd').value = "";
+		document.getElementById("change_password").style.display = "none";
+		document.getElementById("change_league_password").style.display = "none";
 	};
 
 	document.getElementById('signout').onclick = function(e){
@@ -345,6 +503,10 @@ var view = (function() {
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
 		var mytrades = document.getElementById("your_trades_page");
+		var changepwdpage = document.getElementById("change_password_page");
+		var changelgpwdpage = document.getElementById("change_league_password_page");
+		changepwdpage.style.display = 'none';
+		changelgpwdpage.style.display = 'none';
 		mytrades.style.display = 'none';
 		confirmpage.style.display = 'none';
 		tradepage.style.display = 'none';
@@ -379,6 +541,8 @@ var view = (function() {
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
 		document.getElementById("to_home").style.display = "none";
+		document.getElementById("change_password").style.display = "none";
+		document.getElementById("change_league_password").style.display = "none";
 
 		document.dispatchEvent(new CustomEvent("signout"));
 
@@ -400,6 +564,10 @@ var view = (function() {
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
 		var mytrades = document.getElementById("your_trades_page");
+		var changepwdpage = document.getElementById("change_password_page");
+		var changelgpwdpage = document.getElementById("change_league_password_page");
+		changepwdpage.style.display = 'none';
+		changelgpwdpage.style.display = 'none';
 		mytrades.style.display = 'none';
 		confirmpage.style.display = 'none';
 		tradepage.style.display = 'block';
@@ -434,6 +602,8 @@ var view = (function() {
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
 		document.getElementById("to_home").style.display = "block";
+		document.getElementById("change_password").style.display = "none";
+		document.getElementById("change_league_password").style.display = "none";
 		//dispatch event to show modified users page
 		var data = {};
 		data.sport = 'nhl';
@@ -455,6 +625,10 @@ var view = (function() {
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
 		var mytrades = document.getElementById("your_trades_page");
+		var changepwdpage = document.getElementById("change_password_page");
+		var changelgpwdpage = document.getElementById("change_league_password_page");
+		changepwdpage.style.display = 'none';
+		changelgpwdpage.style.display = 'none';
 		mytrades.style.display = 'block';
 		confirmpage.style.display = 'none';
 		tradepage.style.display = 'none';
@@ -489,7 +663,8 @@ var view = (function() {
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
 		document.getElementById("to_home").style.display = "block";
-
+		document.getElementById("change_password").style.display = "none";
+		document.getElementById("change_league_password").style.display = "none";
 		//dispatch get trades event
 		var data = {};
 		document.dispatchEvent(new CustomEvent('gettrades', {detail:data}));
@@ -516,6 +691,10 @@ var view = (function() {
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
 		var mytrades = document.getElementById("your_trades_page");
+		var changepwdpage = document.getElementById("change_password_page");
+		var changelgpwdpage = document.getElementById("change_league_password_page");
+		changepwdpage.style.display = 'none';
+		changelgpwdpage.style.display = 'none';
 		mytrades.style.display = 'none';
 		confirmpage.style.display = 'none';
 		tradepage.style.display = 'none';
@@ -548,7 +727,8 @@ var view = (function() {
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
 		document.getElementById("to_home").style.display = "block";
-
+		document.getElementById("change_password").style.display = "block";
+		document.getElementById("change_league_password").style.display = "none";
 		document.dispatchEvent(new CustomEvent("displayplayers"));
 	};
 
@@ -569,6 +749,10 @@ var view = (function() {
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
 		var mytrades = document.getElementById("your_trades_page");
+		var changepwdpage = document.getElementById("change_password_page");
+		var changelgpwdpage = document.getElementById("change_league_password_page");
+		changepwdpage.style.display = 'none';
+		changelgpwdpage.style.display = 'none';
 		mytrades.style.display = 'none';
 		confirmpage.style.display = 'none';
 		tradepage.style.display = 'none';
@@ -601,6 +785,8 @@ var view = (function() {
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
 		document.getElementById("to_home").style.display = "block";
+		document.getElementById("change_password").style.display = "none";
+		document.getElementById("change_league_password").style.display = "block";
 
 		var data = {};
 		data.sport = 'nhl';
@@ -623,6 +809,10 @@ var view = (function() {
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
 		var mytrades = document.getElementById("your_trades_page");
+		var changepwdpage = document.getElementById("change_password_page");
+		var changelgpwdpage = document.getElementById("change_league_password_page");
+		changepwdpage.style.display = 'none';
+		changelgpwdpage.style.display = 'none';
 		mytrades.style.display = 'none';
 		confirmpage.style.display = 'none';
 		tradepage.style.display = 'none';
@@ -655,7 +845,8 @@ var view = (function() {
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
 		document.getElementById("to_home").style.display = "block";
-
+		document.getElementById("change_password").style.display = "none";
+		document.getElementById("change_league_password").style.display = "none";
 		reset_add_sort();
 	};
 
@@ -992,6 +1183,10 @@ var view = (function() {
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
 		var mytrades = document.getElementById("your_trades_page");
+		var changepwdpage = document.getElementById("change_password_page");
+		var changelgpwdpage = document.getElementById("change_league_password_page");
+		changepwdpage.style.display = 'none';
+		changelgpwdpage.style.display = 'none';
 		mytrades.style.display = 'none';
 		confirmpage.style.display = 'none';
 		tradepage.style.display = 'none';
@@ -1019,6 +1214,10 @@ var view = (function() {
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
 		var mytrades = document.getElementById("your_trades_page");
+		var changepwdpage = document.getElementById("change_password_page");
+		var changelgpwdpage = document.getElementById("change_league_password_page");
+		changepwdpage.style.display = 'none';
+		changelgpwdpage.style.display = 'none';
 		mytrades.style.display = 'none';
 		confirmpage.style.display = 'none';
 		tradepage.style.display = 'none';
@@ -1051,7 +1250,8 @@ var view = (function() {
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
 		document.getElementById("to_home").style.display = "none";
-		
+		document.getElementById("change_password").style.display = "none";
+		document.getElementById("change_league_password").style.display = "none";
 		reset_sort();
 
 		socketparam = 'nhl';
@@ -1086,6 +1286,10 @@ var view = (function() {
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
 		var mytrades = document.getElementById("your_trades_page");
+		var changepwdpage = document.getElementById("change_password_page");
+		var changelgpwdpage = document.getElementById("change_league_password_page");
+		changepwdpage.style.display = 'none';
+		changelgpwdpage.style.display = 'none';
 		mytrades.style.display = 'none';
 		confirmpage.style.display = 'none';
 		tradepage.style.display = 'none';
@@ -1131,7 +1335,8 @@ var view = (function() {
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
 		document.getElementById("to_home").style.display = "none";
-
+		document.getElementById("change_password").style.display = "none";
+		document.getElementById("change_league_password").style.display = "none";
 		reset_sort();
 
 		socketparam = 'nhl';
@@ -1165,6 +1370,10 @@ var view = (function() {
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
 		var mytrades = document.getElementById("your_trades_page");
+		var changepwdpage = document.getElementById("change_password_page");
+		var changelgpwdpage = document.getElementById("change_league_password_page");
+		changepwdpage.style.display = 'none';
+		changelgpwdpage.style.display = 'none';
 		mytrades.style.display = 'none';
 		confirmpage.style.display = 'none';
 		tradepage.style.display = 'none';
@@ -1197,7 +1406,8 @@ var view = (function() {
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
 		document.getElementById("to_home").style.display = "none";
-		
+		document.getElementById("change_password").style.display = "none";
+		document.getElementById("change_league_password").style.display = "none";
 		reset_sort();
 
 		socketparam = 'nhl';
@@ -1223,6 +1433,10 @@ var view = (function() {
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
 		var mytrades = document.getElementById("your_trades_page");
+		var changepwdpage = document.getElementById("change_password_page");
+		var changelgpwdpage = document.getElementById("change_league_password_page");
+		changepwdpage.style.display = 'none';
+		changelgpwdpage.style.display = 'none';
 		mytrades.style.display = 'none';
 		confirmpage.style.display = 'none';
 		tradepage.style.display = 'none';
@@ -1255,7 +1469,8 @@ var view = (function() {
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
 		document.getElementById("to_home").style.display = "none";
-
+		document.getElementById("change_password").style.display = "none";
+		document.getElementById("change_league_password").style.display = "none";
 		reset_sort();
 
 		socketparam = 'nhl';
@@ -1684,6 +1899,10 @@ var view = (function() {
 		var tradepage = document.getElementById("trade_page");
 		var confirmpage = document.getElementById("tradeconfirm_page");
 		var mytrades = document.getElementById("your_trades_page");
+		var changepwdpage = document.getElementById("change_password_page");
+		var changelgpwdpage = document.getElementById("change_league_password_page");
+		changepwdpage.style.display = 'none';
+		changelgpwdpage.style.display = 'none';
 		mytrades.style.display = 'none';
 		confirmpage.style.display = 'block';
 		leaguecreate.style.display = 'none';
@@ -1714,6 +1933,8 @@ var view = (function() {
 		document.getElementById("to_signin").style.display = "none";
 		document.getElementById("to_signup").style.display = "none";
 		document.getElementById("to_home").style.display = "block";
+		document.getElementById("change_password").style.display = "none";
+		document.getElementById("change_league_password").style.display = "none";
 		//have lists of players now need to be displayed then confirm and delete need to be appended below
 		var yourplayerdisplay = document.getElementById("sending");
 		yourplayerdisplay.innerHTML = "";
@@ -1984,6 +2205,10 @@ var view = (function() {
 				var tradepage = document.getElementById("trade_page");
 				var confirmpage = document.getElementById("tradeconfirm_page");
 				var mytrades = document.getElementById("your_trades_page");
+				var changepwdpage = document.getElementById("change_password_page");
+				var changelgpwdpage = document.getElementById("change_league_password_page");
+				changepwdpage.style.display = 'none';
+				changelgpwdpage.style.display = 'none';
 				mytrades.style.display = 'none';
 				confirmpage.style.display = 'none';
 				tradepage.style.display = 'none';
@@ -2014,7 +2239,8 @@ var view = (function() {
 				document.getElementById("to_signin").style.display = "none";
 				document.getElementById("to_signup").style.display = "none";
 				document.getElementById("to_home").style.display = "block";
-
+				document.getElementById("change_password").style.display = "none";
+				document.getElementById("change_league_password").style.display = "none";
 				var data = {};
 				data.username = user.owner;
 				document.dispatchEvent(new CustomEvent("displayhisplayers", {detail:data}));
@@ -2060,6 +2286,10 @@ var view = (function() {
 					var tradepage = document.getElementById("trade_page");
 					var confirmpage = document.getElementById("tradeconfirm_page");
 					var mytrades = document.getElementById("your_trades_page");
+					var changepwdpage = document.getElementById("change_password_page");
+					var changelgpwdpage = document.getElementById("change_league_password_page");
+					changepwdpage.style.display = 'none';
+					changelgpwdpage.style.display = 'none';
 					mytrades.style.display = 'none';
 					confirmpage.style.display = 'none';
 					tradepage.style.display = 'none';
@@ -2090,6 +2320,8 @@ var view = (function() {
 					document.getElementById("to_signin").style.display = "none";
 					document.getElementById("to_signup").style.display = "none";
 					document.getElementById("to_home").style.display = "block";
+					document.getElementById("change_password").style.display = "none";
+					document.getElementById("change_league_password").style.display = "none";
 					var data = {};
 					data.username = user.owner;
 					activetrader = user.owner;
