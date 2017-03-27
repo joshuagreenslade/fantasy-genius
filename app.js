@@ -581,7 +581,6 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 					if(!accepted)
 						return res.status(403).end(sender.owner + " no longer has players " + JSON.stringify(trade.sender_players) + " and/or " + reciever.owner + " no longer has the players " + JSON.stringify(trade.reciever_players));
 
-
 					//simulate the trade for sender and reciever
 					var sender_trade = test_trade(sender, reciever, trade.sender_players, trade.reciever_players);
 					var reciever_trade = test_trade(reciever, sender, trade.reciever_players, trade.sender_players);
@@ -1578,8 +1577,8 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 	var test_trade = function(sender, reciever, sender_players, reciever_players){
 		
 		//create a copy of sender and reciever
-		sender = Object.assign({}, sender);
-		reciever = Object.assign({}, reciever);
+		sender = JSON.parse(JSON.stringify(sender));
+		reciever = JSON.parse(JSON.stringify(reciever));
 
 		//remove the sender_players from sender's team
 		sender_players.forEach(function(player){
@@ -1630,8 +1629,10 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 					sender.bench_defence[bench_defence_index] = player;
 				else
 					error = sender.owner + " does not have enough space to complete the trade";
-			}					
+			}
 		});
+
+		//if there is someone on the bench and not on the ice
 		return [error, sender];
 	};
 

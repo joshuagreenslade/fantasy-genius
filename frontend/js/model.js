@@ -441,7 +441,7 @@ var model = (function() {
 					return;
 				} else {
 					var teams = JSON.parse(this.responseText)
-					teams[teams.length] = {sport: activesport, league: activeleague};
+					teams[teams.length] = {sport: activesport, league: activeleague, user: activeuser};
 					document.dispatchEvent(new CustomEvent("displaytraders", {detail: teams}));
 				}
 			}
