@@ -55,7 +55,15 @@
 	height: 100vh;
 }
 
+#well{
+	background-color: #ffffff;
+}
+
+#jumbotron{
+	background-color: #ffffff;
+}
+
 body{
-	background-color: #000000;
-	color: #ff0000;
+	background-color: #ffffcc;
+	color: #000000;
 }

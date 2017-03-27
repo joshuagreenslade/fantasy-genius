@@ -12,7 +12,7 @@
 <body>
 
 <div class="container">
-  <div class="jumbotron">
+  <div class="jumbotron" id="jumbotron">
     <h1 id="title">FantasyGenius</h1>
     <p id="subtitle">Future Home Page of FantasyGenius</p> 
     <button type="button" class="btn btn-link pull-right" id="signup_page">SignUp</button>
@@ -32,10 +32,10 @@
 <div id="main">
 <div>
   <div class="col-md-2">
-    <img class="img-responsive" id="image" src="./media/seguin.jpg" alt="Seguin">
+    <img class="img-responsive" id="image" src="./media/test.jpg" alt="Seguin">
   </div>
   <div class="col-md-8">
-    <div class="well">Player Stats</div>
+    <div class="well" id="well">Player Stats</div>
     <div class=" table-responsive">
     <table class="table table-bordered table-hover">
       <thead>
@@ -112,7 +112,7 @@
       <button type="button" class="btn btn-link" id="prev_player_add">Previous</button>
       <button type="button" class="btn btn-link" id="next_player_add">Next</button>
     </div>
-    <div class="well">Goalie Stats</div>
+    <div class="well" id="well">Goalie Stats</div>
     <div class=" table-responsive">
     <table class="table table-bordered table-hover">
       <thead>
@@ -191,7 +191,7 @@
     </div>
   </div>
   <div class="col-md-2">
-    <img class="img-responsive" id="image" src="./media/crosby.jpg" alt="Crosby">
+    <img class="img-responsive" id="image" src="./media/test2.jpg" alt="Crosby">
   </div>
 </div>
 </div>
@@ -253,13 +253,13 @@
 </div>
 
 
-<div class="container" id="team_page">
-  <div >
+<div id="team_page">
+  <div>
     <div class="col-md-2">
-
+      <img class="img-responsive" id="image" src="./media/test.jpg" alt="Seguin">
     </div>
     <div class="col-md-8">
-      <div class="well">My Players</div>
+      <div class="well" id="well">My Players</div>
       <div class=" table-responsive">
         <table class="table table-bordered table-hover table-responsive">
           <thead>
@@ -282,7 +282,7 @@
           </tbody>
         </table>
         </div>
-        <div class="well">My Bench</div>
+        <div class="well" id="well">My Bench</div>
       <div class=" table-responsive">
         <table class="table table-bordered table-hover table-responsive">
           <thead>
@@ -305,7 +305,7 @@
           </tbody>
         </table>
         </div>
-      <div class="well">My Goalies</div>
+      <div class="well" id="well">My Goalies</div>
       <div class=" table-responsive">
         <table class="table table-bordered table-hover table-responsive">
           <thead>
@@ -333,18 +333,18 @@
         <input id="swap_players" type="button" name="submit" value="Swap Players" class="btn btn-primary pull-right">
     </div>
     <div class="col-md-2">
-
+      <img class="img-responsive" id="image" src="./media/test2.jpg" alt="Seguin">
     </div>
   </div>
 </div>
 
-<div class="container" id="league_page">
+<div id="league_page">
   <div >
     <div class="col-md-2">
-      
+      <img class="img-responsive" id="image" src="./media/test.jpg" alt="Seguin">
     </div>
     <div class="col-md-8">
-      <div class="well">Teams</div>
+      <div class="well" id="well">Teams</div>
           <table class="table table-bordered table-responsive table-hover">
             <thead>
               <tr>
@@ -358,18 +358,18 @@
           </table>
     </div>
     <div class="col-md-2">
-      
+        <img class="img-responsive" id="image" src="./media/test2.jpg" alt="Seguin">
     </div>
   </div>
 </div>
 
-<div class="container" id="trade_page">
+<div id="trade_page">
   <div >
     <div class="col-md-2">
-      
+      <img class="img-responsive" id="image" src="./media/test.jpg" alt="Seguin">
     </div>
     <div class="col-md-8">
-      <div class="well">Teams</div>
+      <div class="well" id="well">Teams</div>
           <table class="table table-bordered table-responsive table-hover">
             <thead>
               <tr>
@@ -383,18 +383,18 @@
           </table>
     </div>
     <div class="col-md-2">
-      
+      <img class="img-responsive" id="image" src="./media/test2.jpg" alt="Seguin">
     </div>
   </div>
 </div>
 
-<div class="container" id="tradeconfirm_page">
+<div id="tradeconfirm_page">
   <div>
     <div class="col-md-2">
-      
+      <img class="img-responsive" id="image" src="./media/test.jpg" alt="Seguin">
     </div>
     <div class="col-md-4">
-      <div class="well">You Trade</div>
+      <div class="well" id="well">You Trade</div>
       <table class="table table-bordered table-responsive table-hover">
             <thead>
               <tr>
@@ -409,7 +409,7 @@
           </table>
     </div>
     <div class="col-md-4">
-      <div class="well">You Recieve</div>
+      <div class="well" id="well">You Recieve</div>
       <table class="table table-bordered table-responsive table-hover">
             <thead>
               <tr>
@@ -424,17 +424,17 @@
           </table>
     </div>
     <div class="col-md-2">
-      
+      <img class="img-responsive" id="image" src="./media/test2.jpg" alt="Seguin">
     </div>
       <input id="rejectTrade" type="button" name="submit" value="Decline Trade" class="btn btn-primary pull-right">
       <input id="confirmTrade" type="button" name="submit" value="Confirm Trade" class="btn btn-primary pull-right">
   </div>
 </div>
 
-<div class="container" id="your_trades_page">
+<div id="your_trades_page">
   <div>
     <div class="col-md-2">
-      
+      <img class="img-responsive" id="image" src="./media/test.jpg" alt="Seguin">
     </div>
     <div class="col-md-4">
       <div id="yoursending">
@@ -445,7 +445,7 @@
       </div>
     </div>
     <div class="col-md-2">
-      
+      <img class="img-responsive" id="image" src="./media/test2.jpg" alt="Seguin">
     </div>
   </div>
 </div>
@@ -478,7 +478,7 @@
 </form>
 </div>
 
-<div class="col-md-8">
+<div class="container">
   <a id="to_signin">Already Have an Account?</a>
   <a id="to_signup">New User?</a>
   <a id="change_password">Change Password</a>
