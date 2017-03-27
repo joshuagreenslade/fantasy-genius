@@ -6,7 +6,7 @@ var view = (function() {
 	var dataofplayertodisplayfortrade = null;
 	var activetrader = null;
 	window.onload = function() {
-		socket = new WebSocket("ws://" + window.location.host)
+		socket = new WebSocket("wss://" + window.location.host)
 		document.dispatchEvent(new CustomEvent("pageloaded"));
 	}
 	window.onunload = function(){
