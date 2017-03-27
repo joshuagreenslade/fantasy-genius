@@ -1,3 +1,5 @@
+/*jshint esversion: 6*/
+
 var view = (function() {
 	"use strict";
 
@@ -954,8 +956,8 @@ var view = (function() {
 
 		//get the attribute titles
 		var titles = Array.prototype.slice.call(document.getElementById(attributes).children);
-		return titles.map(function(title){if(title.children[0]) return title.children[0].children[0]});
-	}
+		return titles.map(function(title){if(title.children[0]) return title.children[0].children[0];});
+	};
 
 	var reset_sort = function(){
 		document.getElementById("player_Lastname_sort").className = "up_arrow";
