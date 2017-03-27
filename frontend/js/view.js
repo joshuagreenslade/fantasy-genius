@@ -1311,23 +1311,25 @@ var view = (function() {
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				playerdisplay.append(e);
-				var removebutton = document.createElement('input');
-				removebutton.classname = "btn btn-primary pull-right"
-				removebutton.type = "button";
-				removebutton.value = "Remove Player";
-				removebutton.onclick = function(e){
-					e.preventDefault();
-					var data = {};
-					data.player = player.playerID;
-					document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
-				};
-				e.append(removebutton);
-				//each player must have a checkbox then at bottom have swap players button
-				var checkbox = document.createElement('div');
-				checkbox.classname = "checkbox";
-				checkbox.innerHTML = `<label><input type="checkbox" value="" id=otherCheckbox${i}>Swap Player</label>`;
-				i++;
-				e.append(checkbox);
+				if(data.activeuser === data.owner){
+					var removebutton = document.createElement('input');
+					removebutton.classname = "btn btn-primary pull-right"
+					removebutton.type = "button";
+					removebutton.value = "Remove Player";
+					removebutton.onclick = function(e){
+						e.preventDefault();
+						var data = {};
+						data.player = player.playerID;
+						document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
+					};
+					e.append(removebutton);
+					//each player must have a checkbox then at bottom have swap players button
+					var checkbox = document.createElement('div');
+					checkbox.classname = "checkbox";
+					checkbox.innerHTML = `<label><input type="checkbox" value="" id=otherCheckbox${i}>Swap Player</label>`;
+					i++;
+					e.append(checkbox);
+				}
 			}
 		});
 		players = data.defence;
@@ -1340,22 +1342,24 @@ var view = (function() {
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				playerdisplay.append(e);
-				var removebutton = document.createElement('input');
-				removebutton.classname = "btn btn-primary pull-right";
-				removebutton.type = "button";
-				removebutton.value = "Remove Player";
-				removebutton.onclick = function(e){
-					e.preventDefault();
-					var data = {};
-					data.player = player.playerID;
-					document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
-				};
-				e.append(removebutton);
-				var checkbox = document.createElement('div');
-				checkbox.classname = "checkbox";
-				checkbox.innerHTML = `<label><input type="checkbox" value="" id=otherCheckbox${i}>Swap Player</label>`;
-				i++;
-				e.append(checkbox);
+				if(data.activeuser === data.owner){
+					var removebutton = document.createElement('input');
+					removebutton.classname = "btn btn-primary pull-right";
+					removebutton.type = "button";
+					removebutton.value = "Remove Player";
+					removebutton.onclick = function(e){
+						e.preventDefault();
+						var data = {};
+						data.player = player.playerID;
+						document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
+					};
+					e.append(removebutton);
+					var checkbox = document.createElement('div');
+					checkbox.classname = "checkbox";
+					checkbox.innerHTML = `<label><input type="checkbox" value="" id=otherCheckbox${i}>Swap Player</label>`;
+					i++;
+					e.append(checkbox);
+				}
 			}
 		});
 		benchplayerdisplay.innerHTML = "";
@@ -1369,22 +1373,24 @@ var view = (function() {
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				benchplayerdisplay.append(e);
-				var removebutton = document.createElement('input');
-				removebutton.classname = "btn btn-primary pull-right"
-				removebutton.type = "button";
-				removebutton.value = "Remove Player";
-				removebutton.onclick = function(e){
-					e.preventDefault();
-					var data = {};
-					data.player = player.playerID;
-					document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
-				};
-				e.append(removebutton);
-				var checkbox = document.createElement('div');
-				checkbox.classname = "checkbox";
-				checkbox.innerHTML = `<label><input type="checkbox" value="" id=otherCheckbox${i}>Swap Player</label>`;
-				i++;
-				e.append(checkbox);
+				if(data.activeuser === data.owner){
+					var removebutton = document.createElement('input');
+					removebutton.classname = "btn btn-primary pull-right"
+					removebutton.type = "button";
+					removebutton.value = "Remove Player";
+					removebutton.onclick = function(e){
+						e.preventDefault();
+						var data = {};
+						data.player = player.playerID;
+						document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
+					};
+					e.append(removebutton);
+					var checkbox = document.createElement('div');
+					checkbox.classname = "checkbox";
+					checkbox.innerHTML = `<label><input type="checkbox" value="" id=otherCheckbox${i}>Swap Player</label>`;
+					i++;
+					e.append(checkbox);
+				}
 			}
 		});
 		players = data.bench_defence;
@@ -1397,22 +1403,24 @@ var view = (function() {
 								<td>${player.Goals}</td><td>${player.Assists}</td><td>${player.Points}</td>
 								<td>${player.PlusMinus}</td><td>${player.Played}</td><td>${player.points}</td>`;
 				benchplayerdisplay.append(e);
-				var removebutton = document.createElement('input');
-				removebutton.classname = "btn btn-primary pull-right"
-				removebutton.type = "button";
-				removebutton.value = "Remove Player";
-				removebutton.onclick = function(e){
-					e.preventDefault();
-					var data = {};
-					data.player = player.playerID;
-					document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
-				};
-				e.append(removebutton);
-				var checkbox = document.createElement('div');
-				checkbox.classname = "checkbox";
-				checkbox.innerHTML = `<label><input type="checkbox" value="" id=otherCheckbox${i}>Swap Player</label>`;
-				i++;
-				e.append(checkbox);
+				if(data.activeuser === data.owner){
+					var removebutton = document.createElement('input');
+					removebutton.classname = "btn btn-primary pull-right"
+					removebutton.type = "button";
+					removebutton.value = "Remove Player";
+					removebutton.onclick = function(e){
+						e.preventDefault();
+						var data = {};
+						data.player = player.playerID;
+						document.dispatchEvent(new CustomEvent("deleteplayer", {detail:data}));
+					};
+					e.append(removebutton);
+					var checkbox = document.createElement('div');
+					checkbox.classname = "checkbox";
+					checkbox.innerHTML = `<label><input type="checkbox" value="" id=otherCheckbox${i}>Swap Player</label>`;
+					i++;
+					e.append(checkbox);
+				}
 			}
 		});
 		var submit = document.getElementById('swap_players');
