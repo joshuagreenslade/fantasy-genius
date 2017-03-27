@@ -1422,9 +1422,10 @@ var view = (function() {
 			var players = [];
 			for(var j=0; j<i; j++){
 				var checkbox = document.getElementById("otherCheckbox" + j);
-				if(checkbox.checked)
+				if(checkbox.checked){
 					ischecked++;
 					players.push(checkbox.parentNode.parentNode.parentNode.id);
+				}
 			}
 			if(ischecked == 2){
 				var data = {};
