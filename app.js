@@ -469,8 +469,8 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 				return res.status(400).end("Invalid body, requires sender_players, reciever_players");
 
 			//convert the player ids to strings
-			var sender_players = req.body.sender_players.map(function(player){return player.toString()});
-			var reciever_players = req.body.reciever_players.map(function(player){return player.toString()});
+			var sender_players = req.body.sender_players.map(function(player){return player.toString();});
+			var reciever_players = req.body.reciever_players.map(function(player){return player.toString();});
 
 			//get the players tht would be invloved
 			var promise = new Promise(function(resolve, reject){
@@ -1628,27 +1628,30 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 		//pull players up from the bench if there is space
 
 		//if there is now space on the bench
-		var forward_space = sender.forward.filter(function(player){return player === null}).length;
+		var forward_space = sender.forward.filter(function(player){return player === null;}).length;
+		var forward_index;
+		var next;
 		if(forward_space >= 1){
-			var forward_index = sender.forward.indexOf(null);
-			var next = sender.bench_forward[1] || sender.bench_forward[0];	
+			forward_index = sender.forward.indexOf(null);
+			next = sender.bench_forward[1] || sender.bench_forward[0];	
 			sender.forward[forward_index] = next;
 			sender.bench_forward[sender.bench_forward.indexOf(next)] = null;
 		}
 
 		//if there was 2 spaces add another player
 		if(forward_space >= 2){
-			var forward_index = sender.forward.indexOf(null);
-			var next = sender.bench_forward[1] || sender.bench_forward[0];	
+			forward_index = sender.forward.indexOf(null);
+			next = sender.bench_forward[1] || sender.bench_forward[0];	
 			sender.forward[forward_index] = next;
 			sender.bench_forward[sender.bench_forward.indexOf(next)] = null;
 		}
 
 		//if there is now space on the bench
-		var defence_space = sender.defence.filter(function(player){return player === null}).length;
+		var defence_space = sender.defence.filter(function(player){return player === null;}).length;
+		var defence_index;
 		if(defence_space >= 1){
-			var defence_index = sender.defence.indexOf(null);
-			var next = sender.bench_defence[0];	
+			defence_index = sender.defence.indexOf(null);
+			next = sender.bench_defence[0];	
 			sender.defence[defence_index] = next;
 			sender.bench_defence[sender.bench_defence.indexOf(next)] = null;
 		}
@@ -1660,9 +1663,14 @@ mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@
 	//put all the player's stats into the given team
 	var get_players = function(resolve, reject, team){
 		var query = [];
-		Object.keys(team).forEach(function(element){
+		/*Object.keys(team).forEach(function(element){
 			query = query.concat(team[element]);
-		});
+		});*/
+		query = query.concat(team.G);
+		query = query.concat(team.forward);
+		query = query.concat(team.defence);
+		query = query.concat(team.bench_forward);
+		query = query.concat(team.bench_defence);
 
 		//get all the players that are on the team
 		stats.find({playerID: {$in: query}}).toArray(function(err, players){
