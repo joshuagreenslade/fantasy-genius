@@ -1486,7 +1486,7 @@ var view = (function() {
 		socketparam = data;
 		socket.onmessage = function(event){
 			console.log(event)
-			if((event.data === (socketparam.owner + "'s team updated")) || (event.data === (socketparam.sport + " stats updated")) || event[data]startswith(socketparam.owner + " accepted a trade with ") || event.data.endswith(" accepted a trade with " + socketparam.owner)){
+			if((event.data === (socketparam.owner + "'s team updated")) || (event.data === (socketparam.sport + " stats updated")) || event[data].startswith(socketparam.owner + " accepted a trade with ") || event.data.endswith(" accepted a trade with " + socketparam.owner)){
 				var data = {username: socketparam.owner};
 				document.dispatchEvent(new CustomEvent("displayhisplayers", {detail: data}));
 			}
