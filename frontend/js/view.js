@@ -1485,8 +1485,7 @@ var view = (function() {
 	view.displayplayers = function(data){
 		socketparam = data;
 		socket.onmessage = function(event){
-			console.log(event)
-			if((event.data === (socketparam.owner + "'s team updated")) || (event.data === (socketparam.sport + " stats updated")) || event[data].startswith(socketparam.owner + " accepted a trade with ") || event[data].endswith(" accepted a trade with " + socketparam.owner)){
+			if((event.data) && ((event.data === (socketparam.owner + "'s team updated")) || (event.data === (socketparam.sport + " stats updated")) || event.data.startswith(socketparam.owner + " accepted a trade with ") || event.data.endswith(" accepted a trade with " + socketparam.owner))){
 				var data = {username: socketparam.owner};
 				document.dispatchEvent(new CustomEvent("displayhisplayers", {detail: data}));
 			}
@@ -1671,7 +1670,7 @@ var view = (function() {
 	view.displayplayerstotrade = function(data){
 		socketparam = data;
 		socket.onmessage = function(event){
-			if((event.data === (socketparam.owner + "'s team updated")) || (event.data === (socketparam.sport + " stats updated")) || event.data.startswith(socketparam.owner + " accepted a trade with ") || event.data.endswith(" accepted a trade with " + socketparam.owner)){
+			if((event.data) && ((event.data === (socketparam.owner + "'s team updated")) || (event.data === (socketparam.sport + " stats updated")) || event.data.startswith(socketparam.owner + " accepted a trade with ") || event.data.endswith(" accepted a trade with " + socketparam.owner))){
 					var data = {username: socketparam.owner};
 					document.dispatchEvent(new CustomEvent("displayhisplayers", {detail: data}));
 			}
@@ -1790,7 +1789,7 @@ var view = (function() {
 		var usable = data[1];
 		socketparam = usable;
 		socket.onmessage = function(event){
-			if((event.data === (socketparam.owner + "'s team updated")) || (event.data === (socketparam.sport + " stats updated")) || event[data].startswith(socketparam.owner + " accepted a trade with ") || event[data].endswith(" accepted a trade with " + socketparam.owner)){
+			if((event.data) && ((event.data === (socketparam.owner + "'s team updated")) || (event.data === (socketparam.sport + " stats updated")) || event.data.startswith(socketparam.owner + " accepted a trade with ") || event.data.endswith(" accepted a trade with " + socketparam.owner))){
 					var usable = {username: socketparam.owner};
 					document.dispatchEvent(new CustomEvent("displayhisplayers", {detail: usable}));
 			}
@@ -1998,7 +1997,7 @@ var view = (function() {
 	view.displaytrades = function(data){
 		socketparam = data.pop();
 		socket.onmessage = function(event){
-			if((event.data === ("nhl stats updated")) || event[data].startswith(socketparam + " accepted a trade with ") || event[data].endswith(" accepted a trade with " + socketparam) || event[data].startswith("a trade between " + socketparam + " and ") || event.data.endswith(" and " + socketparam + " was created, countered, or deleted"))
+			if((event.data) &&((event.data === ("nhl stats updated")) || event.data.startswith(socketparam + " accepted a trade with ") || event.data.endswith(" accepted a trade with " + socketparam) || event.data.startswith("a trade between " + socketparam + " and ") || event.data.endswith(" and " + socketparam + " was created, countered, or deleted")))
 				document.dispatchEvent(new CustomEvent("gettrades", {detail: {}}));
 		};
 
