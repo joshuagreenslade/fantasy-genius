@@ -3,7 +3,7 @@ var model = (function() {
 
 	var activeuser;
 	var activeleague;
-	var activesport
+	var activesport;
 
 	var model = {};
 	model.pageloaded = function(){
@@ -418,7 +418,7 @@ var model = (function() {
 					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
 					return;
 				} else {
-					var teams = JSON.parse(this.responseText)
+					var teams = JSON.parse(this.responseText);
 					teams[teams.length] = {sport: activesport, league: activeleague};
 					document.dispatchEvent(new CustomEvent("displayusers", {detail: teams}));
 				}
@@ -440,7 +440,7 @@ var model = (function() {
 					document.dispatchEvent(new CustomEvent("error", {detail: this.responseText}));
 					return;
 				} else {
-					var teams = JSON.parse(this.responseText)
+					var teams = JSON.parse(this.responseText);
 					teams[teams.length] = {sport: activesport, league: activeleague, user: activeuser};
 					document.dispatchEvent(new CustomEvent("displaytraders", {detail: teams}));
 				}
@@ -596,4 +596,4 @@ var model = (function() {
 		xhr.send(body);
 	};
 	return model;
-}())
+}());

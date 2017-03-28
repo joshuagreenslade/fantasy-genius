@@ -12,6 +12,10 @@ https://fantasy-genius.herokuapp.com/
 https://fantasy-genius.herokuapp.com/documentation.html
 
 
+## Note
+The nhl regular season ends on the 9th of April, after that daily stats will all be 0 until next season because our app only uses the regular season stats, to ensure you have actual stats please run before April 9th. The site will still work but all of the stats will be zero.
+
+
 ## Project Proposal
 
 ### Project title
