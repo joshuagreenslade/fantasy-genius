@@ -15,8 +15,2045 @@
   <div class="jumbotron">
     <h1 id="title">FantasyGenius</h1>
     <p id="subtitle">Api Documentation</p> 
-
+    <a href="index.html" class="btn btn-link">Main Page</a>
+    <a href="credits.html" class="btn btn-link">Credits</a>
+    <a href="#create" class="btn btn-link">Create</a>
+    <a href="#read" class="btn btn-link">Read</a>
+    <a href="#update" class="btn btn-link">Update</a>
+    <a href="#delete" class="btn btn-link">Delete</a>
   </div>
+</div>
+
+<div class="container" id="create">
+  <div>
+    <h3>Create</h3>
+    <ul>
+      <li>Description: sign in the user</li>
+      <li>Request: <code>POST /api/signin/</code>
+        <ul>
+          <li>Content-Type: <code>application/json</code></li>
+          <li>Body: Object</li>
+          <ul>
+            <li>username: (string) the user's username</li>
+            <li>password: (string) the user's password</li>
+          </ul>
+        </ul>
+      </li>
+      <li>Response: 200
+        <ul>
+          <li>Content-Type: <code>application/json</code></li>
+          <li>Body: (Object) the user object
+            <ul>
+              <li>_id: (string) the user's db id</li>
+              <li>username: (string) the user's username</li>
+              <li>salt: (string) the string that will be added to the end of the user's password for extra strength</li>
+              <li>saltedHash: (string) the string that the user's password + the salt hashes to</li>
+              <li>nhl_league: (string) the name of the league that the user is in for the nhl</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Validation errors: [ { param: 'username', msg: 'Must only contain numbers or letters', value: username }, { param: 'password', msg: 'Must only contain numbers or letters', value: password } ]"</li>
+        </ul>
+      </li>
+      <li>Response: 401
+        <ul>
+          <li>Body: "Unauthorized"</li>
+        </ul>
+      </li>
+      <li>Response: 500
+        <ul>
+          <li>Body: Database error</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $ curl -X POST
+        -H "Content-Type: application/json"
+        -d '{"username":"alice", "password":"myPassword"}'
+        -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/signin/
+    </code></pre>
+  </div>
+
+  <div>
+    <h3>Create</h3>
+    <ul>
+      <li>Description: signs up the user</li>
+      <li>Request: <code>POST /api/users/</code>
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: Object</li>
+          <ul>
+            <li>username: (string) the new user's username</li>
+            <li>password: (string) the new user's password</li>
+          </ul>
+        </ul>
+      </li>
+      <li>Response: 200
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: (Object) the user object
+            <ul>
+              <li>_id: (string) the user's db id</li>
+              <li>username: (string) the user's username</li>
+              <li>salt: (string) the string that will be added to the end of the user's password for extra strength</li>
+              <li>saltedHash: (string) the string that the user's password + the salt hashes to</li>
+              <li>nhl_league: (string) the name of the league that the user is in for the nhl</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Invalid body, requires a username and password"</li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Validation errors: [ { param: 'username', msg: 'Must only contain numbers or letters', value: username }, { param: 'password', msg: 'Must only contain numbers or letters', value: password } ]"</li>
+        </ul>
+      </li>
+      <li>Response: 409
+        <ul>
+          <li>Body: "Username 'username' already exists"</li>
+        </ul>
+      </li>
+      <li>Response: 500
+        <ul>
+          <li>Body: Database error</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $ curl -X POST
+        -H "Content-Type: application/json"
+        -d '{"username":"alice", "password":"myPassword"}'
+        -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/users/
+    </code></pre>
+  </div>
+
+  <div>
+    <h3>Create</h3>
+    <ul>
+      <li>Description: creates a new league for the given sport</li>
+      <li>Request: <code>POST /api/leagues/</code>
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: Object</li>
+          <ul>
+            <li>name: (string) the name for the new league</li>
+            <li>password: (string) the new league's password</li>
+            <li>sport: (string) the sport that the league is created for</li>
+          </ul>
+        </ul>
+      </li>
+      <li>Response: 200
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: (Object) the league object
+            <ul>
+              <li>_id: (string) the league's db id</li>
+              <li>name: (string) the names of the league</li>
+              <li>salt: (string) the string that will be added to the end of the user's password for extra strength</li>
+              <li>saltedHash: (string) the string that the user's password + the salt hashes to</li>
+              <li>sport: (string) the sport that the league has been created for</li>
+              <li>admin: (string) the username of the league admin (the one who created it)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Invalid body, requires a password, sport, name (league name)"</li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "'sport' is not a currently supported sport"</li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Validation errors: [ { param: 'password', msg: 'Must only contain numbers or letters', value: password }, { param: 'name', msg: 'Must only contain numbers or letters', value: name }, { param: 'sport', msg: 'Must only contain letters', value: sport } ]"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "Forbidden"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "'username' is already in a league in the 'sport'"</li>
+        </ul>
+      </li>
+      <li>Response: 409
+        <ul>
+          <li>Body: "League 'league' already exists'"</li>
+        </ul>
+      </li>
+      <li>Response: 500
+        <ul>
+          <li>Body: Database error</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $ curl -X POST
+        -H "Content-Type: application/json"
+        -d '{"name":"myleague", "password":"pass4league", "sport":"nhl"}'
+        -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/leagues/
+    </code></pre>
+  </div>
+
+  <div>
+    <h3>Create</h3>
+    <ul>
+      <li>Description: adds the current user to the specified league</li>
+      <li>Request: <code>POST /api/leagues/:league/</code>
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: Object</li>
+          <ul>
+            <li>password: (string) the league's password</li>
+          </ul>
+        </ul>
+      </li>
+      <li>Response: 200
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: (Object) theleague object
+            <ul>
+              <li>_id: (string) the league's db id</li>
+              <li>name: (string) the names of the league</li>
+              <li>salt: (string) the string that will be added to the end of the user's password for extra strength</li>
+              <li>saltedHash: (string) the string that the user's password + the salt hashes to</li>
+              <li>sport: (string) the sport that the league has been created for</li>
+              <li>admin: (string) the username of the league admin (the one who created it)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Invalid body, requires a password"</li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "'sport' is not currently a supported sport"</li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Validation errors: [ { param: 'password', msg: 'Must only contain numbers or letters', value: password }, { param: 'league', msg: 'Must only contain numbers or letters', value: league } ]"</li>
+        </ul>
+      </li>
+      <li>Response: 401
+        <ul>
+          <li>Body: "Unauthorized"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "Forbidden"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "The league 'league' is full"</li>
+        </ul>
+      </li>
+      <li>Response: 404
+        <ul>
+          <li>Body: "League 'league' does not exist"</li>
+        </ul>
+      </li>
+      <li>Response: 409
+        <ul>
+          <li>Body: "'user' is already in a league for the 'sport'"</li>
+        </ul>
+      </li>
+      <li>Response: 500
+        <ul>
+          <li>Body: Database error</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $ curl -X POST
+        -H "Content-Type: application/json"
+        -d '{"password":"pass4league"}'
+        -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/leagues/myLeague/
+    </code></pre>
+  </div>
+
+  <div>
+    <h3>Create</h3>
+    <ul>
+      <li>Description: adds the specified player to the current user's team</li>
+      <li>Request: <code>POST /api/users/:user/sports/:sport/</code>
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: Object</li>
+          <ul>
+            <li>playerID: (string) the id of the player that is being added</li>
+          </ul>
+        </ul>
+      </li>
+      <li>Response: 200
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: (Object) the newly updated team object
+            <ul>
+              <li>_id: (string) the team's db id</li>
+              <li>G: (string) the id of the user's goalie</li>
+              <li>forward: (list of string) the id's of the user's forward players</li>
+              <li>defence: (list of string) the id's of the user's defence players</li>
+              <li>bench_forward: (list of string) the id's of the user's forward players that are on the bench</li>
+              <li>bench_defence: (list of string) the id's of the user's defence players that are on the bench</li>
+              <li>active_players: (list of string) the id's of the players that will be counted when the daily scores are updated</li>
+              <li>modified: (boolean) whether or not the user's team has been modified since the last stats update</li>
+              <li>owner: (string) the username of the team's owner</li>
+              <li>league: (string) the name of the league that the team belongs to</li>
+              <li>sport: (string) the sport that the league is for</li>
+              <li>score: (integer) the team's daily score for the previous day</li>
+              <li>wins: (integer) the number of times that the user has gotten the highest daily score in their league</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Invalid body, requires a playerID"</li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Validation errors: [ { param: 'sport', msg: 'Must only contain letters', value: sport } ]"</li>
+        </ul>
+      </li>
+      <li>Response: 401
+        <ul>
+          <li>Body: "Unauthorized"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "Forbidden"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "There is no more room for forwards"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "There is no more room for defence"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "There is no more room for goalies"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "Player with id: 'playerID is already on a team in 'league'"</li>
+        </ul>
+      </li>
+      <li>Response: 404
+        <ul>
+          <li>Body: "'user' does not hae a league in the 'sport'"</li>
+        </ul>
+      </li>
+      <li>Response: 404
+        <ul>
+          <li>Body: "Player with id 'playerID' does not exist in the 'sport'"</li>
+        </ul>
+      </li>
+      <li>Response: 500
+        <ul>
+          <li>Body: Database error</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $ curl -X POST
+        -H "Content-Type: application/json"
+        -d '{"playerID":"900"}'
+        -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/users/alice/sports/nhl/
+    </code></pre>
+  </div>
+
+  <div>
+    <h3>Create</h3>
+    <ul>
+      <li>Description: creates the trade (but doesn't save it) and shows the current user for them to review</li>
+      <li>Request: <code>POST /api/sports/:sport/trades/</code>
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: Object</li>
+          <ul>
+            <li>sender_players: (list of string) the player id's that the current user (the sender) would send away</li>
+            <li>reciever_players: (list of string) the player id's that the current user (the sender) would recieve</li>
+          </ul>
+        </ul>
+      </li>
+      <li>Response: 200
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: (Object) the trade object with the ids replaced with player objects
+            <ul>
+              <li>sender_players: (list of Objects) the player id's converted to player objects</li>
+              <ul>
+                <li>_id: (string) the db entry id</li>
+                <li>playerID: (string) the player's id</li>
+                <li>sport: (string) the sport the the player is in</li>
+                <li>points: (integer) the number of points the player got yesterday from our point system</li>
+                <li>teamID: (string) the id of the player's team</li>
+                <li>City: (string) the city where the player's team is located</li>
+                <li>Name: (string) te name of the player's team</li>
+                <li>Abbreviation: (string) the 3 letter abbreviation of the player's team</li>
+                <li>LastName: (string) the player's last name</li>
+                <li>FirstName: (string) the player's first name</li>
+                <li>Position: (string) the player's position</li>
+                <li>Played: (string) Yes if the player played yesterday, No if they did not</li>
+                <li>LastName_id: (string) a comination of LastName + FirstName + playerID</li>
+                <li>FirstName_id: (string) a comination of FirstName + LastName + playerID</li>
+                <li>Position_id: (string) a comination of Position + LastName + Firstname + playerID</li>
+                <li>City_id: (string) a comination of City + LastName + Firstname + playerID</li>
+                <li>Name_id: (string) a comination of Name + LastName + Firstname + playerID</li>
+                <li>Abbreviation_id: (string) a comination of Abbreviation + LastName + Firstname + playerID</li>
+                <li>Played_id: (string) a comination of Played + LastName + Firstname + playerID</li>
+                <li>points_id: (string) a comination of points + LastName + Firstname + playerID</li>
+
+                If position is F or D:
+                <ul><li>Goals: (string) the number of goals the player scored</li>
+                  <li>Assists: (string) the number of assists the player got</li>
+                  <li>Points: (string) the number of Points the player got (not calculated by our points system) (2 for a goal, 1 for an assist)</li>
+                  <li>PlusMinus: (string) the player's +/- score</li>
+                  <li>Goals_id: (string) a comination of Goals + LastName + Firstname + playerID</li>
+                  <li>Assists_id: (string) a comination of Assists + LastName + Firstname + playerID</li>
+                  <li>Points_id: (string) a comination of Points + LastName + Firstname + playerID</li>
+                  <li>PlusMinus_id: (string) a comination of plusMinus + LastName + Firstname + playerID</li>
+                </ul>
+                If position is G
+                <ul><li>Wins: (string) the number of wins the goalie got</li>
+                  <li>Losses: (string) the number of losses the goalie got</li>
+                  <li>GoalsAgainstAverage: (string) the GAA the goalie got</li>
+                  <li>SavePercentage: (string) the save percentage te goalie got</li>
+                  <li>Shutouts: (string) the number of shutouts the goalie got</li>
+                  <li>Wins_id: (string) a comination of Wins + LastName + Firstname + playerID</li>
+                  <li>Losses_id: (string) a comination of Losses + LastName + Firstname + playerID</li>
+                  <li>GoalsAgainstAverage_id: (string) a comination of GoalsAgainstAverage + LastName + Firstname + playerID</li>
+                  <li>SavePercentage_id: (string) a comination of SavePercentage + LastName + Firstname + playerID</li>
+                  <li>Shutouts_id: (string) a comination of Shutouts + LastName + Firstname + playerID</li>
+                </ul>
+              </ul>
+              <li>reciever_players: (list of Objects) the player id's converted to player objects</li>
+              <ul>
+                <li>_id: (string) the db entry id</li>
+                <li>playerID: (string) the player's id</li>
+                <li>sport: (string) the sport the the player is in</li>
+                <li>points: (integer) the number of points the player got yesterday from our point system</li>
+                <li>teamID: (string) the id of the player's team</li>
+                <li>City: (string) the city where the player's team is located</li>
+                <li>Name: (string) te name of the player's team</li>
+                <li>Abbreviation: (string) the 3 letter abbreviation of the player's team</li>
+                <li>LastName: (string) the player's last name</li>
+                <li>FirstName: (string) the player's first name</li>
+                <li>Position: (string) the player's position</li>
+                <li>Played: (string) Yes if the player played yesterday, No if they did not</li>
+                <li>LastName_id: (string) a comination of LastName + FirstName + playerID</li>
+                <li>FirstName_id: (string) a comination of FirstName + LastName + playerID</li>
+                <li>Position_id: (string) a comination of Position + LastName + Firstname + playerID</li>
+                <li>City_id: (string) a comination of City + LastName + Firstname + playerID</li>
+                <li>Name_id: (string) a comination of Name + LastName + Firstname + playerID</li>
+                <li>Abbreviation_id: (string) a comination of Abbreviation + LastName + Firstname + playerID</li>
+                <li>Played_id: (string) a comination of Played + LastName + Firstname + playerID</li>
+                <li>points_id: (string) a comination of points + LastName + Firstname + playerID</li>
+
+                If position is F or D:
+                <ul><li>Goals: (string) the number of goals the player scored</li>
+                  <li>Assists: (string) the number of assists the player got</li>
+                  <li>Points: (string) the number of Points the player got (not calculated by our points system) (2 for a goal, 1 for an assist)</li>
+                  <li>PlusMinus: (string) the player's +/- score</li>
+                  <li>Goals_id: (string) a comination of Goals + LastName + Firstname + playerID</li>
+                  <li>Assists_id: (string) a comination of Assists + LastName + Firstname + playerID</li>
+                  <li>Points_id: (string) a comination of Points + LastName + Firstname + playerID</li>
+                  <li>PlusMinus_id: (string) a comination of plusMinus + LastName + Firstname + playerID</li>
+                </ul>
+                If position is G
+                <ul><li>Wins: (string) the number of wins the goalie got</li>
+                  <li>Losses: (string) the number of losses the goalie got</li>
+                  <li>GoalsAgainstAverage: (string) the GAA the goalie got</li>
+                  <li>SavePercentage: (string) the save percentage te goalie got</li>
+                  <li>Shutouts: (string) the number of shutouts the goalie got</li>
+                  <li>Wins_id: (string) a comination of Wins + LastName + Firstname + playerID</li>
+                  <li>Losses_id: (string) a comination of Losses + LastName + Firstname + playerID</li>
+                  <li>GoalsAgainstAverage_id: (string) a comination of GoalsAgainstAverage + LastName + Firstname + playerID</li>
+                  <li>SavePercentage_id: (string) a comination of SavePercentage + LastName + Firstname + playerID</li>
+                  <li>Shutouts_id: (string) a comination of Shutouts + LastName + Firstname + playerID</li>
+                </ul>
+              </ul>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Invalid body, requires sender_players, reciever_players"</li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li> Body: "Validation errors: [ { param: 'sport', msg: 'Must only contain letters', value: sport }, { param: 'sender_players', msg: "Must be an array of integers", value: sender_player }, { param: 'reciever_players', msg: "Must be an array of integers", value: reciever_player } ]"</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $ curl -x POST
+        -H "Content-Type: application/json"
+        -d '{"sender_players":[4300,4186], "reciever_players":[4341,900,5293]}'
+        -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/sports/nhl/trades/
+    </code></pre>
+  </div>
+
+  <div>
+    <h3>Create</h3>
+    <ul>
+      <li>Description: creates a trade between two players</li>
+      <li>Request: <code>POST /api/leagues/:league/trades/</code>
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: Object
+            <ul>
+              <li>sender: (string) the username of the user making the trade</li>
+              <li>reciever: (string) the username of the user recieving the trade</li>
+              <li>sender_players: (list of string) the id's of the player's that the user wants to trade away</li>
+              <li>reciever_players: (list of string) the id's of the player's that the user wants to recieve</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Response: 200
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: (Object) the trade object
+            <ul>
+              <li>_id: (string) the trade's db id</li>
+              <li>sender: (string) the username of the user that sent the trade</li>
+              <li>reciever: (string the username of the user that the trade is being sent to</li>
+              <li>sender_players: (list of string) the id's of the players that the sender will trade away</li>
+              <li>reciever_players: (list of string) the id's of the players that the sender will recieve</li>
+              <li>league: (string) the name of the league that both the sender and reciever are in</li>
+            </ul>
+          </ul>
+        </li>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Invalid body, requires a sender, reciever, sender_players, reciever_players"</li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Validation errors: [ { param: 'league', msg: 'Must only contain numbers or letters', value: league }, { param: 'sender_players', msg: "Must be an array of integers", value: sender_player }, { param: 'reciever_players', msg: "Must be an array of integers", value: reciever_player }, { param: 'sender', msg: "Must only contain numbers and letters", value: sender }, { param: 'reciever', msg: "Must only contain numbers and letters", value: reciever } ]"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "Forbidden"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "Cannot trade with yourself"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "'sender' does not have players 'sender_players' and/or 'reciever' does not have players 'reciever_players'"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "'sender' does not have enough space to complete the trade"</li>
+        </ul>
+      </li>
+      <li>Response: 404
+        <ul>
+          <li>Body: "Either 'sender' and 'reciever' are not in the same league, or one of them do not exist or 'league' is not a league"</li>
+        </ul>
+      </li>
+      <li>Response: 404
+        <ul>
+          <li>Body: Database error</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $ curl -X POST
+        -H "Content-Type: application/json"
+        -d '{"sender":"alice","sender_players":[4300,4186], "reciever":"bob","reciever_players":[4341,900,5293]}'
+        -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/leagues/myleague/trades/
+    </code></pre>
+  </div>
+
+  <div>
+    <h3>Create</h3>
+    <ul>
+      <li>Description: accepts the trade</li>
+      <li>Request: <code>POST /api/leagues/:league/trades/:trade/</code></li>
+      <li>Response: 200
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: List (of 2 objects) the sender's new team and the reciever's new team (with the ids replaced with player objects)
+            <ul>
+              <li>Object (the sender's new team)
+                <ul>
+                  <li>_id: (string) the team's db id</li>
+                  <li>G: (string) the id of the sender's goalie after the trade</li>
+                  <li>forward: (list of string) the id's of the sender's forward players after the trade</li>
+                  <li>defence: (list of string) the id's of the sender's defence players after the trade</li>
+                  <li>bench_forward: (list of string) the id's of the sender's forward players that are on the bench after the trade</li>
+                  <li>bench_defence: (list of string) the id's of the sender's defence players that are on the bench after the trade</li>
+                  <li>active_players: (list of string) the id's of the sender's players that will be counted when the daily scores are updated (not changed)</li>
+                  <li>modified: (boolean) whether or not the sender's team has been modified since the last stats update (now true)</li>
+                  <li>owner: (string) the username of the team's owner (the sender)</li>
+                  <li>league: (string) the name of the league that the team belongs to</li>
+                  <li>sport: (string) the sport that the league is for</li>
+                  <li>score: (integer) the team's daily score for the previous day</li>
+                  <li>wins: (integer) the number of times that the user has gotten the highest daily score in their league</li>
+                </ul>
+              </li>
+              <li>Object (the reciever's new team)
+                <ul>
+                  <li>_id: (string) the team's db id</li>
+                  <li>G: (string) the id of the reciever's goalie after the trade</li>
+                  <li>forward: (list of string) the id's of the reciever's forward players after the trade</li>
+                  <li>defence: (list of string) the id's of the reciever's defence players after the trade</li>
+                  <li>bench_forward: (list of string) the id's of the reciever's forward players that are on the bench after the trade</li>
+                  <li>bench_defence: (list of string) the id's of the reciever's defence players that are on the bench after the trade</li>
+                  <li>active_players: (list of string) the id's of the reciever's players that will be counted when the daily scores are updated (not changed)</li>
+                  <li>modified: (boolean) whether or not the reciever's team has been modified since the last stats update (now true)</li>
+                  <li>owner: (string) the username of the team's owner</li>
+                  <li>league: (string) the name of the league that the team belongs to</li>
+                  <li>sport: (string) the sport that the league is for</li>
+                  <li>score: (integer) the team's daily score for the previous day</li>
+                  <li>wins: (integer) the number of times that the user has gotten the highest daily score in their league</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Validation errors: [ { param: 'league', msg: 'Must only contain numbers or letters', value: league }, { param: 'trade', msg: "Must only contain numbers or letters", value: trade } ]"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "Forbidden"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "'sender' no longer has players 'sender_players' and/or 'reciever' no longer has the players 'reciever_players'"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "'sender' does not have enough space to complete the trade"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "'reciever' does not have enough space to complete the trade"</li>
+        </ul>
+      </li>
+      <li>Response: 404
+        <ul>
+          <li>Body: "There is no trade with id 'trade' that 'current user' has recieved"</li>
+        </ul>
+      </li>
+      <li>Response: 500
+        <ul>
+          <li>Body: Database error</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $ curl -X POST
+        -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/leagues/league/trades/58d305b25223045004fb465b/
+    </code></pre>
+  </div>
+</div>
+
+<div class="container" id="read">
+  <div>
+    <h3>Read</h3>
+    <ul>
+      <li>Description: sign out the user</li>
+      <li>Request: <code>GET /api/signout/</code></li>
+      <li>Response: 200
+        <ul>
+          <li>Body: "signed out"</li>
+        </ul>
+      </li>
+      <li>Response: 500
+        <ul>
+          <li>Body: Database error</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $ curl -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/signout/
+    </code></pre>
+  </div>
+
+  <div>
+    <h3>Read</h3>
+    <ul>
+      <li>Description: gets the current user</li>
+      <li>Request: <code>GET /api/users/currentUser/</code></li>
+      <li>Response: 200
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: Object</li>
+          <ul>
+            <li>_id: (string) the user's db id</li>
+            <li>username: (string) the user's username</li>
+            <li>nhl_league: (string) the name of the league that the user is in for the nhl</li>
+          </ul>
+        </ul>
+      </li>
+      <li>Response: 404
+        <ul>
+          <li>Body: "User 'user' does not exist"</li>
+        </ul>
+      </li>
+      <li>Response: 500
+        <ul>
+          <li>Body: Database error</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $ curl -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/users/currentUser/
+    </code></pre>
+  </div>
+
+  <div>
+    <h3>Read</h3>
+    <ul>
+      <li>Description: gets the specified user</li>
+      <li>Request: <code>GET /api/users/:user/</code></li>
+      <li>Response: 200
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: Object</li>
+          <ul>
+            <li>_id: (string) the user's db id</li>
+            <li>username: (string) the user's username</li>
+            <li>nhl_league: (string) the name of the league that the user is in for the nhl</li>
+          </ul>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Validation errors: [ { param: 'user', msg: "Must only contain numbers or letters", value: user } ]"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "Forbidden"</li>
+        </ul>
+      </li>
+      <li>Response: 404
+        <ul>
+          <li>Body: "User 'user' does not exist"</li>
+        </ul>
+      </li>
+      <li>Response: 500
+        <ul>
+          <li>Body: Database error</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $ curl -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/users/alice/
+    </code></pre>
+  </div>
+
+  <div>
+    <h3>Read</h3>
+    <ul>
+      <li>Description: gets the specified user's team for the given league</li>
+      <li>Request: <code>GET /api/users/:user/leagues/:league/team/</code></li>
+      <li>Response: 200
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: (Object) the team object with ids replaced with player objects
+            <ul>
+              <li>G: (Object) the goalie's stats
+                <ul>
+                  <li>_id: (string) the db entry id</li>
+                  <li>playerID: (string) the player's id</li>
+                  <li>sport: (string) the sport the the player is in</li>
+                  <li>points: (integer) the number of points the player got yesterday from our point system</li>
+                  <li>teamID: (string) the id of the player's team</li>
+                  <li>City: (string) the city where the player's team is located</li>
+                  <li>Name: (string) te name of the player's team</li>
+                  <li>Abbreviation: (string) the 3 letter abbreviation of the player's team</li>
+                  <li>LastName: (string) the player's last name</li>
+                  <li>FirstName: (string) the player's first name</li>
+                  <li>Position: (string) the player's position (G)</li>
+                  <li>Played: (string) Yes if the player played yesterday, No if they did not</li>
+                  <li>LastName_id: (string) a comination of LastName + FirstName + playerID</li>
+                  <li>FirstName_id: (string) a comination of FirstName + LastName + playerID</li>
+                  <li>Position_id: (string) a comination of Position + LastName + Firstname + playerID</li>
+                  <li>City_id: (string) a comination of City + LastName + Firstname + playerID</li>
+                  <li>Name_id: (string) a comination of Name + LastName + Firstname + playerID</li>
+                  <li>Abbreviation_id: (string) a comination of Abbreviation + LastName + Firstname + playerID</li>
+                  <li>Played_id: (string) a comination of Played + LastName + Firstname + playerID</li>
+                  <li>points_id: (string) a comination of points + LastName + Firstname + playerID</li>
+                  <li>Wins: (string) the number of wins the goalie got</li>
+                  <li>Losses: (string) the number of losses the goalie got</li>
+                  <li>GoalsAgainstAverage: (string) the GAA the goalie got</li>
+                  <li>SavePercentage: (string) the save percentage te goalie got</li>
+                  <li>Shutouts: (string) the number of shutouts the goalie got</li>
+                  <li>Wins_id: (string) a comination of Wins + LastName + Firstname + playerID</li>
+                  <li>Losses_id: (string) a comination of Losses + LastName + Firstname + playerID</li>
+                  <li>GoalsAgainstAverage_id: (string) a comination of GoalsAgainstAverage + LastName + Firstname + playerID</li>
+                  <li>SavePercentage_id: (string) a comination of SavePercentage + LastName + Firstname + playerID</li>
+                  <li>Shutouts_id: (string) a comination of Shutouts + LastName + Firstname + playerID</li>
+                </ul>
+              </li>
+              <li>forward: (list of Object) the forward players' stats
+                <ul>
+                  <li>_id: (string) the db entry id</li>
+                  <li>playerID: (string) the player's id</li>
+                  <li>sport: (string) the sport the the player is in</li>
+                  <li>points: (integer) the number of points the player got yesterday from our point system</li>
+                  <li>teamID: (string) the id of the player's team</li>
+                  <li>City: (string) the city where the player's team is located</li>
+                  <li>Name: (string) te name of the player's team</li>
+                  <li>Abbreviation: (string) the 3 letter abbreviation of the player's team</li>
+                  <li>LastName: (string) the player's last name</li>
+                  <li>FirstName: (string) the player's first name</li>
+                  <li>Position: (string) the player's position</li>
+                  <li>Played: (string) Yes if the player played yesterday, No if they did not</li>
+                  <li>LastName_id: (string) a comination of LastName + FirstName + playerID</li>
+                  <li>FirstName_id: (string) a comination of FirstName + LastName + playerID</li>
+                  <li>Position_id: (string) a comination of Position + LastName + Firstname + playerID</li>
+                  <li>City_id: (string) a comination of City + LastName + Firstname + playerID</li>
+                  <li>Name_id: (string) a comination of Name + LastName + Firstname + playerID</li>
+                  <li>Abbreviation_id: (string) a comination of Abbreviation + LastName + Firstname + playerID</li>
+                  <li>Played_id: (string) a comination of Played + LastName + Firstname + playerID</li>
+                  <li>points_id: (string) a comination of points + LastName + Firstname + playerID</li>
+                  <li>Goals: (string) the number of goals the player scored</li>
+                  <li>Assists: (string) the number of assists the player got</li>
+                  <li>Points: (string) the number of Points the player got (not calculated by our points system) (2 for a goal, 1 for an assist)</li>
+                  <li>PlusMinus: (string) the player's +/- score</li>
+                  <li>Goals_id: (string) a comination of Goals + LastName + Firstname + playerID</li>
+                  <li>Assists_id: (string) a comination of Assists + LastName + Firstname + playerID</li>
+                  <li>Points_id: (string) a comination of Points + LastName + Firstname + playerID</li>
+                  <li>PlusMinus_id: (string) a comination of plusMinus + LastName + Firstname + playerID</li>
+                </ul>
+              </li>
+              <li>defence: (list of Object) the defence players' stats
+                <ul>
+                  <li>_id: (string) the db entry id</li>
+                  <li>playerID: (string) the player's id</li>
+                  <li>sport: (string) the sport the the player is in</li>
+                  <li>points: (integer) the number of points the player got yesterday from our point system</li>
+                  <li>teamID: (string) the id of the player's team</li>
+                  <li>City: (string) the city where the player's team is located</li>
+                  <li>Name: (string) te name of the player's team</li>
+                  <li>Abbreviation: (string) the 3 letter abbreviation of the player's team</li>
+                  <li>LastName: (string) the player's last name</li>
+                  <li>FirstName: (string) the player's first name</li>
+                  <li>Position: (string) the player's position</li>
+                  <li>Played: (string) Yes if the player played yesterday, No if they did not</li>
+                  <li>LastName_id: (string) a comination of LastName + FirstName + playerID</li>
+                  <li>FirstName_id: (string) a comination of FirstName + LastName + playerID</li>
+                  <li>Position_id: (string) a comination of Position + LastName + Firstname + playerID</li>
+                  <li>City_id: (string) a comination of City + LastName + Firstname + playerID</li>
+                  <li>Name_id: (string) a comination of Name + LastName + Firstname + playerID</li>
+                  <li>Abbreviation_id: (string) a comination of Abbreviation + LastName + Firstname + playerID</li>
+                  <li>Played_id: (string) a comination of Played + LastName + Firstname + playerID</li>
+                  <li>points_id: (string) a comination of points + LastName + Firstname + playerID</li>
+                  <li>Goals: (string) the number of goals the player scored</li>
+                  <li>Assists: (string) the number of assists the player got</li>
+                  <li>Points: (string) the number of Points the player got (not calculated by our points system) (2 for a goal, 1 for an assist)</li>
+                  <li>PlusMinus: (string) the player's +/- score</li>
+                  <li>Goals_id: (string) a comination of Goals + LastName + Firstname + playerID</li>
+                  <li>Assists_id: (string) a comination of Assists + LastName + Firstname + playerID</li>
+                  <li>Points_id: (string) a comination of Points + LastName + Firstname + playerID</li>
+                  <li>PlusMinus_id: (string) a comination of plusMinus + LastName + Firstname + playerID</li>
+                </ul>
+              </li>
+              <li>bench_forward: (list of Object) the forward players on the bench's stats
+                <ul>
+                  <li>_id: (string) the db entry id</li>
+                  <li>playerID: (string) the player's id</li>
+                  <li>sport: (string) the sport the the player is in</li>
+                  <li>points: (integer) the number of points the player got yesterday from our point system</li>
+                  <li>teamID: (string) the id of the player's team</li>
+                  <li>City: (string) the city where the player's team is located</li>
+                  <li>Name: (string) te name of the player's team</li>
+                  <li>Abbreviation: (string) the 3 letter abbreviation of the player's team</li>
+                  <li>LastName: (string) the player's last name</li>
+                  <li>FirstName: (string) the player's first name</li>
+                  <li>Position: (string) the player's position</li>
+                  <li>Played: (string) Yes if the player played yesterday, No if they did not</li>
+                  <li>LastName_id: (string) a comination of LastName + FirstName + playerID</li>
+                  <li>FirstName_id: (string) a comination of FirstName + LastName + playerID</li>
+                  <li>Position_id: (string) a comination of Position + LastName + Firstname + playerID</li>
+                  <li>City_id: (string) a comination of City + LastName + Firstname + playerID</li>
+                  <li>Name_id: (string) a comination of Name + LastName + Firstname + playerID</li>
+                  <li>Abbreviation_id: (string) a comination of Abbreviation + LastName + Firstname + playerID</li>
+                  <li>Played_id: (string) a comination of Played + LastName + Firstname + playerID</li>
+                  <li>points_id: (string) a comination of points + LastName + Firstname + playerID</li>
+                  <li>Goals: (string) the number of goals the player scored</li>
+                  <li>Assists: (string) the number of assists the player got</li>
+                  <li>Points: (string) the number of Points the player got (not calculated by our points system) (2 for a goal, 1 for an assist)</li>
+                  <li>PlusMinus: (string) the player's +/- score</li>
+                  <li>Goals_id: (string) a comination of Goals + LastName + Firstname + playerID</li>
+                  <li>Assists_id: (string) a comination of Assists + LastName + Firstname + playerID</li>
+                  <li>Points_id: (string) a comination of Points + LastName + Firstname + playerID</li>
+                  <li>PlusMinus_id: (string) a comination of plusMinus + LastName + Firstname + playerID</li>
+                </ul>
+              </li>
+              <li>bench_defence: (list of Object) the defence players on the bench's stats
+                <ul>
+                  <li>_id: (string) the db entry id</li>
+                  <li>playerID: (string) the player's id</li>
+                  <li>sport: (string) the sport the the player is in</li>
+                  <li>points: (integer) the number of points the player got yesterday from our point system</li>
+                  <li>teamID: (string) the id of the player's team</li>
+                  <li>City: (string) the city where the player's team is located</li>
+                  <li>Name: (string) te name of the player's team</li>
+                  <li>Abbreviation: (string) the 3 letter abbreviation of the player's team</li>
+                  <li>LastName: (string) the player's last name</li>
+                  <li>FirstName: (string) the player's first name</li>
+                  <li>Position: (string) the player's position</li>
+                  <li>Played: (string) Yes if the player played yesterday, No if they did not</li>
+                  <li>LastName_id: (string) a comination of LastName + FirstName + playerID</li>
+                  <li>FirstName_id: (string) a comination of FirstName + LastName + playerID</li>
+                  <li>Position_id: (string) a comination of Position + LastName + Firstname + playerID</li>
+                  <li>City_id: (string) a comination of City + LastName + Firstname + playerID</li>
+                  <li>Name_id: (string) a comination of Name + LastName + Firstname + playerID</li>
+                  <li>Abbreviation_id: (string) a comination of Abbreviation + LastName + Firstname + playerID</li>
+                  <li>Played_id: (string) a comination of Played + LastName + Firstname + playerID</li>
+                  <li>points_id: (string) a comination of points + LastName + Firstname + playerID</li>
+                  <li>Goals: (string) the number of goals the player scored</li>
+                  <li>Assists: (string) the number of assists the player got</li>
+                  <li>Points: (string) the number of Points the player got (not calculated by our points system) (2 for a goal, 1 for an assist)</li>
+                  <li>PlusMinus: (string) the player's +/- score</li>
+                  <li>Goals_id: (string) a comination of Goals + LastName + Firstname + playerID</li>
+                  <li>Assists_id: (string) a comination of Assists + LastName + Firstname + playerID</li>
+                  <li>Points_id: (string) a comination of Points + LastName + Firstname + playerID</li>
+                  <li>PlusMinus_id: (string) a comination of plusMinus + LastName + Firstname + playerID</li>
+                </ul>
+              </li>
+              <li>active_players: (list of string) the ids of the players that will be counted when calulating the stats</li>
+              <li>modified: (boolean) if the team has been modified</li>
+              <li>owner: (string) the team's owner's username</li>
+              <li>sport: (string) the sport that the league is for</li>
+              <li>wins: (integer) the number of daily wins the team has recieved</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Validation errors: [ { param: 'user', msg: "Must only contain numbers or letters", value: user }, { param: 'league', msg: "Must only contain numbers or letters", value: league } ]"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "Forbidden"</li>
+        </ul>
+      </li>
+      <li>Response: 404
+        <ul>
+          <li>Body: "User 'user' is not in league 'league'"</li>
+        </ul>
+      </li>
+      <li>Response: 500
+        <ul>
+          <li>Body: Database error</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $ curl -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/users/alice/myleague/team/
+    </code></pre>
+  </div>
+
+  <div>
+    <h3>Read</h3>
+    <ul>
+      <li>Description: gets the specified player's stats</li>
+      <li>Request: <code>GET /api/sports/:sport/players/:playerID/</code></li>
+      <li>Response: 200
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: (Object) the player
+            <ul>
+              <li>_id: (string) the db entry id</li>
+              <li>playerID: (string) the player's id</li>
+              <li>sport: (string) the sport the the player is in</li>
+              <li>points: (integer) the number of points the player got yesterday from our point system</li>
+              <li>teamID: (string) the id of the player's team</li>
+              <li>City: (string) the city where the player's team is located</li>
+              <li>Name: (string) te name of the player's team</li>
+              <li>Abbreviation: (string) the 3 letter abbreviation of the player's team</li>
+              <li>LastName: (string) the player's last name</li>
+              <li>FirstName: (string) the player's first name</li>
+              <li>Position: (string) the player's position</li>
+              <li>Played: (string) Yes if the player played yesterday, No if they did not</li>
+              <li>LastName_id: (string) a comination of LastName + FirstName + playerID</li>
+              <li>FirstName_id: (string) a comination of FirstName + LastName + playerID</li>
+              <li>Position_id: (string) a comination of Position + LastName + Firstname + playerID</li>
+              <li>City_id: (string) a comination of City + LastName + Firstname + playerID</li>
+              <li>Name_id: (string) a comination of Name + LastName + Firstname + playerID</li>
+              <li>Abbreviation_id: (string) a comination of Abbreviation + LastName + Firstname + playerID</li>
+              <li>Played_id: (string) a comination of Played + LastName + Firstname + playerID</li>
+              <li>points_id: (string) a comination of points + LastName + Firstname + playerID</li>
+
+              If position is F or D:
+              <ul><li>Goals: (string) the number of goals the player scored</li>
+                <li>Assists: (string) the number of assists the player got</li>
+                <li>Points: (string) the number of Points the player got (not calculated by our points system) (2 for a goal, 1 for an assist)</li>
+                <li>PlusMinus: (string) the player's +/- score</li>
+                <li>Goals_id: (string) a comination of Goals + LastName + Firstname + playerID</li>
+                <li>Assists_id: (string) a comination of Assists + LastName + Firstname + playerID</li>
+                <li>Points_id: (string) a comination of Points + LastName + Firstname + playerID</li>
+                <li>PlusMinus_id: (string) a comination of plusMinus + LastName + Firstname + playerID</li>
+              </ul>
+              If position is G
+              <ul><li>Wins: (string) the number of wins the goalie got</li>
+                <li>Losses: (string) the number of losses the goalie got</li>
+                <li>GoalsAgainstAverage: (string) the GAA the goalie got</li>
+                <li>SavePercentage: (string) the save percentage te goalie got</li>
+                <li>Shutouts: (string) the number of shutouts the goalie got</li>
+                <li>Wins_id: (string) a comination of Wins + LastName + Firstname + playerID</li>
+                <li>Losses_id: (string) a comination of Losses + LastName + Firstname + playerID</li>
+                <li>GoalsAgainstAverage_id: (string) a comination of GoalsAgainstAverage + LastName + Firstname + playerID</li>
+                <li>SavePercentage_id: (string) a comination of SavePercentage + LastName + Firstname + playerID</li>
+                <li>Shutouts_id: (string) a comination of Shutouts + LastName + Firstname + playerID</li>
+              </ul>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Validation errors: [ { param: 'sport', msg: "Must only contain letters", value: sport }, { param: 'playerID', msg: "Must only contain numbers or letters", value: sport } ]"</li>
+        </ul>
+      </li>
+      <li>Response: 404
+        <ul>
+          <li>Body: "There is no player with id 'playerID' in the 'sport'"</li>
+        </ul>
+      </li>
+      <li>Response: 500
+        <ul>
+          <li>Body: Database error</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $ curl -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/sports/nhl/players/900/
+    </code></pre>
+  </div>
+
+  <div>
+    <h3>Read</h3>
+    <ul>
+      <li>Description: get all the teams in the specified league</li>
+      <li>Request: <code>GET /api/sports/:sport/leagues/:league/teams/</code></li>
+      <li>Response: 200
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: (list of Object) the team objects with the ids replaced with player objects</li>
+            <ul>
+              <li>G: (Object) the goalie's stats
+                <ul>
+                  <li>_id: (string) the db entry id</li>
+                  <li>playerID: (string) the player's id</li>
+                  <li>sport: (string) the sport the the player is in</li>
+                  <li>points: (integer) the number of points the player got yesterday from our point system</li>
+                  <li>teamID: (string) the id of the player's team</li>
+                  <li>City: (string) the city where the player's team is located</li>
+                  <li>Name: (string) te name of the player's team</li>
+                  <li>Abbreviation: (string) the 3 letter abbreviation of the player's team</li>
+                  <li>LastName: (string) the player's last name</li>
+                  <li>FirstName: (string) the player's first name</li>
+                  <li>Position: (string) the player's position (G)</li>
+                  <li>Played: (string) Yes if the player played yesterday, No if they did not</li>
+                  <li>LastName_id: (string) a comination of LastName + FirstName + playerID</li>
+                  <li>FirstName_id: (string) a comination of FirstName + LastName + playerID</li>
+                  <li>Position_id: (string) a comination of Position + LastName + Firstname + playerID</li>
+                  <li>City_id: (string) a comination of City + LastName + Firstname + playerID</li>
+                  <li>Name_id: (string) a comination of Name + LastName + Firstname + playerID</li>
+                  <li>Abbreviation_id: (string) a comination of Abbreviation + LastName + Firstname + playerID</li>
+                  <li>Played_id: (string) a comination of Played + LastName + Firstname + playerID</li>
+                  <li>points_id: (string) a comination of points + LastName + Firstname + playerID</li>
+                  <li>Wins: (string) the number of wins the goalie got</li>
+                  <li>Losses: (string) the number of losses the goalie got</li>
+                  <li>GoalsAgainstAverage: (string) the GAA the goalie got</li>
+                  <li>SavePercentage: (string) the save percentage te goalie got</li>
+                  <li>Shutouts: (string) the number of shutouts the goalie got</li>
+                  <li>Wins_id: (string) a comination of Wins + LastName + Firstname + playerID</li>
+                  <li>Losses_id: (string) a comination of Losses + LastName + Firstname + playerID</li>
+                  <li>GoalsAgainstAverage_id: (string) a comination of GoalsAgainstAverage + LastName + Firstname + playerID</li>
+                  <li>SavePercentage_id: (string) a comination of SavePercentage + LastName + Firstname + playerID</li>
+                  <li>Shutouts_id: (string) a comination of Shutouts + LastName + Firstname + playerID</li>
+                </ul>
+              </li>
+              <li>forward: (list of Object) the forward players' stats
+                <ul>
+                  <li>_id: (string) the db entry id</li>
+                  <li>playerID: (string) the player's id</li>
+                  <li>sport: (string) the sport the the player is in</li>
+                  <li>points: (integer) the number of points the player got yesterday from our point system</li>
+                  <li>teamID: (string) the id of the player's team</li>
+                  <li>City: (string) the city where the player's team is located</li>
+                  <li>Name: (string) te name of the player's team</li>
+                  <li>Abbreviation: (string) the 3 letter abbreviation of the player's team</li>
+                  <li>LastName: (string) the player's last name</li>
+                  <li>FirstName: (string) the player's first name</li>
+                  <li>Position: (string) the player's position</li>
+                  <li>Played: (string) Yes if the player played yesterday, No if they did not</li>
+                  <li>LastName_id: (string) a comination of LastName + FirstName + playerID</li>
+                  <li>FirstName_id: (string) a comination of FirstName + LastName + playerID</li>
+                  <li>Position_id: (string) a comination of Position + LastName + Firstname + playerID</li>
+                  <li>City_id: (string) a comination of City + LastName + Firstname + playerID</li>
+                  <li>Name_id: (string) a comination of Name + LastName + Firstname + playerID</li>
+                  <li>Abbreviation_id: (string) a comination of Abbreviation + LastName + Firstname + playerID</li>
+                  <li>Played_id: (string) a comination of Played + LastName + Firstname + playerID</li>
+                  <li>points_id: (string) a comination of points + LastName + Firstname + playerID</li>
+                  <li>Goals: (string) the number of goals the player scored</li>
+                  <li>Assists: (string) the number of assists the player got</li>
+                  <li>Points: (string) the number of Points the player got (not calculated by our points system) (2 for a goal, 1 for an assist)</li>
+                  <li>PlusMinus: (string) the player's +/- score</li>
+                  <li>Goals_id: (string) a comination of Goals + LastName + Firstname + playerID</li>
+                  <li>Assists_id: (string) a comination of Assists + LastName + Firstname + playerID</li>
+                  <li>Points_id: (string) a comination of Points + LastName + Firstname + playerID</li>
+                  <li>PlusMinus_id: (string) a comination of plusMinus + LastName + Firstname + playerID</li>
+                </ul>
+              </li>
+              <li>defence: (list of Object) the defence players' stats
+                <ul>
+                  <li>_id: (string) the db entry id</li>
+                  <li>playerID: (string) the player's id</li>
+                  <li>sport: (string) the sport the the player is in</li>
+                  <li>points: (integer) the number of points the player got yesterday from our point system</li>
+                  <li>teamID: (string) the id of the player's team</li>
+                  <li>City: (string) the city where the player's team is located</li>
+                  <li>Name: (string) te name of the player's team</li>
+                  <li>Abbreviation: (string) the 3 letter abbreviation of the player's team</li>
+                  <li>LastName: (string) the player's last name</li>
+                  <li>FirstName: (string) the player's first name</li>
+                  <li>Position: (string) the player's position</li>
+                  <li>Played: (string) Yes if the player played yesterday, No if they did not</li>
+                  <li>LastName_id: (string) a comination of LastName + FirstName + playerID</li>
+                  <li>FirstName_id: (string) a comination of FirstName + LastName + playerID</li>
+                  <li>Position_id: (string) a comination of Position + LastName + Firstname + playerID</li>
+                  <li>City_id: (string) a comination of City + LastName + Firstname + playerID</li>
+                  <li>Name_id: (string) a comination of Name + LastName + Firstname + playerID</li>
+                  <li>Abbreviation_id: (string) a comination of Abbreviation + LastName + Firstname + playerID</li>
+                  <li>Played_id: (string) a comination of Played + LastName + Firstname + playerID</li>
+                  <li>points_id: (string) a comination of points + LastName + Firstname + playerID</li>
+                  <li>Goals: (string) the number of goals the player scored</li>
+                  <li>Assists: (string) the number of assists the player got</li>
+                  <li>Points: (string) the number of Points the player got (not calculated by our points system) (2 for a goal, 1 for an assist)</li>
+                  <li>PlusMinus: (string) the player's +/- score</li>
+                  <li>Goals_id: (string) a comination of Goals + LastName + Firstname + playerID</li>
+                  <li>Assists_id: (string) a comination of Assists + LastName + Firstname + playerID</li>
+                  <li>Points_id: (string) a comination of Points + LastName + Firstname + playerID</li>
+                  <li>PlusMinus_id: (string) a comination of plusMinus + LastName + Firstname + playerID</li>
+                </ul>
+              </li>
+              <li>bench_forward: (list of Object) the forward players on the bench's stats
+                <ul>
+                  <li>_id: (string) the db entry id</li>
+                  <li>playerID: (string) the player's id</li>
+                  <li>sport: (string) the sport the the player is in</li>
+                  <li>points: (integer) the number of points the player got yesterday from our point system</li>
+                  <li>teamID: (string) the id of the player's team</li>
+                  <li>City: (string) the city where the player's team is located</li>
+                  <li>Name: (string) te name of the player's team</li>
+                  <li>Abbreviation: (string) the 3 letter abbreviation of the player's team</li>
+                  <li>LastName: (string) the player's last name</li>
+                  <li>FirstName: (string) the player's first name</li>
+                  <li>Position: (string) the player's position</li>
+                  <li>Played: (string) Yes if the player played yesterday, No if they did not</li>
+                  <li>LastName_id: (string) a comination of LastName + FirstName + playerID</li>
+                  <li>FirstName_id: (string) a comination of FirstName + LastName + playerID</li>
+                  <li>Position_id: (string) a comination of Position + LastName + Firstname + playerID</li>
+                  <li>City_id: (string) a comination of City + LastName + Firstname + playerID</li>
+                  <li>Name_id: (string) a comination of Name + LastName + Firstname + playerID</li>
+                  <li>Abbreviation_id: (string) a comination of Abbreviation + LastName + Firstname + playerID</li>
+                  <li>Played_id: (string) a comination of Played + LastName + Firstname + playerID</li>
+                  <li>points_id: (string) a comination of points + LastName + Firstname + playerID</li>
+                  <li>Goals: (string) the number of goals the player scored</li>
+                  <li>Assists: (string) the number of assists the player got</li>
+                  <li>Points: (string) the number of Points the player got (not calculated by our points system) (2 for a goal, 1 for an assist)</li>
+                  <li>PlusMinus: (string) the player's +/- score</li>
+                  <li>Goals_id: (string) a comination of Goals + LastName + Firstname + playerID</li>
+                  <li>Assists_id: (string) a comination of Assists + LastName + Firstname + playerID</li>
+                  <li>Points_id: (string) a comination of Points + LastName + Firstname + playerID</li>
+                  <li>PlusMinus_id: (string) a comination of plusMinus + LastName + Firstname + playerID</li>
+                </ul>
+              </li>
+              <li>bench_defence: (list of Object) the defence players on the bench's stats
+                <ul>
+                  <li>_id: (string) the db entry id</li>
+                  <li>playerID: (string) the player's id</li>
+                  <li>sport: (string) the sport the the player is in</li>
+                  <li>points: (integer) the number of points the player got yesterday from our point system</li>
+                  <li>teamID: (string) the id of the player's team</li>
+                  <li>City: (string) the city where the player's team is located</li>
+                  <li>Name: (string) te name of the player's team</li>
+                  <li>Abbreviation: (string) the 3 letter abbreviation of the player's team</li>
+                  <li>LastName: (string) the player's last name</li>
+                  <li>FirstName: (string) the player's first name</li>
+                  <li>Position: (string) the player's position</li>
+                  <li>Played: (string) Yes if the player played yesterday, No if they did not</li>
+                  <li>LastName_id: (string) a comination of LastName + FirstName + playerID</li>
+                  <li>FirstName_id: (string) a comination of FirstName + LastName + playerID</li>
+                  <li>Position_id: (string) a comination of Position + LastName + Firstname + playerID</li>
+                  <li>City_id: (string) a comination of City + LastName + Firstname + playerID</li>
+                  <li>Name_id: (string) a comination of Name + LastName + Firstname + playerID</li>
+                  <li>Abbreviation_id: (string) a comination of Abbreviation + LastName + Firstname + playerID</li>
+                  <li>Played_id: (string) a comination of Played + LastName + Firstname + playerID</li>
+                  <li>points_id: (string) a comination of points + LastName + Firstname + playerID</li>
+                  <li>Goals: (string) the number of goals the player scored</li>
+                  <li>Assists: (string) the number of assists the player got</li>
+                  <li>Points: (string) the number of Points the player got (not calculated by our points system) (2 for a goal, 1 for an assist)</li>
+                  <li>PlusMinus: (string) the player's +/- score</li>
+                  <li>Goals_id: (string) a comination of Goals + LastName + Firstname + playerID</li>
+                  <li>Assists_id: (string) a comination of Assists + LastName + Firstname + playerID</li>
+                  <li>Points_id: (string) a comination of Points + LastName + Firstname + playerID</li>
+                  <li>PlusMinus_id: (string) a comination of plusMinus + LastName + Firstname + playerID</li>
+                </ul>
+              </li>
+              <li>active_players: (list of string) the ids of the players that will be counted when calulating the stats</li>
+              <li>modified: (boolean) if the team has been modified</li>
+              <li>owner: (string) the team's owner's username</li>
+              <li>league: (string) the league that the team is in</li>
+              <li>sport: (string) the sport that the league is for</li>
+              <li>score: (integer) the team's daily score for the previous day</li>
+              <li>wins: (integer) the number of daily wins the team has recieved</li>
+            </ul>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Validation errors: [ { param: 'sport', msg: 'Must only contain letters', value: sport }, { param: 'league', msg: 'Must only contain numbers or letters', value: league } ]"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "Forbidden"</li>
+        </ul>
+      </li>
+      <li>Response: 404
+        <ul>
+          <li>Body: "League 'league' does not exist in the 'sport'"</li>
+        </ul>
+      </li>
+      <li>Response: 500
+        <ul>
+          <li>Body: Database error</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $ curl -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/sports/:sport/leagues/:league/teams/
+    </code></pre>
+  </div>
+
+  <div>
+    <h3>Read</h3>
+    <ul>
+      <li>Description: get the specified sports players. The default limit is 10, the default sort is decreasing and the default sortFeld is LastName_id</li>
+      <li>Request: <code>GET /api/sports/:sport/players/type/:type/[?limit=10&sort=decreasing&sortField=LastName_id&firstPlayer=900]</code></li>
+      <li>Response: 200
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: (list of Object) the list of player objects
+            <ul>
+              <li>_id: (string) the db entry id</li>
+              <li>playerID: (string) the player's id</li>
+              <li>sport: (string) the sport the the player is in</li>
+              <li>points: (integer) the number of points the player got yesterday from our point system</li>
+              <li>teamID: (string) the id of the player's team</li>
+              <li>City: (string) the city where the player's team is located</li>
+              <li>Name: (string) te name of the player's team</li>
+              <li>Abbreviation: (string) the 3 letter abbreviation of the player's team</li>
+              <li>LastName: (string) the player's last name</li>
+              <li>FirstName: (string) the player's first name</li>
+              <li>Position: (string) the player's position</li>
+              <li>Played: (string) Yes if the player played yesterday, No if they did not</li>
+              <li>LastName_id: (string) a comination of LastName + FirstName + playerID</li>
+              <li>FirstName_id: (string) a comination of FirstName + LastName + playerID</li>
+              <li>Position_id: (string) a comination of Position + LastName + Firstname + playerID</li>
+              <li>City_id: (string) a comination of City + LastName + Firstname + playerID</li>
+              <li>Name_id: (string) a comination of Name + LastName + Firstname + playerID</li>
+              <li>Abbreviation_id: (string) a comination of Abbreviation + LastName + Firstname + playerID</li>
+              <li>Played_id: (string) a comination of Played + LastName + Firstname + playerID</li>
+              <li>points_id: (string) a comination of points + LastName + Firstname + playerID</li>
+
+              If position is F or D:
+              <ul><li>Goals: (string) the number of goals the player scored</li>
+                <li>Assists: (string) the number of assists the player got</li>
+                <li>Points: (string) the number of Points the player got (not calculated by our points system) (2 for a goal, 1 for an assist)</li>
+                <li>PlusMinus: (string) the player's +/- score</li>
+                <li>Goals_id: (string) a comination of Goals + LastName + Firstname + playerID</li>
+                <li>Assists_id: (string) a comination of Assists + LastName + Firstname + playerID</li>
+                <li>Points_id: (string) a comination of Points + LastName + Firstname + playerID</li>
+                <li>PlusMinus_id: (string) a comination of plusMinus + LastName + Firstname + playerID</li>
+              </ul>
+              If position is G
+              <ul><li>Wins: (string) the number of wins the goalie got</li>
+                <li>Losses: (string) the number of losses the goalie got</li>
+                <li>GoalsAgainstAverage: (string) the GAA the goalie got</li>
+                <li>SavePercentage: (string) the save percentage te goalie got</li>
+                <li>Shutouts: (string) the number of shutouts the goalie got</li>
+                <li>Wins_id: (string) a comination of Wins + LastName + Firstname + playerID</li>
+                <li>Losses_id: (string) a comination of Losses + LastName + Firstname + playerID</li>
+                <li>GoalsAgainstAverage_id: (string) a comination of GoalsAgainstAverage + LastName + Firstname + playerID</li>
+                <li>SavePercentage_id: (string) a comination of SavePercentage + LastName + Firstname + playerID</li>
+                <li>Shutouts_id: (string) a comination of Shutouts + LastName + Firstname + playerID</li>
+              </ul>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Invalid arguments. Limt must be an integer and 'limit' is not"</li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Invalid arguments. sort must be 'increasiong' or 'decreasing' and 'sort' is not"</li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Must only contain numbers"</li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Invalid type. type must be G, Goalie, S, or Skater for the 'sport' (Case does not matter)"</li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Validation errors: [ { param: 'sport', msg: 'Must only contain letters', value: sport }, { param: 'type', msg: 'Must only contain letters', value: type } ]"</li>
+        </ul>
+      </li>
+      <li>Response: 404
+        <ul>
+          <li>Body: "Player with id 'firstPlayer' does not exist as 'type'"</li>
+        </ul>
+      </li>
+      <li>Response: 500
+        <ul>
+          <li>Body: Database error</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $ curl -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/sports/nhl/players/type/s/?limit=10&sort=increasing&sortField=LastName&firstPlayer=900
+    </code></pre>
+  </div>
+
+  <div>
+    <h3>Read</h3>
+    <ul>
+      <li>Description: get the trades invloving the user. The default sort is decreasing</li>
+      <li>Request: <code>GET /api/leagues/:league/users/:user/trades/[?sort=decreasing&firstTrade=514bf8bbbe11e483111af213&which=sent]</code></li>
+      <li>Response: 200
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: (list of Object) the list of trade objects with the player ids replaced with player objects
+            <ul>
+              <li>_id: (string) the trade's db entry id</li>
+              <li>sender: (string) the username of the user who sent the trade</li>
+              <li>reciever: (string) the username of the user who recieved the trade</li>
+              <li>sender_players: (list of Object) the players that the sender wants to trade away
+                <ul>
+                  <li>_id: (string) the player's db entry id</li>
+                  <li>playerID: (string) the player's id</li>
+                  <li>sport: (string) the sport the the player is in</li>
+                  <li>points: (integer) the number of points the player got yesterday from our point system</li>
+                  <li>teamID: (string) the id of the player's team</li>
+                  <li>City: (string) the city where the player's team is located</li>
+                  <li>Name: (string) te name of the player's team</li>
+                  <li>Abbreviation: (string) the 3 letter abbreviation of the player's team</li>
+                  <li>LastName: (string) the player's last name</li>
+                  <li>FirstName: (string) the player's first name</li>
+                  <li>Position: (string) the player's position</li>
+                  <li>Played: (string) Yes if the player played yesterday, No if they did not</li>
+                  <li>LastName_id: (string) a comination of LastName + FirstName + playerID</li>
+                  <li>FirstName_id: (string) a comination of FirstName + LastName + playerID</li>
+                  <li>Position_id: (string) a comination of Position + LastName + Firstname + playerID</li>
+                  <li>City_id: (string) a comination of City + LastName + Firstname + playerID</li>
+                  <li>Name_id: (string) a comination of Name + LastName + Firstname + playerID</li>
+                  <li>Abbreviation_id: (string) a comination of Abbreviation + LastName + Firstname + playerID</li>
+                  <li>Played_id: (string) a comination of Played + LastName + Firstname + playerID</li>
+                  <li>points_id: (string) a comination of points + LastName + Firstname + playerID</li>
+
+                  If position is F or D:
+                  <ul><li>Goals: (string) the number of goals the player scored</li>
+                    <li>Assists: (string) the number of assists the player got</li>
+                    <li>Points: (string) the number of Points the player got (not calculated by our points system) (2 for a goal, 1 for an assist)</li>
+                    <li>PlusMinus: (string) the player's +/- score</li>
+                    <li>Goals_id: (string) a comination of Goals + LastName + Firstname + playerID</li>
+                    <li>Assists_id: (string) a comination of Assists + LastName + Firstname + playerID</li>
+                    <li>Points_id: (string) a comination of Points + LastName + Firstname + playerID</li>
+                    <li>PlusMinus_id: (string) a comination of plusMinus + LastName + Firstname + playerID</li>
+                  </ul>
+                  If position is G
+                  <ul><li>Wins: (string) the number of wins the goalie got</li>
+                    <li>Losses: (string) the number of losses the goalie got</li>
+                    <li>GoalsAgainstAverage: (string) the GAA the goalie got</li>
+                    <li>SavePercentage: (string) the save percentage te goalie got</li>
+                    <li>Shutouts: (string) the number of shutouts the goalie got</li>
+                    <li>Wins_id: (string) a comination of Wins + LastName + Firstname + playerID</li>
+                    <li>Losses_id: (string) a comination of Losses + LastName + Firstname + playerID</li>
+                    <li>GoalsAgainstAverage_id: (string) a comination of GoalsAgainstAverage + LastName + Firstname + playerID</li>
+                    <li>SavePercentage_id: (string) a comination of SavePercentage + LastName + Firstname + playerID</li>
+                    <li>Shutouts_id: (string) a comination of Shutouts + LastName + Firstname + playerID</li>
+                  </ul>
+                </ul>
+              </li>
+              <li>reciever_players: (list of Object) the players that the sender wants to recieve
+                <ul>
+                  <li>_id: (string) the db entry id</li>
+                  <li>playerID: (string) the player's id</li>
+                  <li>sport: (string) the sport the the player is in</li>
+                  <li>points: (integer) the number of points the player got yesterday from our point system</li>
+                  <li>teamID: (string) the id of the player's team</li>
+                  <li>City: (string) the city where the player's team is located</li>
+                  <li>Name: (string) te name of the player's team</li>
+                  <li>Abbreviation: (string) the 3 letter abbreviation of the player's team</li>
+                  <li>LastName: (string) the player's last name</li>
+                  <li>FirstName: (string) the player's first name</li>
+                  <li>Position: (string) the player's position</li>
+                  <li>Played: (string) Yes if the player played yesterday, No if they did not</li>
+                  <li>LastName_id: (string) a comination of LastName + FirstName + playerID</li>
+                  <li>FirstName_id: (string) a comination of FirstName + LastName + playerID</li>
+                  <li>Position_id: (string) a comination of Position + LastName + Firstname + playerID</li>
+                  <li>City_id: (string) a comination of City + LastName + Firstname + playerID</li>
+                  <li>Name_id: (string) a comination of Name + LastName + Firstname + playerID</li>
+                  <li>Abbreviation_id: (string) a comination of Abbreviation + LastName + Firstname + playerID</li>
+                  <li>Played_id: (string) a comination of Played + LastName + Firstname + playerID</li>
+                  <li>points_id: (string) a comination of points + LastName + Firstname + playerID</li>
+
+                  If position is F or D:
+                  <ul><li>Goals: (string) the number of goals the player scored</li>
+                    <li>Assists: (string) the number of assists the player got</li>
+                    <li>Points: (string) the number of Points the player got (not calculated by our points system) (2 for a goal, 1 for an assist)</li>
+                    <li>PlusMinus: (string) the player's +/- score</li>
+                    <li>Goals_id: (string) a comination of Goals + LastName + Firstname + playerID</li>
+                    <li>Assists_id: (string) a comination of Assists + LastName + Firstname + playerID</li>
+                    <li>Points_id: (string) a comination of Points + LastName + Firstname + playerID</li>
+                    <li>PlusMinus_id: (string) a comination of plusMinus + LastName + Firstname + playerID</li>
+                  </ul>
+                  If position is G
+                  <ul><li>Wins: (string) the number of wins the goalie got</li>
+                    <li>Losses: (string) the number of losses the goalie got</li>
+                    <li>GoalsAgainstAverage: (string) the GAA the goalie got</li>
+                    <li>SavePercentage: (string) the save percentage te goalie got</li>
+                    <li>Shutouts: (string) the number of shutouts the goalie got</li>
+                    <li>Wins_id: (string) a comination of Wins + LastName + Firstname + playerID</li>
+                    <li>Losses_id: (string) a comination of Losses + LastName + Firstname + playerID</li>
+                    <li>GoalsAgainstAverage_id: (string) a comination of GoalsAgainstAverage + LastName + Firstname + playerID</li>
+                    <li>SavePercentage_id: (string) a comination of SavePercentage + LastName + Firstname + playerID</li>
+                    <li>Shutouts_id: (string) a comination of Shutouts + LastName + Firstname + playerID</li>
+                  </ul>
+                </ul>
+              </li>
+              <li>league: (string) the league that the trade is occuring in</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Invalid Arguments, sort must be either increasing or decreasing"</li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Invalid Arguments, firstTrade is not a valid trade id"</li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Invalid arguments. which must be sent, recieved, or both"</li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Validation errors: [ { param: 'league', msg: 'Must only contain numbers and letters', value: league }, { param: 'user', msg: 'Must only contain numbers and letters', value: user } ]"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "Forbidden"</li>
+        </ul>
+      </li>
+      <li>Response: 500
+        <ul>
+          <li>Body: Database error</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $ curl -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/leagues/myleague/users/alice/trades/?sort=decreasing&firstTrade=514bf8bbbe11e483111af213&which=sent
+    </code></pre>
+  </div>
+
+  <div>
+    <h3>Read</h3>
+    <ul>
+      <li>Description: get the specified trade involving the user</li>
+      <li>Request: <code>GET /api/leagues/:league/users/:user/trades/:trade/</code></li>
+      <li>Response: 200
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: (Object) the trade object with the player ids replaced with player objects
+            <ul>
+              <li>_id: (string) the player's db entry id</li>
+              <li>sender: (string) the username of the user who sent the trade</li>
+              <li>reciever: (string) the username of the user who recieved the trade</li>
+              <li>sender_players: (list of Object) the players that the sender wants to trade away
+                <ul>
+                  <li>_id: (string) the db entry id</li>
+                  <li>playerID: (string) the player's id</li>
+                  <li>sport: (string) the sport the the player is in</li>
+                  <li>points: (integer) the number of points the player got yesterday from our point system</li>
+                  <li>teamID: (string) the id of the player's team</li>
+                  <li>City: (string) the city where the player's team is located</li>
+                  <li>Name: (string) te name of the player's team</li>
+                  <li>Abbreviation: (string) the 3 letter abbreviation of the player's team</li>
+                  <li>LastName: (string) the player's last name</li>
+                  <li>FirstName: (string) the player's first name</li>
+                  <li>Position: (string) the player's position</li>
+                  <li>Played: (string) Yes if the player played yesterday, No if they did not</li>
+                  <li>LastName_id: (string) a comination of LastName + FirstName + playerID</li>
+                  <li>FirstName_id: (string) a comination of FirstName + LastName + playerID</li>
+                  <li>Position_id: (string) a comination of Position + LastName + Firstname + playerID</li>
+                  <li>City_id: (string) a comination of City + LastName + Firstname + playerID</li>
+                  <li>Name_id: (string) a comination of Name + LastName + Firstname + playerID</li>
+                  <li>Abbreviation_id: (string) a comination of Abbreviation + LastName + Firstname + playerID</li>
+                  <li>Played_id: (string) a comination of Played + LastName + Firstname + playerID</li>
+                  <li>points_id: (string) a comination of points + LastName + Firstname + playerID</li>
+
+                  If position is F or D:
+                  <ul><li>Goals: (string) the number of goals the player scored</li>
+                    <li>Assists: (string) the number of assists the player got</li>
+                    <li>Points: (string) the number of Points the player got (not calculated by our points system) (2 for a goal, 1 for an assist)</li>
+                    <li>PlusMinus: (string) the player's +/- score</li>
+                    <li>Goals_id: (string) a comination of Goals + LastName + Firstname + playerID</li>
+                    <li>Assists_id: (string) a comination of Assists + LastName + Firstname + playerID</li>
+                    <li>Points_id: (string) a comination of Points + LastName + Firstname + playerID</li>
+                    <li>PlusMinus_id: (string) a comination of plusMinus + LastName + Firstname + playerID</li>
+                  </ul>
+                  If position is G
+                  <ul><li>Wins: (string) the number of wins the goalie got</li>
+                    <li>Losses: (string) the number of losses the goalie got</li>
+                    <li>GoalsAgainstAverage: (string) the GAA the goalie got</li>
+                    <li>SavePercentage: (string) the save percentage te goalie got</li>
+                    <li>Shutouts: (string) the number of shutouts the goalie got</li>
+                    <li>Wins_id: (string) a comination of Wins + LastName + Firstname + playerID</li>
+                    <li>Losses_id: (string) a comination of Losses + LastName + Firstname + playerID</li>
+                    <li>GoalsAgainstAverage_id: (string) a comination of GoalsAgainstAverage + LastName + Firstname + playerID</li>
+                    <li>SavePercentage_id: (string) a comination of SavePercentage + LastName + Firstname + playerID</li>
+                    <li>Shutouts_id: (string) a comination of Shutouts + LastName + Firstname + playerID</li>
+                  </ul>
+                </ul>
+              </li>
+              <li>reciever_players: (list of Object) the players that the sender wants to recieve
+                <ul>
+                  <li>_id: (string) the db entry id</li>
+                  <li>playerID: (string) the player's id</li>
+                  <li>sport: (string) the sport the the player is in</li>
+                  <li>points: (integer) the number of points the player got yesterday from our point system</li>
+                  <li>teamID: (string) the id of the player's team</li>
+                  <li>City: (string) the city where the player's team is located</li>
+                  <li>Name: (string) te name of the player's team</li>
+                  <li>Abbreviation: (string) the 3 letter abbreviation of the player's team</li>
+                  <li>LastName: (string) the player's last name</li>
+                  <li>FirstName: (string) the player's first name</li>
+                  <li>Position: (string) the player's position</li>
+                  <li>Played: (string) Yes if the player played yesterday, No if they did not</li>
+                  <li>LastName_id: (string) a comination of LastName + FirstName + playerID</li>
+                  <li>FirstName_id: (string) a comination of FirstName + LastName + playerID</li>
+                  <li>Position_id: (string) a comination of Position + LastName + Firstname + playerID</li>
+                  <li>City_id: (string) a comination of City + LastName + Firstname + playerID</li>
+                  <li>Name_id: (string) a comination of Name + LastName + Firstname + playerID</li>
+                  <li>Abbreviation_id: (string) a comination of Abbreviation + LastName + Firstname + playerID</li>
+                  <li>Played_id: (string) a comination of Played + LastName + Firstname + playerID</li>
+                  <li>points_id: (string) a comination of points + LastName + Firstname + playerID</li>
+
+                  If position is F or D:
+                  <ul><li>Goals: (string) the number of goals the player scored</li>
+                    <li>Assists: (string) the number of assists the player got</li>
+                    <li>Points: (string) the number of Points the player got (not calculated by our points system) (2 for a goal, 1 for an assist)</li>
+                    <li>PlusMinus: (string) the player's +/- score</li>
+                    <li>Goals_id: (string) a comination of Goals + LastName + Firstname + playerID</li>
+                    <li>Assists_id: (string) a comination of Assists + LastName + Firstname + playerID</li>
+                    <li>Points_id: (string) a comination of Points + LastName + Firstname + playerID</li>
+                    <li>PlusMinus_id: (string) a comination of plusMinus + LastName + Firstname + playerID</li>
+                  </ul>
+                  If position is G
+                  <ul><li>Wins: (string) the number of wins the goalie got</li>
+                    <li>Losses: (string) the number of losses the goalie got</li>
+                    <li>GoalsAgainstAverage: (string) the GAA the goalie got</li>
+                    <li>SavePercentage: (string) the save percentage te goalie got</li>
+                    <li>Shutouts: (string) the number of shutouts the goalie got</li>
+                    <li>Wins_id: (string) a comination of Wins + LastName + Firstname + playerID</li>
+                    <li>Losses_id: (string) a comination of Losses + LastName + Firstname + playerID</li>
+                    <li>GoalsAgainstAverage_id: (string) a comination of GoalsAgainstAverage + LastName + Firstname + playerID</li>
+                    <li>SavePercentage_id: (string) a comination of SavePercentage + LastName + Firstname + playerID</li>
+                    <li>Shutouts_id: (string) a comination of Shutouts + LastName + Firstname + playerID</li>
+                  </ul>
+                </ul>
+              </li>
+              <li>league: (string) the league that the trade is occuring in</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Validation errors: [ { param: 'league', msg: 'Must only contain numbers or letters', value: league }, { param: 'user', msg: 'Must only contain numbers or letters', value: user }, { param: 'trade', msg: 'Must only contain numbers or letters', value: trade } ]"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "Forbidden"</li>
+        </ul>
+      </li>
+      <li>Response: 404
+        <ul>
+          <li>Body: "'user' is not involved in a trade in the league 'league' with id 'trade'"</li>
+        </ul>
+      </li>
+      <li>Response: 500
+        <ul>
+          <li>Body: Database error</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $ curl -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/leagues/myleague/users/alice/trades/514bf8bbbe11e483111af213/
+    </code></pre>
+  </div>
+</div>
+
+<div class="container" id="update">
+  <div>
+    <h3>Update</h3>
+    <ul>
+      <li>Description: update the given user's password</li>
+      <li>Request: <code>PATCH /api/users/:user/</code>
+        <ul>
+          <li>Content-Type: <code>application/json</code></li>
+          <li>Body: Object</li>
+          <ul>
+            <li>old_password: (string) the user's old password</li>
+            <li>new_password: (string) the user's new password</li>
+          </ul>
+        </ul>
+      </li>
+      <li>Response: 200
+        <ul>
+          <li>Content-Type: <code>application/json</code></li>
+          <li>Body: (Object) the user object
+            <ul>
+              <li>_id: (string) the user's db id</li>
+              <li>username: (string) the user's username</li>
+              <li>salt: (string) the string that will be added to the end of the user's password for extra strength</li>
+              <li>saltedHash: (string) the string that the user's new password + the salt hashes to</li>
+              <li>nhl_league: (string) the name of the league that the user is in for the nhl</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Invalid body, requires a new_password, old_password"</li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Validation errors: [ { param: 'user', msg: 'Must only contain numbers or letters', value: user }, { param: 'old_password', msg: 'Must only contain numbers or letters', value: old_password }, { param: 'new_password', msg: 'Must only contain numbers or letters', value: new_password } ]"</li>
+        </ul>
+      </li>
+      <li>Response: 401
+        <ul>
+          <li>Body: "Unauthorized"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "Forbidden"</li>
+        </ul>
+      </li>
+      <li>Response: 404
+        <ul>
+          <li>Body: "User 'user' does not exist"</li>
+        </ul>
+      </li>
+      <li>Response: 500
+        <ul>
+          <li>Body: Database error</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $ curl -X PATCH
+        -H "Content-Type: application/json"
+        -d '{"old_password":"myPassword", "new_password":"pass4alice"}'
+        -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/users/alice/
+    </code></pre>
+  </div>
+
+  <div>
+    <h3>Update</h3>
+    <ul>
+      <li>Description: update the league's password</li>
+      <li>Request: <code>PATCH /api/leagues/:league/</code>
+        <ul>
+          <li>Content-Type: <code>application/json</code></li>
+          <li>Body: Object</li>
+          <ul>
+            <li>admin_password: (string) the league admin's password</li>
+            <li>password: (string) the league's new password</li>
+          </ul>
+        </ul>
+      </li>
+      <li>Response: 200
+        <ul>
+          <li>Content-Type: <code>application/json</code></li>
+          <li>Body: (Object) the league object
+            <ul>
+              <li>_id: (string) the league's db id</li>
+              <li>name: (string) the names of the league</li>
+              <li>salt: (string) the string that will be added to the end of the user's password for extra strength</li>
+              <li>saltedHash: (string) the string that the user's password + the salt hashes to</li>
+              <li>sport: (string) the sport that the league is for</li>
+              <li>admin: (string) the username of the league's admin (the user who created it)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Invalid body, requires a password, admin_password"</li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Validation errors: [ { param: 'league', msg: 'Must only contain numbers or letters', value: league }, { param: 'admin_password', msg: 'Must only contain numbers or letters', value: admin_password }, { param: 'password', msg: 'Must only contain numbers or letters', value: password } ]"</li>
+        </ul>
+      </li>
+      <li>Response: 401
+        <ul>
+          <li>Body: "Unauthorized"</li>
+        </ul>
+      </li>
+      <li>Response: 401
+        <ul>
+          <li>Body: "'current user' is not the admin for 'league'"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "Forbidden"</li>
+        </ul>
+      </li>
+      <li>Response: 404
+        <ul>
+          <li>Body: "League 'league' does not exist"</li>
+        </ul>
+      </li>
+      <li>Response: 500
+        <ul>
+          <li>Body: Database error</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $ curl -X PATCH
+        -H "Content-Type: application/json"
+        -d '{"admin_password":"pass4alice", "password":"leaguePassword"}'
+        -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/leagues/myleague/
+    </code></pre>
+  </div>
+
+  <div>
+    <h3>Update</h3>
+    <ul>
+      <li>Description: update the user's team's lineup for the given sport by swapping players around</li>
+      <li>Request: <code>PATCH /api/users/:user/sports/:sport/</code>
+        <ul>
+          <li>Content-Type: <code>application/json</code></li>
+          <li>Body: Object
+            <ul>
+              <li>benched_player: (string) the id of the player that will be moved to the bench</li>
+              <li>activated_player: (string) the id of the player that will be moved off of the bench</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Response: 200
+        <ul>
+          <li>Content-Type: <code>application/json</code></li>
+          <li>Body: (Object) the updated team object
+            <ul>
+              <li>G: (string) the team's goalie's id</li>
+              <li>forward: (list of string) the ids of the team's forward players</li>
+              <li>defence: (list of string) the ids of the team's defence players</li>
+              <li>bench_forward: (list of string) the ids of the team's forward players on the bench</li>
+              <li>bench_defence: (list of string) the ids of the team's defence players on the bench</li>
+              <li>active_players: (list of string) the ids of the team's players that will be counted when calulating the stats</li>
+              <li>modified: (boolean) if the team has been modified</li>
+              <li>owner: (string) the team's owner's username</li>
+              <li>sport: (string) the sport that the league is for</li>
+              <li>wins: (integer) the number of daily wins the team has recieved</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Invalid body, requires a benched_player and activated_player"</li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Invalid body, benched_player and activated_player must be integers"</li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Validation errors: [ { param: 'user', msg: 'Must only contain numbers or letters', value: user }, { param: 'sport', msg: 'Must only contain letters', value: sport }, { param: 'benched_player', msg: 'Must only contain numbers', value: benched_player }, { param: 'activated_player', msg: 'Must only contain numbers', value: activated_player } ]"</li>
+        </ul>
+      </li>
+      <li>Response: 401
+        <ul>
+          <li>Body: "Unauthorized"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "Forbidden"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "Player with id 'benched_player' cannot be switched with the player with id 'activated_player'"</li>
+        </ul>
+      </li>
+      <li>Response: 404
+        <ul>
+          <li>Body: "'user' does not have a team in the 'sport'"</li>
+        </ul>
+      </li>
+      <li>Response: 500
+        <ul>
+          <li>Body: Database error</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $ curl -X PATCH
+        -H "Content-Type: application/json"
+        -d '{"benched_player":"900", "activated_player":"4341"}'
+        -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/users/alice/sports/nhl/
+    </code></pre>
+  </div>
+
+  <div>
+    <h3>Update</h3>
+    <ul>
+      <li>Description: counters the trade with the given id</li>
+      <li>Request: <code>PATCH /api/leagues/:league/trades/:trade/</code>
+        <ul>
+          <li>Content-Type: <code>application/json</code></li>
+          <li>Body: Object</li>
+          <ul>
+            <li>original_sender_players: (list of string) id's of players that are on the original sender of the trade's team. If the new trade is accepted these players will be sent to the reciever of the original trade</li>
+            <li>original_reciever_players: (list of string) id's of the players that are on the original reciever of the trade's team. If the new trade is accepted these players will be sent to the sender of the original trade</li>
+          </ul>
+        </ul>
+      </li>
+      <li>Response: 200
+        <ul>
+          <li>Content-Type: <code>application/json</code></li>
+          <li>Body: (Object) the updated trade object
+            <ul>
+              <li>_id: (string) the trade's db id</li>
+              <li>sender: (string) the username of the user that sent the new trade</li>
+              <li>reciever: (string the username of the user that the new trade is being sent to</li>
+              <li>sender_players: (list of string) the id's of the players that the new sender will trade away</li>
+              <li>reciever_players: (list of string) the id'sof the players that the new sender will recieve</li>
+              <li>league: (string) the name of the league that both the sender and reciever are in</li>
+            </ul>
+          </ul>
+        </li>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Validation errors: [ { param: 'league', msg: 'Must only contain numbers or letters', value: league }, { param: 'trade', msg: 'Must only contain numbers or letters', value: trade }, { param: 'original_sender_players', msg: 'Must be an array of integers', value: original_sender_players }, { param: 'original_reciever_players', msg: 'Must be an array of integers', value: original_reciever_players } ]"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "Forbidden"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: 'sender' does not have players 'new_sender_players' and/or 'reciever' does not have players 'new_reciever_players'</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "'sender' does not have enough space to complete the trade"</li>
+        </ul>
+      </li>
+      <li>Response: 404
+        <ul>
+          <li>Body: "'current user' has not recieved a trade in the league 'league' with the id 'trade'"</li>
+        </ul>
+      </li>
+      <li>Response: 500
+        <ul>
+          <li>Body: Database error</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $ curl -X PATCH
+        -H "Content-Type: application/json"
+        -d '{original_sender_players":[4341], "reciever_players":[900]}'
+        -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/leagues/myleague/trades/trade/
+    </code></pre>
+  </div>
+</div>
+
+<div class="container" id="delete">
+  <div>
+    <h3>Delete</h3>
+    <ul>
+      <li>Description: removes the given user from the given user's team in the given sport</li>
+      <li>Request: <code>DELETE /api/users/:user/sports/:sport/players/:player</code></li>
+      <li>Response: 200
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: (string) the id of the player removed</li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Validation errors: [ { param: 'user', msg: 'Must only contain numbers or letters', value: user }, { param: 'sport', msg: 'Must only contain letters', value: sport }, { param: 'player', msg: 'Must only contain numbers', value: player } ]"</li>
+        </ul>
+      </li>
+      <li>Response: 401
+        <ul>
+          <li>Body: "Unauthorized"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "Forbidden"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "Player with id 'player' is not on 'user' 's team in the 'sport'"</li>
+        </ul>
+      </li>
+      <li>Response: 404
+        <ul>
+          <li>Body: "'user' does not have a team in the 'sport'"</li>
+        </ul>
+      </li>
+      <li>Response: 500
+        <ul>
+          <li>Body: Database error</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $curl -X DELETE
+        -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/users/alice/sports/nhl/players/900/
+    </code></pre>
+  </div>
+
+  <div>
+    <h3>Delete</h3>
+    <ul>
+      <li>Description: remove a trade from the given user's team in the given sport</li>
+      <li>Request: <code>DELETE /api/leagues/:league/trades/:trade/</code></li>
+      <li>Response: 200
+        <ul>
+          <li>Content-type: <code>application/json</code></li>
+          <li>Body: (string) the id of the removed trade</li>
+        </ul>
+      </li>
+      <li>Response: 400
+        <ul>
+          <li>Body: "Validation errors: [ { param: 'league', msg: 'Must only contain numbers or letters', value: league }, { param: 'trade', msg: 'Must only contain numbers or letters', value: trade } ]"</li>
+        </ul>
+      </li>
+      <li>Response: 403
+        <ul>
+          <li>Body: "Forbidden"</li>
+        </ul>
+      </li>
+      <li>Response: 404
+        <ul>
+          <li>Body: "there is no trade with id 'trade' that 'current user' sent or recieved"</li>
+        </ul>
+      </li>
+      <li>Response: 500
+        <ul>
+          <li>Body: Database error</li>
+        </ul>
+      </li>
+    </ul>
+    <pre><code> $ curl -X DELETE
+        -b cookie.txt -c cookie.txt
+        https://fantasy-genius.herokuapp.com/api/leagues/myleague/trades/58d305b25223045004fb465b/
+    </code></pre>
+  </div>
+</div>
+
+<div class="container">
+  <a href="index.html" class="btn btn-link"><span class="glyphicon glyphicon-home"></span></a>
+  <a href="credits.html" class="btn btn-link">Credits</a>
+  <a href="#" class="btn btn-link">Back To Top</a>
 </div>
 
 </body>
