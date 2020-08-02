@@ -17,7 +17,7 @@
     "express-validator": "^3.1.2",
     "fs": "0.0.1-security",
     "https": "^1.0.0",
-    "mongodb": "^2.2.24",
+    "mongodb": "^2.2.36",
     "node-schedule": "^1.2.0",
     "request": "^2.79.0",
     "utils": "^0.3.1",

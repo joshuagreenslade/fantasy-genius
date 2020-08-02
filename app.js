@@ -21,7 +21,7 @@ var validator = require('express-validator');
 var schedule = require('node-schedule');
 
 var mongo = require('mongodb');
-mongo.MongoClient.connect('mongodb://heroku_7c825p3h:ihn2v1da64uno548ph9re43b47@ds139360.mlab.com:39360/heroku_7c825p3h', function(err, db){
+mongo.MongoClient.connect(process.env.DB_URI, function(err, db){
 	if(err) throw err;
 
 	var users = db.collection('users');
